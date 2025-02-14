@@ -94,6 +94,7 @@ const Modal = ({isOpen ,  closeModal } : any) => {
                     }
                     
                 </section>
+
              </div>
              
         </div>
