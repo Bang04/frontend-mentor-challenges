@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
+
+import { useDispatch, useSelector } from 'react-redux';
+import { toggle } from '../store/index';
+
 import data from "../json/modal-data.json";
 import "./Content.css";
 import logo from "../../public/assets/logo-mastercraft.svg";
@@ -14,8 +18,10 @@ type modal = {
 
 const Content = () =>{
 
+  const bookmark = useSelector((state:any) => state.bookmarkReducer);
+  const dispatch = useDispatch();
+
   const [isOpen, setIsOpen] = useState(false);
-  const [isBookmark , setIsBookmark] = useState(false);
   const openModal = () => {
     setIsOpen(true);
   }
@@ -25,31 +31,24 @@ const Content = () =>{
   }
 
   const handlerBookmark = () =>{
-    setIsBookmark(!isBookmark);
+    dispatch(toggle(bookmark));
   }
 
   return (
     <div className="container is-max-tablet">
-      <img src={logo} className="logo"/>
+      <img src={logo} className="logo is-64x64"/>
       <div className="top section mb-5 has-text-centered ">
         <h1 className="title is-4 has-text-black 	mb-3">Mastercraft Bamboo Monitor Riser</h1>
         <h2 className="subtitle is-6">A beautiful & handcrafted monitor stand to reduce neck and eye strain.</h2>
         
         {/* desktop */}
         <div className="is-hidden-mobile is-flex is-justify-content-space-between mt-6">
-          <button 
-            className="button is-success is-rounded has-text-weight-semibold has-text-white px-6 py-0" 
-            onClick={openModal}>
-              Back this project
+          <button  className="button is-success is-rounded has-text-weight-semibold has-text-white px-6 py-0" onClick={openModal}> 
+            Back this project
           </button>
-         <div>
-            <button 
-              className={`bookmark button p-0 pr-5 is-rounded has-text-weight-semibold ${isBookmark? "on" : ""} `} 
-              onClick={handlerBookmark}> 
-              <img src={ isBookmark? bookmarkOn : bookmarkOff } className="mr-3"/>
-                Bookmark
-            </button>
-          </div>
+          <button className={`bookmark button p-0 pr-5 is-rounded has-text-weight-semibold ${bookmark? "on" : ""} `} onClick={handlerBookmark}>
+            <img src={ bookmark? bookmarkOn : bookmarkOff } className="mr-3"/> Bookmark 
+          </button>
         </div>
 
         {/* mobile */}
@@ -60,30 +59,28 @@ const Content = () =>{
                 Back this project
           </button>
           <div onClick={handlerBookmark}>
-            <img src={ isBookmark? bookmarkOn : bookmarkOff } />
+            <img src={ bookmark? bookmarkOn : bookmarkOff } />
           </div>
         </div>
       </div>
 
       <div className="section mb-5">
         <div className="total columns">
-          <div className="column is-one-third p-5">
-          
+          <div className="column m-0 p-0">
               <div className="title has-text-black mb-2">$89,914</div>
               <p>of $100,000 backed</p>
               <div className="bottom-line mt-5"></div>
           </div>
-          <div className="column m-5">
+          <div className="column m-0 p-0">
             <div className="title has-text-black mb-2">5,007</div>
             <p>total backers</p>
             <div className="bottom-line mt-5"></div>
           </div>
-          <div className="column m-5">
+          <div className="column m-0 p-0">
             <div className="title has-text-black mb-2">56</div>
             <p>days left</p>
           </div>
         </div>
-
 
         {/* 막대 그래프 */}
         <div className="progress-bar mt-5">
@@ -104,21 +101,30 @@ const Content = () =>{
             return (
              
               <div className={`funding box has-background-white ${disable}`}>
-                  <div className="is-flex is-justify-content-space-between">
+                 {/* desktop */}
+                  <div className="is-hidden-mobile is-flex is-justify-content-space-between">
                     <div className="title has-text-black is-6">{d.title}</div>
                     <div className="price has-text-weight-medium">Pledge ${d.price} or more</div>
                   </div>
+                  {/* mobile */}
+                  <div className="is-hidden-desktop is-hidden-tablet is-flex is-flex-direction-column mb-5">
+                    <div className="title has-text-black is-6 mb-2">{d.title}</div>
+                    <div className="price has-text-weight-medium">Pledge ${d.price} or more</div>
+                  </div>
+
                   <div className="content">
                     <p>{d.content}</p>
                   </div>
-                  <div className="is-flex is-justify-content-space-between">
-                    <div className="">
-                      <span className="title is-3 has-text-black mr-2">{d.left}</span>
-                      left
-                    </div>
-                    <div className="">
-                      <button className="button is-success is-rounded has-text-weight-semibold has-text-white px-5 py-4" >Select Reward</button>
-                    </div>
+
+
+                  <div className="is-hidden-mobile is-flex is-justify-content-space-between">
+                    <div><span className="title is-3 has-text-black mr-2">{d.left}</span>left </div>
+                    <div><button className="button is-success is-rounded has-text-weight-semibold has-text-white px-5 py-4" >Select Reward</button></div>
+                  </div>
+
+                  <div className="is-hidden-desktop is-hidden-tablet is-flex is-flex-direction-column">
+                    <div className="mb-5"><span className="title is-3 has-text-black mr-2">{d.left}</span>left </div>
+                    <div><button className="button is-success is-rounded has-text-weight-semibold has-text-white px-5 py-4" >Select Reward</button></div>
                   </div>
               </div> 
             );
