@@ -6,11 +6,6 @@
     border:1px solid #ddd;
 }
 
-.total .column .title,
-.total .column>.p{
-    border-right: 1px solid #ddd;
-}
-
 .total .column:nth-child(3) title{
     border-right:none;
 }
@@ -74,12 +69,13 @@
 }
 
 @media screen and (max-width: 768px) {
-    .total .column {
-      text-align: center;
-      border-right:none;
+    .total .column .title,  .total .column p{
+        text-align: center;
+    }
+    .total .column p{
+        text-align: center;
     }
     .total .column .line {
-      
         border-bottom: 1px solid #ddd;
     }
 
