@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
+import { ConfirmModal } from "./ConfirmModal";
 
 import { useDispatch, useSelector } from 'react-redux';
 import { toggle, update } from '../store/index';
@@ -10,6 +11,7 @@ import bookmarkOff from "../../public/assets/icon-bookmark.svg";
 import bookmarkOn from "../../public/assets/icon-bookmark-on.png";
 import data from "../json/pledge-data_.json"; //삭제 예정?파일
 
+
 interface Pledge {
   id: string;           // 약정의 고유 ID
   title: string;         // 약정 이름 
@@ -17,6 +19,13 @@ interface Pledge {
   content: string;  // 약정에 대한 설명
   left : number; // 약정 유효 일수 (기부 가능한 기간)
   miniprice : number; // 최소기부액
+}
+
+type modal = {
+  title: string;
+  price: number;
+  left: number;
+  content: string;
 }
 
 const Content = () =>{
@@ -30,13 +39,20 @@ const Content = () =>{
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
   const openModal = () => {
     setIsOpen(true);
   }
 
   const closeModal = () => {
     setIsOpen(false);
+    setIsConfirm(false);
   }
+
+  const openConfirmModal = () => {
+    closeModal();
+    setIsConfirm(true);
+  };
 
   const handlerBookmark = () =>{
     dispatch(toggle(bookmark));
@@ -142,7 +158,8 @@ const Content = () =>{
         })
       }
       </section>
-      <Modal isOpen = {isOpen} closeModal = {closeModal}/>
+      <Modal isOpen = {isOpen} closeModal = {closeModal} openConfirmModal={openConfirmModal}/>
+      <ConfirmModal isConfirm={isConfirm} closeModal={closeModal}></ConfirmModal>
     </div>
   );
 }
