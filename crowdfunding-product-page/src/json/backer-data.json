@@ -1,0 +1,20 @@
+[
+    {
+        "id" : "backer1",
+        "pledgeId" : "pledge1",
+        "amount" : 24000 
+    },
+    {
+        "id" : "backer2",
+        "pledgeId" : "pledge1",
+        "amount" : 16000 
+    },  {
+        "id" : "backer3",
+        "pledgeId" : "pledge1",
+        "amount" : 40000 
+    },  {
+        "id" : "backer4",
+        "pledgeId" : "pledge1",
+        "amount" : 9914 
+    }
+]
