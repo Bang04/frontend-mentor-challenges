@@ -9,6 +9,7 @@ import "./Content.css";
 import logo from "../../public/assets/logo-mastercraft.svg";
 import bookmarkOff from "../../public/assets/icon-bookmark.svg";
 import bookmarkOn from "../../public/assets/icon-bookmark-on.png";
+import { ConfirmModal } from "./ConfirmModal";
 type modal = {
   title: string;
   price: number;
@@ -22,13 +23,20 @@ const Content = () =>{
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
   const openModal = () => {
     setIsOpen(true);
   }
 
   const closeModal = () => {
     setIsOpen(false);
+    setIsConfirm(false);
   }
+
+  const openConfirmModal = () => {
+    closeModal();
+    setIsConfirm(true);
+  };
 
   const handlerBookmark = () =>{
     dispatch(toggle(bookmark));
@@ -132,7 +140,8 @@ const Content = () =>{
         })
       }
       </section>
-      <Modal isOpen = {isOpen} closeModal = {closeModal}/>
+      <Modal isOpen = {isOpen} closeModal = {closeModal} openConfirmModal={openConfirmModal}/>
+      <ConfirmModal isConfirm={isConfirm} closeModal={closeModal}></ConfirmModal>
     </div>
   );
 }

@@ -2,6 +2,8 @@ import "./Modal.css";
 import data from "../json/modal-data.json";
 import close from "/assets/icon-close-modal.svg";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { add } from "../store";
 
 type modal = {
     id: string | number;
@@ -11,8 +13,11 @@ type modal = {
     content: string;
 }
 
-const Modal = ({isOpen ,  closeModal } : any) => {
+const Modal = ({isOpen ,  closeModal, openConfirmModal } : any) => {
     const [selected, setSelected] = useState({} as modal);
+    const [pledge, setPledge] = useState(0);
+
+    const dispatch = useDispatch();
 
     const handleRadio =(data:any) => {
         setSelected(data);
@@ -21,6 +26,17 @@ const Modal = ({isOpen ,  closeModal } : any) => {
     const handleBackdropClick = (e : React.MouseEvent<HTMLDivElement>) => {
           closeModal();  
     }
+
+    const handleValueChange = (e: any) => {
+        setPledge(e.target.value);
+    };
+
+    const savePledge = () => {
+        //값 저장
+        dispatch(add(pledge));
+        //클로즈모달 열기
+        openConfirmModal();
+    };
 
     if(!isOpen) return null;
     return (
@@ -78,10 +94,20 @@ const Modal = ({isOpen ,  closeModal } : any) => {
                                             <span className="my-auto has-text-grey">Enter your pledge</span>
                                             <div className="is-flex ml-auto is-centered-mobile margin-top-1">
                                                 <span className="mx-2">
-                                                    <input type="text" size={5} className="input is-rounded" defaultValue={"$"}></input>
+                                                    <input 
+                                                        type="text" 
+                                                        size={5} 
+                                                        className="input is-rounded" 
+                                                        // value={pledge}
+                                                        onChange={handleValueChange}
+                                                        >
+                                                    </input>
                                                 </span>
                                                 <span className="mx-2">
-                                                    <button className="button is-rounded is-primary px-4 py-3 is-size-7 has-text-white has-text-weight-bold">
+                                                    <button 
+                                                        className="button is-rounded is-primary px-4 py-3 is-size-7 has-text-white has-text-weight-bold"
+                                                        onClick={savePledge}
+                                                    >
                                                         Continue
                                                     </button>
                                                 </span>
