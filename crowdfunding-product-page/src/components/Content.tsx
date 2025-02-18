@@ -11,12 +11,12 @@ import bookmarkOn from "../../public/assets/icon-bookmark-on.png";
 import data from "../json/pledge-data_.json"; //삭제 예정?파일
 
 interface Pledge {
-  id: string;           // 약정의 고유 ID
-  title: string;         // 약정 이름 
-  amount: number;       // 약정 금액 (예: 50,000원)
-  content: string;  // 약정에 대한 설명
-  left : number; // 약정 유효 일수 (기부 가능한 기간)
-  miniprice : number; // 최소기부액
+  id : string;            // 약정의 고유 ID
+  title : string;         // 약정 이름 
+  amount : number;        // 약정 금액 (예: 50,000원)
+  content : string;       // 약정에 대한 설명
+  left : number;          // 약정 유효 일수 (기부 가능한 기간)
+  miniprice : number;     // 최소기부액
 }
 
 const Content = () =>{
@@ -94,7 +94,7 @@ const Content = () =>{
 
         {/* 막대 그래프 */}
         <div className="progress-bar mt-5">
-          <div className="progress" style={{ width : `${percentage}%;` }}></div>
+          <div className="progress" style={{ width : `${percentage}%` }}></div>
         </div>
       </div>
 

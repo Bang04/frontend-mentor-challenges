@@ -29,7 +29,6 @@
 
 .progress{
     position: absolute;
-    width: 70%;
     background-color: hsl(176, 50%, 47%);
 }
 .logo{
