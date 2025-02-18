@@ -26,7 +26,6 @@ const Content = () =>{
   const currentAmount = progress.currentAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   const backersCount = progress.backersCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   const percentage = Math.round(progress.percentage);
-  console.log("percentage : "+percentage);
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +44,7 @@ const Content = () =>{
     dispatch(update());
   },[backers]);
   return (
-    <div className="container is-max-tablet">
+    <div className="fund-container container">
       <img src={logo} className="logo is-64x64"/>
       <div className="top section mb-5 has-text-centered ">
         <h1 className="title is-4 has-text-black 	mb-3">Mastercraft Bamboo Monitor Riser</h1>
@@ -76,17 +75,17 @@ const Content = () =>{
 
       <div className="section mb-5">
         <div className="total columns">
-          <div className="column m-0 p-0">
+          <div className="column">
               <div className="title has-text-black mb-2">${currentAmount}</div>
               <p>of $100,000 backed</p>
               <div className="bottom-line mt-5"></div>
           </div>
-          <div className="column m-0 p-0">
+          <div className="column">
             <div className="title has-text-black mb-2">{backersCount}</div>
             <p>total backers</p>
             <div className="bottom-line mt-5"></div>
           </div>
-          <div className="column m-0 p-0">
+          <div className="column">
             <div className="title has-text-black mb-2">{progress.endDays}</div>
             <p>days left</p>
           </div>
@@ -110,7 +109,7 @@ const Content = () =>{
            const disable = d.left == 0? "disable" : "";
             return (
              
-              <div className={`funding box has-background-white ${disable}`}>
+              <div className={`funding box ${disable}`} key={index}>
                  {/* desktop */}
                   <div className="is-hidden-mobile is-flex is-justify-content-space-between">
                     <div className="title has-text-black is-6">{d.title}</div>

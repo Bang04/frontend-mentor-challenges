@@ -3,7 +3,6 @@
 .header {
     position: relative;
     width: 100%;
-    height: 400px;
     background-image : url("../../public/assets/image-hero-desktop.jpg");
     background-size: 100%;
     background-repeat : no-repeat;
@@ -11,6 +10,7 @@
 }
 .mobile-munu .navbar-item {
     border-bottom: 1px solid #ddd;
+    z-index: 11;
 }
 .blur-background {
     /* position: fixed;

@@ -1,23 +1,11 @@
-.section{
-    border: 1px solid #ddd;
-    border-radius: 15px;
-}
-.section .box{
-    border:1px solid #ddd;
-}
 
-.total .column:nth-child(3) title{
-    border-right:none;
-}
+.logo{ position: absolute; top:-30px; left: 44%; z-index: 10;}
+.fund-container{position: relative;  max-width: 730px;  margin: 0 auto;}
+.section{position: relative;  border: 1px solid #ddd;border-radius: 15px; background-color: #fff;}
+.section .box{border:1px solid #ddd;}
 
-.total .column .bottom-line {
-    position: relative;
-    margin: 0 auto;
-    width: 40%;
-    max-width: 80px;
-    border: none;
-}
-
+.total .column:nth-child(3) title{ border-right:none;}
+.total .column .bottom-line {position: relative; margin: 0 auto; width: 40%; max-width: 80px; border: none;}
 
 .progress-bar {
     position: relative;
@@ -26,48 +14,30 @@
     background-color: #f6f2f2;  
     border-radius: 10px;
 }
+.progress{position: absolute; background-color: hsl(176, 50%, 47%);}
 
-.progress{
-    position: absolute;
-    background-color: hsl(176, 50%, 47%);
-}
-.logo{
-    position: absolute;
-    top:-30px;
-    left: 44%;
-}
-.button{
-    font-size: 14px;
-    font-weight: 500;
-    border: none;
-    background-color: hsl(176, 50%, 47%);
-}
-.bookmark{
-    position: relative;
-    color: #7A7A7A;
-    background-color: #f6f2f2;
-}
+.button{ font-size: 14px; font-weight: 500; border: none; background-color: hsl(176, 50%, 47%);}
+.button:hover { background-color: hsl(176, 72%, 28%);}
+.bookmark{ position: relative; color: #7A7A7A; background-color: #F5F5F5;}
+.button.bookmark:hover { background-color: #F5F5F5;}
+.button.bookmark:hover img{ opacity: 0.6;}
+.bookmark.on{ color: hsl(176, 50%, 47%); background-color: #f4fbfb;}   
 
-.bookmark.on{
-    color: hsl(176, 50%, 47%);
-    background-color: #f4fbfb;
-}   
-.funding .price{
-    color: hsl(176, 50%, 47%);
-}
-/*bos 비활성화 모드 */
-.funding.disable .title ,.box.disable .price ,.box.disable .content p{
-    opacity: 0.6;
-}
-.funding.disable .button{
-    opacity: 0.6;
-    background-color: #a9a8a8;
-}
-.bookmark .button:hover{
-    background-color: hsl(176, 72%, 28%) !important;
-}
+/* funding */
+.funding .price{ color: hsl(176, 50%, 47%);}
+/* funding 비활성화 모드 */
+.funding.disable .title ,.box.disable .price ,.box.disable .content p{ opacity: 0.6;}
+.funding.disable .button{ opacity: 0.6;  background-color: #a9a8a8;}
 
-@media screen and (max-width: 768px) {
+
+@media screen and (min-width: 480px) and (max-width: 767px) {
+    .fund-container{
+        width: auto;
+        margin: 0 2rem;
+    }
+    .section{
+        width: 100%;
+    }
     .total .column .title,  .total .column p{
         text-align: center;
     }
@@ -81,4 +51,10 @@
     .top .button{
         font-size: 18px;
     }   
+  }
+
+  @media (max-width: 479px) {
+    .fund-container{
+        width: 327px;
+    }
   }
