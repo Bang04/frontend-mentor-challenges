@@ -1,7 +1,9 @@
 import {  configureStore, createSlice } from '@reduxjs/toolkit';
+import {  PayloadAction, configureStore, createSlice } from '@reduxjs/toolkit';
 import pledgeData from "../json/pledge-data_.json";
 import backerData from "../json/backer-data.json";
 import { stat } from 'fs';
+
 // 기부 
 interface Pledge {
     id: string;           // 약정의 고유 ID
@@ -72,14 +74,29 @@ const bookmarkReducer = createSlice({
     }
 });
 
+
+const pledgeReducer = createSlice({
+    name: "pledgeReducer",
+    initialState: 0,
+    reducers: {
+        add: (state: number, action: PayloadAction<number>) => {
+            console.log(state);
+            state = action.payload;
+            return state;
+        }
+    }
+});
+
 const store = configureStore({
     reducer : {
         bookmarkReducer : bookmarkReducer.reducer,
         crowdReducer : crowdReducer.reducer,
+        pledgeReducer : pledgeReducer.reducer
     },
 });
 
 export const { toggle } = bookmarkReducer.actions;
 export const { update } = crowdReducer.actions;
+export const { add } = pledgeReducer.actions;
 
 export default store;
