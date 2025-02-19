@@ -60,103 +60,101 @@ const Content = () =>{
     dispatch(update());
   },[backers]);
   return (
-    <div className="fund-container container">
-      <img src={logo} className="logo is-64x64"/>
-      <div className="top section mb-5 has-text-centered ">
-        <h1 className="title is-4 has-text-black 	mb-3">Mastercraft Bamboo Monitor Riser</h1>
-        <h2 className="subtitle is-6">A beautiful & handcrafted monitor stand to reduce neck and eye strain.</h2>
-        
-        {/* desktop */}
-        <div className="is-hidden-mobile is-flex is-justify-content-space-between mt-6">
-          <button  className="button is-success is-rounded has-text-weight-semibold has-text-white px-6 py-0" onClick={openModal}> 
-            Back this project
-          </button>
-          <button className={`bookmark button p-0 pr-5 is-rounded has-text-weight-semibold ${bookmark? "on" : ""} `} onClick={handlerBookmark}>
-            <img src={ bookmark? bookmarkOn : bookmarkOff } className="mr-3"/> Bookmarked
-          </button>
+    <div className="content-wrapper">
+      <div className="content-container">
+
+        <img src={logo} className="logo"/>
+        <div className="content-box center">
+          <div className="title">Mastercraft Bamboo Monitor Riser</div>
+          <div className="subtitle gray mt-3">A beautiful & handcrafted monitor stand to reduce neck and eye strain.</div>
+          
+         
+         <div className="top button-group">
+            <button  className="button" onClick={openModal}> 
+              Back this project
+            </button>
+            {/* desktop */}
+            <div className="is-hidden-mobile"> 
+              <button className={`button bookmark ${bookmark? "on" : ""} `} onClick={handlerBookmark}>
+                <img src={ bookmark? bookmarkOn : bookmarkOff }/> Bookmarked
+              </button>
+            </div>
+            {/* mobile */}
+            <div className="is-hidden-desktop is-hidden-tablet">
+              <div className="bookmark m" onClick={handlerBookmark}>
+                <img src={ bookmark? bookmarkOn : bookmarkOff } />
+              </div>
+            </div>
+         </div>
         </div>
 
-        {/* mobile */}
-        <div className="is-hidden-desktop is-hidden-tablet is-flex is-justify-content-space-between mt-3">
-          <button 
-            className="button is-success is-rounded has-text-weight-semibold has-text-white px-6 py-0" 
-            onClick={openModal}>
-                Back this project
-          </button>
-          <div onClick={handlerBookmark}>
-            <img src={ bookmark? bookmarkOn : bookmarkOff } />
+        <div className="content-box left">
+          <div className="columns">
+            <div className="column">
+                <div className="title">${currentAmount}</div>
+                <p className="gray">of $100,000 backed</p>
+            </div>
+            <div className="column">
+              <div className="title">{backersCount}</div>
+              <p className="gray">total backers</p>
+            </div>
+            <div className="column">
+              <div className="title">{progress.endDays}</div>
+              <p className="gray">days left</p>
+            </div>
           </div>
+
+          {/* 막대 그래프 */}
+          <div className="progressbar">
+            <div className="progress" style={{ width : `${percentage}%` }}></div>
+          </div>
+        </div>
+
+        <div className="content-box  left">
+          <div className="content">
+              <div className="title">About this project</div>
+              <p className="gray">The Mastercraft Bamboo Monitor Riser is a sturdy and stylish platform that elevates your screen to a more comfortable viewing height. Placing your monitor at eye level has the potential to improve your posture and make you more comfortable while at work, helping you stay focused on the task at hand.</p>
+              <p className="gray">Featuring artisan craftsmanship, the simplicity of design creates extra desk space below your computer to allow notepads, pens, and USB sticks to be stored under the stand.</p>
+          </div>
+        {
+          data.map((d:Pledge, index:number) => {
+            if(d.miniprice > 0){
+            const disable = d.left == 0? "disable" : "";
+              return (
+              
+                <div className={`funding mb-5 ${disable}`} key={index}>
+                    <div className="content-header">
+                      <div className="title">{d.title}</div>
+                      <div className="price">Pledge ${d.miniprice} or more</div>
+                    </div>
+                    <div className="content">
+                      <p className="gray">{d.content}</p>
+                    </div>
+                    <div className="button-group">
+                      <div className="is-flex is-align-items-center">
+                        <div className="left mr-2">{d.left}</div>
+                        <div className="gray">left</div>
+                      </div>
+                      <button className="button">Select Reward</button>
+                    </div>
+                    {/* desktop */}
+                    {/* <div className="is-hidden-mobile">
+                      <div><div className="title">{d.left}</div><div className="gray">left</div></div>
+                      <div><button className="button">Select Reward</button></div>
+                    </div> */}
+                    {/* mobile */}
+                    {/* <div className="is-hidden-desktop is-hidden-tablet">
+                      <div><div className="title">{d.left}</div><div className="gray">left</div></div>
+                      <div><button className="button" >Select Reward</button></div>
+                    </div> */}
+                </div> 
+              );
+            }
+          })
+        }
         </div>
       </div>
-
-      <div className="section mb-5">
-        <div className="total columns">
-          <div className="column">
-              <div className="title has-text-black mb-2">${currentAmount}</div>
-              <p>of $100,000 backed</p>
-              <div className="bottom-line mt-5"></div>
-          </div>
-          <div className="column">
-            <div className="title has-text-black mb-2">{backersCount}</div>
-            <p>total backers</p>
-            <div className="bottom-line mt-5"></div>
-          </div>
-          <div className="column">
-            <div className="title has-text-black mb-2">{progress.endDays}</div>
-            <p>days left</p>
-          </div>
-        </div>
-
-        {/* 막대 그래프 */}
-        <div className="progress-bar mt-5">
-          <div className="progress" style={{ width : `${percentage}%` }}></div>
-        </div>
-      </div>
-
-      <section className="section">
-        <div className="content mb-5">
-            <div className="title is-5 has-text-black">About this project</div>
-            <p className="pb-4 is-size-6">The Mastercraft Bamboo Monitor Riser is a sturdy and stylish platform that elevates your screen to a more comfortable viewing height. Placing your monitor at eye level has the potential to improve your posture and make you more comfortable while at work, helping you stay focused on the task at hand.</p>
-            <p className="pb-4 is-size-6">Featuring artisan craftsmanship, the simplicity of design creates extra desk space below your computer to allow notepads, pens, and USB sticks to be stored under the stand.</p>
-        </div>
-      {
-        data.map((d:Pledge, index:number) => {
-          if(d.miniprice > 0){
-           const disable = d.left == 0? "disable" : "";
-            return (
-             
-              <div className={`funding box ${disable}`} key={index}>
-                 {/* desktop */}
-                  <div className="is-hidden-mobile is-flex is-justify-content-space-between">
-                    <div className="title has-text-black is-6">{d.title}</div>
-                    <div className="price has-text-weight-medium">Pledge ${d.miniprice} or more</div>
-                  </div>
-                  {/* mobile */}
-                  <div className="is-hidden-desktop is-hidden-tablet is-flex is-flex-direction-column mb-5">
-                    <div className="title has-text-black is-6 mb-2">{d.title}</div>
-                    <div className="price has-text-weight-medium">Pledge ${d.miniprice} or more</div>
-                  </div>
-
-                  <div className="content">
-                    <p>{d.content}</p>
-                  </div>
-
-                  {/* desktop */}
-                  <div className="is-hidden-mobile is-flex is-justify-content-space-between">
-                    <div><span className="title is-3 has-text-black mr-2">{d.left}</span>left </div>
-                    <div><button className="button is-success is-rounded has-text-weight-semibold has-text-white px-5 py-4" >Select Reward</button></div>
-                  </div>
-                  {/* mobile */}
-                  <div className="is-hidden-desktop is-hidden-tablet is-flex is-flex-direction-column">
-                    <div className="mb-5"><span className="title is-3 has-text-black mr-2">{d.left}</span>left </div>
-                    <div><button className="button is-success is-rounded has-text-weight-semibold has-text-white px-5 py-4" >Select Reward</button></div>
-                  </div>
-              </div> 
-            );
-          }
-        })
-      }
-      </section>
+    
       <Modal isOpen = {isOpen} closeModal = {closeModal} openConfirmModal={openConfirmModal}/>
       <ConfirmModal isConfirm={isConfirm} closeModal={closeModal}></ConfirmModal>
     </div>

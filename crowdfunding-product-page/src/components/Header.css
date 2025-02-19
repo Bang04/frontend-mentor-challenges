@@ -3,10 +3,15 @@
 .header {
     position: relative;
     width: 100%;
+    padding-bottom: 16rem;
     background-image : url("../../public/assets/image-hero-desktop.jpg");
-    background-size: 100%;
+    background-size: cover;
     background-repeat : no-repeat;
-    background-position : top;
+    background-position: top center;
+}
+.header .container { 
+    position: relative;
+    padding: 2rem 0 3rem;
 }
 .mobile-munu .navbar-item {
     border-bottom: 1px solid #ddd;
