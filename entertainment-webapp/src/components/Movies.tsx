@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import bookMarKOff from '/assets/icon-bookmark-empty.svg';
 import bookMarkOn from '/assets/icon-bookmark-full.svg';
+import play from '/assets/icon-play.svg';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { toggle } from '../store/index';
 import movie from '/assets/icon-category-movie.svg'
@@ -90,15 +92,25 @@ export const Movies = () => {
                 <div 
                   key={item.id} 
                   className="column is-6-mobile is-4-tablet is-3-desktop is-relative">
-                  <figure className="image">
-                    <img src={item.thumbnail.regular.small} />                    
-                  </figure>  
-                  <div className='is-overlay has-text-right'>
-                    <button className="button is-dark is-rounded px-2 mx-3 my-3" onClick={() => dispatch(toggle(item))}>
-                      <img src={item.isBookmarked ? bookMarkOn : bookMarKOff } />
-                    </button>
+                  <div className="image-container is-relative">
+                    <figure className="image">
+                      <img src={item.thumbnail.regular.small} />
+                    </figure>
+                    <div className="is-overlay is-playable">
+                      <div className="bookmark">
+                        <button className="button is-dark is-rounded px-2 mx-2 my-2" onClick={() =>  dispatch(toggle(item))}>
+                          <img src={item.isBookmarked ? bookMarkOn : bookMarKOff } />
+                        </button>
+                      </div>
+                      <div className="button-center">
+                        <button className="button button-play is-clickable is-rounded px-3" onClick={() => console.log("==play==")}>
+                          <img src={play}></img>
+                          <span className="has-text-white mx-3">Play</span>
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                  <div className="has-text-white my-1">
+                  <div className="has-text-white">
                     <span className="mr-1 outfit-b-s">{item.year} ·</span>
                     <span className="mr-1">
                       <span className="mr-1 outfit-b-s">

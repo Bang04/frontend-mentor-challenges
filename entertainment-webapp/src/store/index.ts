@@ -59,7 +59,7 @@ const menuReducer = createSlice({
     name: "menuReducer",
     initialState: "home",
     reducers: {
-        curr: (state:any, _action: PayloadAction<string>) => {
+        curr: (_state:any, _action: PayloadAction<string>) => {
             return _action.payload;
         }
     }

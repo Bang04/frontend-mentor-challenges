@@ -35,6 +35,36 @@ html {
     font-size: 13px;
 }
 
+.bookmark {
+    position: absolute;
+    top: 1%;
+    right: 1%;
+}
+
+.button-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+
+.is-playable:hover {
+    background-color: rgba(87, 87, 87, 0.5);
+}
+
+.is-playable .button-play {
+    visibility: hidden;
+}
+
+.is-playable:hover .button-play {
+    background-color: rgba(222, 208, 208, 0.5);
+    visibility: visible;
+}
+
+
+
+
+
 
 
 
