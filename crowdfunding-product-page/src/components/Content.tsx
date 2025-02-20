@@ -88,7 +88,7 @@ const Content = () =>{
          </div>
         </div>
 
-        <div className="content-box left">
+        <div className="content-box total">
           <div className="columns">
             <div className="column">
                 <div className="title">${currentAmount}</div>
@@ -110,7 +110,7 @@ const Content = () =>{
           </div>
         </div>
 
-        <div className="content-box  left">
+        <div className="content-box pledge">
           <div className="content">
               <div className="title">About this project</div>
               <p className="gray">The Mastercraft Bamboo Monitor Riser is a sturdy and stylish platform that elevates your screen to a more comfortable viewing height. Placing your monitor at eye level has the potential to improve your posture and make you more comfortable while at work, helping you stay focused on the task at hand.</p>
@@ -132,8 +132,8 @@ const Content = () =>{
                     </div>
                     <div className="button-group">
                       <div className="is-flex is-align-items-center">
-                        <div className="left mr-2">{d.left}</div>
-                        <div className="gray">left</div>
+                        <div className="left">{d.left}</div>
+                        <div className="gray  ml-2 mr-5">left</div>
                       </div>
                       <button className="button">Select Reward</button>
                     </div>

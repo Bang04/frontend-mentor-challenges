@@ -2,21 +2,23 @@
 .content-wrapper{
    position: relative;
    width: 100%;
+   min-height: auto;
    background-color:#FAFAFA;
 }
 
 .content-container{
     position: absolute;
-    top: -60px;
+    top: 760px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
+    z-index: 10;
    
 }
 .content-container .logo{
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 20;
+    z-index: 21;
 }
 .content-box{
     position: relative;
@@ -26,6 +28,7 @@
     border: 1px solid #f4fbfb;
     border-radius: 10px;
     background-color: #fff;
+    z-index: 15;
   
 }
 .content-box div{
@@ -42,9 +45,7 @@
 .content-box.center{
     text-align: center;
 }
-.content-box.left{
-    text-align: left;
-}
+
 
 .button-group {
     display: flex;
@@ -69,7 +70,7 @@
     background-color: #F5F5F5;
     padding: 0 2rem 0 0;
 }
-.button-group .button.bookmark.m{
+.button-group .bookmark.m{
     background-color: #fff;
 }
 .button-group .bookmark img{
@@ -85,9 +86,7 @@
 .content-box .columns{
     margin: 0;
 }
-.content-box .columns .column{
-   
-}
+
 .content-box .columns .column .title{
     margin-bottom: 0.5rem;
 }
@@ -131,3 +130,61 @@
 .button.bookmark:hover { background-color: #F5F5F5;}
 .button.bookmark:hover img{ opacity: 0.6;}
 .bookmark.on{ color: hsl(176, 50%, 47%); background-color: #f4fbfb;}   
+
+/*모바일 가로 & 태블릿 세로 : 480px-767px*/
+@media all and (min-width:480px) and (max-width:767px){
+    .content-container{
+        top: 1050px;
+    }
+    .content-box{
+        width: 400px;
+    }
+}
+/*모바일 : -479px*/
+@media all and (max-width:479px){
+
+    .content-container{
+        top: 1188px;
+    }
+    .content-box{
+        width: 327px;
+        padding: 1.5rem;
+    }
+    .content-box.center .title{
+        padding-top:1rem;
+        font-size: 1.3rem;
+    }
+  
+    .content-box .funding .content-header{
+        margin-bottom: 1rem;
+    }
+    .content-box .funding .title {
+        line-height: 1.5rem;
+        font-size: 1rem;
+        margin-bottom: 0;
+    }
+    .content-box .subtitle{
+        font-size: 14px;
+    }
+    .content-box.total{
+        text-align: center;
+    }
+    .pledge .button-group .button {
+        margin-top: 1rem;
+        padding: 0.8rem 1.5rem;
+    }
+    .content-box .funding{
+        padding: 2rem 1.5rem; 
+    }
+    .content-box .funding .content-header{
+        margin-bottom: 1rem;
+    }
+    .content-box .funding .title {
+        line-height: 1.5rem;
+        font-size: 1rem;
+        margin-bottom: 0;
+    }
+    .content-box .funding .content p{
+        font-size: 1rem;
+    }
+}
