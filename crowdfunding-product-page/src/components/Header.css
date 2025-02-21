@@ -3,22 +3,44 @@
 .header {
     position: relative;
     width: 100%;
-    height: 400px;
+    padding-bottom: 16rem;
     background-image : url("../../public/assets/image-hero-desktop.jpg");
-    background-size: 100%;
+    background-size: cover;
     background-repeat : no-repeat;
-    background-position : top;
+    background-position: top center;
+}
+.header .logo{
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.header .container { 
+    position: relative;
+    padding: 2rem 0 3rem;
+}
+.mobile-munu{
+    top: 100px;
+    height: 172px;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-radius: 10px;
+    z-index: 11;
 }
 .mobile-munu .navbar-item {
     border-bottom: 1px solid #ddd;
+    z-index: 11;
 }
-.blur-background {
-    /* position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); 
-    backdrop-filter: blur(2px); 
-    z-index: 10; */
+.mobile-munu .navbar-item:last-child{
+    border-bottom: none;
+} 
+
+/*모바일 : -479px*/
+@media all and (max-width:479px){
+    .header{
+        padding-bottom: 14rem;
+    }
+    .container {
+        padding: 1rem 0 1rem;
+    }
 }

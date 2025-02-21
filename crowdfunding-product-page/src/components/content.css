@@ -1,85 +1,198 @@
-.section{
-    border: 1px solid #ddd;
-    border-radius: 15px;
-}
-.section .box{
-    border:1px solid #ddd;
+
+.content-wrapper{
+   position: relative;
+   width: 100%;
+   height: 150vh;
+   background-color:#FAFAFA;
 }
 
-.total .column:nth-child(3) title{
-    border-right:none;
+.content-container{
+    position: absolute;
+    top: 760px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+   
 }
-
-.total .column .bottom-line {
+.content-container .logo{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 21;
+}
+.content-box{
     position: relative;
-    margin: 0 auto;
-    width: 40%;
-    max-width: 80px;
+    width: 730px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid #f6f6f6;
+    border-radius: 10px;
+    background-color: #fff;
+    z-index: 15;
+  
+}
+.content-box div{
+    font-size: 16px;
+    color: #000;
+}
+.content-box .title{
+    font-size: 1.7rem;
+}
+
+.content-box .gray{
+    color: #7A7A7A;
+}
+.content-box.center{
+    text-align: center;
+}
+
+
+.button-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.button-group.top{
+    flex-wrap: nowrap;
+}
+.button-group .button{
+    padding: 1rem 2rem;
+    color: #fff;
+    font-weight: 300;
+    border-radius: 6.25rem;
     border: none;
+    background-color: hsl(176, 50%, 47%);
+}
+.button-group .button.bookmark{
+    color: #7A7A7A; 
+    background-color: #F5F5F5;
+    padding: 0 2rem 0 0;
+}
+.button-group .bookmark.m{
+    background-color: #fff;
+}
+.button-group .bookmark img{
+    margin-right: 0.6rem;
 }
 
+.funding .button-group .left{
+    font-size: 2rem;
+    font-weight: 700;
+}
 
-.progress-bar {
+.content-box .columns{
+    margin: 0;
+}
+
+.content-box .columns .column .title{
+    margin-bottom: 0.5rem;
+}
+
+.progressbar{
     position: relative;
-    width: 100%;
     height: 1rem;
-    background-color: #f6f2f2;  
+    margin: 2rem 0 1rem;
+    border: none;
+    border-radius: 6.25rem;
+    background-color: #F5F5F5;
+    
+}
+.progress{
+    background-color:  hsl(176, 50%, 47%);
+}
+
+.content-box .content .title{font-size: 1.4rem;}
+
+.funding{ 
+    position: relative;
+    padding: 2rem;
+    border: 1px solid #B8B8B8;
     border-radius: 10px;
 }
-
-.progress{
-    position: absolute;
-    width: 70%;
-    background-color: hsl(176, 50%, 47%);
+.funding .title {
+    font-size: 1.4rem;
 }
-.logo{
-    position: absolute;
-    top:-30px;
-    left: 44%;
-}
-.button{
-    font-size: 14px;
-    font-weight: 500;
-    border: none;
-    background-color: hsl(176, 50%, 47%);
-}
-.bookmark{
-    position: relative;
-    color: #7A7A7A;
-    background-color: #f6f2f2;
-}
-
-.bookmark.on{
-    color: hsl(176, 50%, 47%);
-    background-color: #f4fbfb;
-}   
 .funding .price{
-    color: hsl(176, 50%, 47%);
+    color: #3CB3AB;
 }
-/*bos 비활성화 모드 */
-.funding.disable .title ,.box.disable .price ,.box.disable .content p{
+ .funding .content-header{
+    display: flex ;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.funding.disable {
     opacity: 0.6;
 }
 .funding.disable .button{
-    opacity: 0.6;
-    background-color: #a9a8a8;
+    background-color: #CBCBCB;
 }
-.bookmark .button:hover{
-    background-color: hsl(176, 72%, 28%) !important;
+.button:hover { background-color: hsl(176, 72%, 28%);}
+.bookmark{ position: relative; color: #7A7A7A; background-color: #F5F5F5;}
+.button.bookmark:hover { background-color: #F5F5F5;}
+.button.bookmark:hover img{ opacity: 0.6;}
+.bookmark.on{ color: hsl(176, 50%, 47%); background-color: #f4fbfb;}   
+
+/*모바일 가로 & 태블릿 세로 : 480px-767px*/
+@media all and (min-width:480px) and (max-width:767px){
+    .content-container{
+        top: 1050px;
+    }
+    .content-box{
+        width: 400px;
+    }
 }
 
-@media screen and (max-width: 768px) {
-    .total .column .title,  .total .column p{
+/*모바일 : -479px*/
+@media all and (max-width:479px){
+    .content-wrapper{
+        height: 230vh;
+    }
+    .content-container{
+        top: 1188px;
+    }
+    .content-box{
+        width: 327px;
+        padding: 1.5rem;
+    }
+    .content-box.center .title{
+        padding-top:1rem;
+        font-size: 1.3rem;
+    }
+  
+    .content-box .funding .content-header{
+        margin-bottom: 1rem;
+    }
+    .content-box .funding .title {
+        line-height: 1.5rem;
+        font-size: 1rem;
+        margin-bottom: 0;
+    }
+    .content-box .subtitle{
+        font-size: 14px;
+    }
+    .content-box.total{
         text-align: center;
     }
-    .total .column p{
-        text-align: center;
+    .pledge .button-group .button {
+        margin-top: 1rem;
+        padding: 0.8rem 1.5rem;
     }
-    .total .column .line {
-        border-bottom: 1px solid #ddd;
+    .content-box .funding{
+        padding: 2rem 1.5rem; 
     }
-
-    .top .button{
-        font-size: 18px;
-    }   
-  }
+    .content-box .funding .content-header{
+        margin-bottom: 1rem;
+    }
+    .content-box .funding .title {
+        line-height: 1.5rem;
+        font-size: 1rem;
+        margin-bottom: 0;
+    }
+    .content-box .funding .content p{
+        font-size: 1rem;
+    }
+}

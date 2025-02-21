@@ -29,6 +29,7 @@
 }
 
 body {
+  height: 100%; 
   font-family: 'Commissioner', sans-serif;
-  background-color:  #fff;
+  background-color: #e9e6e6;
 }

@@ -1,52 +1,53 @@
 import { useEffect, useState, useRef } from "react"
 
 export const Slide = (props : any) => {
-  const [currentIndex, setCurrentIndex] = useState(1);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [slideWidth, setSlideWidth] = useState(0); 
   const ref = useRef<HTMLDivElement>(null);
-  const totalCount =  props.children.length; //슬라이스 갯수
-  
-  
-  useEffect(()=> {
-    const columnWidth = (ref.current?.querySelector('.column')as HTMLElement);
-    if(columnWidth){
-      const slideWidth = (columnWidth.offsetWidth);
-     
-      if(ref.current){
-        setSlideWidth(slideWidth);
-      }
-      
-    }
-  }, []);
+  const totalCount =  props.children.length;
+
 
   useEffect(()=> {
+    // 슬라이드 index 순서 반복
     const intervalId = setInterval(() => {
-      setCurrentIndex(prevSlide => {
-        if(prevSlide < Math.floor(totalCount/2)){
-          return prevSlide+1;
-        }else{
-          return prevSlide;
-        }
-      }
-    )
-    }, 1000);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % totalCount);
+    }, 2000);
 
     return () => clearInterval(intervalId);
-   
   },[totalCount]);
 
-  return (
-    <div className="is-max-widescreen is-clipped m-0 p-0">
-      <div  className="columns is-mobile" 
-            ref={ref}
-            style={ {
-              display: 'flex',
-              transition: 'transform 3s linear', // 슬라이드 전환 애니메이션
-              transform: `translateX(-${currentIndex * slideWidth}px)`
-            }}  
-      >
-        {props.children}
+  useEffect(() => {
+    // 슬라이드의 각 항목 너비 계산
+    const columnWidth = ref.current?.querySelector('.column') as HTMLElement;
+    if (columnWidth) {
+      setSlideWidth(columnWidth.offsetWidth);
+    }
+  }, [props.children]); 
+
+
+  useEffect(() => {
+    // 스크롤 left 값 위치 이동
+    const columnsWidth = (ref.current as HTMLElement);
+
+    if (columnsWidth) {
+      columnsWidth?.scrollTo({
+        left: currentIndex * slideWidth, // 현재 index * 슬라이드 가로 너비
+        behavior: "smooth", //부드럽게 스크롤
+      });
+    }
+  }, [currentIndex, slideWidth]);
+
+
+
+   return (
+  <div className="is-max-widescreen  m-0 p-0" >
+      <div className="slide-container" ref={ref}  style={{ overflowX: 'scroll',}} >
+        <div className="columns is-mobile" >
+          {props.children}
+        </div>
       </div>
     </div>
   )
+
+  
 }
