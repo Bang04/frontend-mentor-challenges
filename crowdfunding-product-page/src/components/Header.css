@@ -31,6 +31,9 @@
     border-bottom: 1px solid #ddd;
     z-index: 11;
 }
+.mobile-munu .navbar-item:last-child{
+    border-bottom: none;
+} 
 
 /*모바일 : -479px*/
 @media all and (max-width:479px){

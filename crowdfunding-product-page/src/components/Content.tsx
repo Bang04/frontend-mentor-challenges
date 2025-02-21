@@ -133,20 +133,10 @@ const Content = () =>{
                     <div className="button-group">
                       <div className="is-flex is-align-items-center">
                         <div className="left">{d.left}</div>
-                        <div className="gray  ml-2 mr-5">left</div>
+                        <div className="gray pl-2 mr-6 ">left</div>
                       </div>
                       <button className="button">Select Reward</button>
                     </div>
-                    {/* desktop */}
-                    {/* <div className="is-hidden-mobile">
-                      <div><div className="title">{d.left}</div><div className="gray">left</div></div>
-                      <div><button className="button">Select Reward</button></div>
-                    </div> */}
-                    {/* mobile */}
-                    {/* <div className="is-hidden-desktop is-hidden-tablet">
-                      <div><div className="title">{d.left}</div><div className="gray">left</div></div>
-                      <div><button className="button" >Select Reward</button></div>
-                    </div> */}
                 </div> 
               );
             }
