@@ -2,7 +2,7 @@
 .content-wrapper{
    position: relative;
    width: 100%;
-   min-height: auto;
+   height: 150vh;
    background-color:#FAFAFA;
 }
 
@@ -25,7 +25,7 @@
     width: 730px;
     padding: 2rem;
     margin-bottom: 2rem;
-    border: 1px solid #f4fbfb;
+    border: 1px solid #f6f6f6;
     border-radius: 10px;
     background-color: #fff;
     z-index: 15;
@@ -105,24 +105,30 @@
 
 .content-box .content .title{font-size: 1.4rem;}
 
-.content-box .funding{ 
+.funding{ 
     position: relative;
     padding: 2rem;
-    border: 2px solid #F5F5F5;
+    border: 1px solid #B8B8B8;
     border-radius: 10px;
 }
-.content-box .funding .title {
+.funding .title {
     font-size: 1.4rem;
 }
-.content-box .funding .price{
+.funding .price{
     color: #3CB3AB;
 }
-
-.content-box .funding .content-header{
+ .funding .content-header{
     display: flex ;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
+}
+
+.funding.disable {
+    opacity: 0.6;
+}
+.funding.disable .button{
+    background-color: #CBCBCB;
 }
 .button:hover { background-color: hsl(176, 72%, 28%);}
 .bookmark{ position: relative; color: #7A7A7A; background-color: #F5F5F5;}
@@ -139,9 +145,12 @@
         width: 400px;
     }
 }
+
 /*모바일 : -479px*/
 @media all and (max-width:479px){
-
+    .content-wrapper{
+        height: 230vh;
+    }
     .content-container{
         top: 1188px;
     }
