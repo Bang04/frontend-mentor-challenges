@@ -1,9 +1,9 @@
 import "./Modal.css";
 import data from "../json/modal-data.json";
 import close from "/assets/icon-close-modal.svg";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { add } from "../store";
+import { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { add, update } from "../store";
 
 type modal = {
     id: string | number;
@@ -15,12 +15,18 @@ type modal = {
 
 const Modal = ({isOpen ,  closeModal, openConfirmModal } : any) => {
     const [selected, setSelected] = useState({} as modal);
-    const [pledge, setPledge] = useState(0);
+    const [pledge, setPledge] = useState({} as any);
+    const radioRef = useRef<null[] | HTMLInputElement[]>([]);
 
     const dispatch = useDispatch();
 
+    const crowd = useSelector((state:any)=> state.crowdReducer);
+
     const handleRadio =(data:any) => {
         setSelected(data);
+        setPledge({
+            id: data.id, pledgeId: data.title, amount: 0
+        });
     }
 
     const handleBackdropClick = (e : React.MouseEvent<HTMLDivElement>) => {
@@ -28,12 +34,16 @@ const Modal = ({isOpen ,  closeModal, openConfirmModal } : any) => {
     }
 
     const handleValueChange = (e: any) => {
-        setPledge(e.target.value);
+        handleRadio(radioRef.current[e.target.id]);
+
+        setPledge({
+            id: "backer"+(crowd.backers.length+1), pledgeId: selected.id, amount: e.target.value
+        })
     };
 
     const savePledge = () => {
-        //값 저장
         dispatch(add(pledge));
+        dispatch(update());
         //클로즈모달 열기
         openConfirmModal();
     };
@@ -61,11 +71,12 @@ const Modal = ({isOpen ,  closeModal, openConfirmModal } : any) => {
                                         <label className="radio my-auto">
                                             <input 
                                                 type="radio" 
-                                                id={"s"+index}
+                                                id={"pledge"+index}
                                                 style={{"transform":"scale(1.5)", "color":"whit"}}
                                                 onChange={(e)=>handleRadio(e.target)}
                                                 value={d.title}
-                                                checked={selected.id == "s"+index}
+                                                checked={selected.id == "pledge"+index}
+                                                ref={(el)=>radioRef.current[index]=el}
                                             ></input>
                                         </label>
                                         <div className="is-flex-desktop">
@@ -95,11 +106,12 @@ const Modal = ({isOpen ,  closeModal, openConfirmModal } : any) => {
                                             <div className="is-flex ml-auto is-centered-mobile margin-top-1">
                                                 <span className="mx-2">
                                                     <input 
-                                                        type="text" 
+                                                        id={index+""}
+                                                        type="number" 
                                                         size={5} 
                                                         className="input is-rounded" 
                                                         // value={pledge}
-                                                        onChange={handleValueChange}
+                                                        onChange={(e)=>handleValueChange(e)}
                                                         >
                                                     </input>
                                                 </span>

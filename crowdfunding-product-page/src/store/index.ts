@@ -1,4 +1,3 @@
-import {  configureStore, createSlice } from '@reduxjs/toolkit';
 import {  PayloadAction, configureStore, createSlice } from '@reduxjs/toolkit';
 import pledgeData from "../json/pledge-data_.json";
 import backerData from "../json/backer-data.json";
@@ -46,10 +45,9 @@ const crowdReducer = createSlice({
     name : 'crowdReducer',
     initialState,
     reducers: {
-        update(state){
-          
-            const targetAmount = state.pledges.reduce((acc, pledge) => acc + pledge.amount, 0); 
-            const currentAmount = state.backers.reduce((acc, backer) => acc + backer.amount, 0); 
+        update(state){                      
+            const targetAmount = state.pledges.reduce((acc:number, pledge) => acc + Number(pledge.amount), 0); 
+            const currentAmount = state.backers.reduce((acc:number, backer) => acc + Number(backer.amount), 0); 
             const backersCount = state.backers.length;
             const percentage = (currentAmount / targetAmount)* 100;
 
@@ -60,6 +58,9 @@ const crowdReducer = createSlice({
                 percentage,
                 endDays: 56, 
             }
+        },
+        add(state:{ pledges:Pledge[], backers: Backer[], progress:Progress}, action: PayloadAction<Backer>){
+            state.backers.push(action.payload);
         }
     }
 });
@@ -75,28 +76,25 @@ const bookmarkReducer = createSlice({
 });
 
 
-const pledgeReducer = createSlice({
-    name: "pledgeReducer",
-    initialState: 0,
-    reducers: {
-        add: (state: number, action: PayloadAction<number>) => {
-            console.log(state);
-            state = action.payload;
-            return state;
-        }
-    }
-});
+// const pledgeReducer = createSlice({
+//     name: "pledgeReducer",
+//     initialState: 0,
+//     reducers: {
+//         add: (state: number, action: PayloadAction<number>) => {
+//             state = action.payload;
+//             return state;
+//         }
+//     }
+// });
 
 const store = configureStore({
     reducer : {
         bookmarkReducer : bookmarkReducer.reducer,
         crowdReducer : crowdReducer.reducer,
-        pledgeReducer : pledgeReducer.reducer
     },
 });
 
 export const { toggle } = bookmarkReducer.actions;
-export const { update } = crowdReducer.actions;
-export const { add } = pledgeReducer.actions;
+export const { update, add } = crowdReducer.actions;
 
 export default store;

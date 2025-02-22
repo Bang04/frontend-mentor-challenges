@@ -1,9 +1,3 @@
-
-
-
-
-
-
 export const ConfirmModal = ({isConfirm, closeModal}:any) => {
 
     const handleBackdropClick = (e : React.MouseEvent<HTMLDivElement>) => {
