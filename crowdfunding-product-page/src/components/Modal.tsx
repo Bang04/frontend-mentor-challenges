@@ -3,7 +3,7 @@ import data from "../json/modal-data.json";
 import close from "/assets/icon-close-modal.svg";
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { add, update } from "../store";
+import { Backer, add, update } from "../store";
 
 type modal = {
     id: string | number;
@@ -13,9 +13,10 @@ type modal = {
     content: string;
 }
 
+
 const Modal = ({isOpen ,  closeModal, openConfirmModal } : any) => {
-    const [selected, setSelected] = useState({} as modal);
-    const [pledge, setPledge] = useState({} as any);
+    const [selected, setSelected] = useState<modal>({} as modal);
+    const [pledge, setPledge] = useState<Backer>({id: "", pledgeId: "", amount: 0});
     const radioRef = useRef<null[] | HTMLInputElement[]>([]);
 
     const dispatch = useDispatch();
@@ -34,14 +35,20 @@ const Modal = ({isOpen ,  closeModal, openConfirmModal } : any) => {
     }
 
     const handleValueChange = (e: any) => {
+        if(e.target.value == "")
+            return;
+
         handleRadio(radioRef.current[e.target.id]);
 
         setPledge({
-            id: "backer"+(crowd.backers.length+1), pledgeId: selected.id, amount: e.target.value
+            id: "backer"+(crowd.backers.length+1), pledgeId: selected.id+"", amount: e.target.value
         })
     };
 
     const savePledge = () => {
+        if(pledge.amount <= 0)
+            return;
+
         dispatch(add(pledge));
         dispatch(update());
         //클로즈모달 열기

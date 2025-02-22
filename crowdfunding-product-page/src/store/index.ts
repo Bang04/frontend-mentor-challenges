@@ -14,7 +14,7 @@ interface Pledge {
   }
 
 //후원자
-interface Backer {
+export interface Backer {
     id: string;           // 후원자의 고유 ID
     pledgeId: string;     // 선택한 약정의 ID
     amount: number;       // 후원 금액
