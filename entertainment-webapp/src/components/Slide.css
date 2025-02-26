@@ -1,0 +1,5 @@
+/* slide css */
+.slide-container:hover::-webkit-scrollbar {
+    display: none; 
+  }
+  

@@ -1,20 +1,23 @@
 import { useEffect, useState, useRef } from "react"
+import "./Slide.css";
 
 export const Slide = (props : any) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideWidth, setSlideWidth] = useState(0); 
+  const [intervalId, setIntervalId] = useState<any>();
   const ref = useRef<HTMLDivElement>(null);
   const totalCount =  props.children.length;
 
-
   useEffect(()=> {
     // 슬라이드 index 순서 반복
-    const intervalId = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % totalCount);
-    }, 2000);
+    const id = setInterval(() => {
+      setCurrentIndex((prevIndex) => (currentIndex + 1) % totalCount);
+    }, 3000);
 
-    return () => clearInterval(intervalId);
-  },[totalCount]);
+    setIntervalId(id);
+    
+    return () => clearInterval(id);
+  },[]);
 
   useEffect(() => {
     // 슬라이드의 각 항목 너비 계산
@@ -38,11 +41,24 @@ export const Slide = (props : any) => {
   }, [currentIndex, slideWidth]);
 
 
+  const handlerMouseEnter = () => {
+    clearInterval(intervalId);
+  }
+
+  const handlerMouseLeave = () => {
+    if(intervalId){
+      clearInterval(intervalId);
+    }
+    const id =  setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % totalCount);
+    }, 3000);
+    setIntervalId(id);
+  }
 
    return (
   <div className="is-max-widescreen  m-0 p-0" >
-      <div className="slide-container" ref={ref}  style={{ overflowX: 'scroll',}} >
-        <div className="columns is-mobile" >
+      <div className="slide-container" ref={ref}  style={{ overflowX: 'scroll', overflowY: "hidden",}} >
+        <div className="columns is-mobile" onMouseEnter={handlerMouseEnter} onMouseLeave={handlerMouseLeave}>
           {props.children}
         </div>
       </div>
