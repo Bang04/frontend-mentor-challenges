@@ -32,11 +32,13 @@ const Content = () =>{
 
   const bookmark = useSelector((state:any) => state.bookmarkReducer);
   const {backers, progress } = useSelector((state:any) => state.crowdReducer);
+
   const currentAmount = progress.currentAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   const backersCount = progress.backersCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   const percentage = Math.round(progress.percentage);
   const dispatch = useDispatch();
 
+  const [amout, setAmount ] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
   const openModal = () => {
@@ -56,6 +58,7 @@ const Content = () =>{
   const handlerBookmark = () =>{
     dispatch(toggle(bookmark));
   }
+
   useEffect(() => {
     dispatch(update());
   },[backers]);
@@ -106,7 +109,7 @@ const Content = () =>{
 
           {/* 막대 그래프 */}
           <div className="progressbar">
-            <div className="progress" style={{ width : `${percentage}%` }}></div>
+            <div className="progress" style={{ width : `${percentage > 100? 100 :percentage }%` }}></div>
           </div>
         </div>
 
