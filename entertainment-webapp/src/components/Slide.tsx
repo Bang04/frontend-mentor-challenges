@@ -11,7 +11,7 @@ export const Slide = (props : any) => {
   useEffect(()=> {
     // 슬라이드 index 순서 반복
     const id = setInterval(() => {
-      setCurrentIndex((prevIndex) => (currentIndex + 1) % totalCount);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % totalCount);
     }, 3000);
 
     setIntervalId(id);
