@@ -9,7 +9,7 @@ const Header = () => {
 
     return(
     <div className="header">
-      <div className="container mx-5 is-max-desktop is-flex is-align-items-center is-justify-content-space-between">
+      <div className="container is-flex is-justify-content-space-between">
         <a className="logo">crowdfund</a>
         <div className={ `navbar-burger  has-text-white is-hidden-tablet is-hidden-desktop mx-6 ${isOpenMenu ? "is-active" : ""}`} onClick={() => menuOpen()}>
             <span aria-hidden="true"></span>

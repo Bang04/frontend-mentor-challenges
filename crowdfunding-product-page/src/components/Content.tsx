@@ -32,13 +32,16 @@ const Content = () =>{
 
   const bookmark = useSelector((state:any) => state.bookmarkReducer);
   const {backers, progress } = useSelector((state:any) => state.crowdReducer);
-  const currentAmount = progress.currentAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  
+  const currentAmount = progress.currentAmount;
   const backersCount = progress.backersCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   const percentage = Math.round(progress.percentage);
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
+  
   const openModal = () => {
     setIsOpen(true);
   }
@@ -56,6 +59,19 @@ const Content = () =>{
   const handlerBookmark = () =>{
     dispatch(toggle(bookmark));
   }
+
+  const formatNumber = (number:any) => {
+    if (number >= 1000000000) {
+      return (number / 1000000000).toFixed(1) + 'B'; // Billion
+    } else if (number >= 1000000) {
+      return (number / 1000000).toFixed(1) + 'M'; // Million
+    } else{
+      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    return number;
+  };
+
+
   useEffect(() => {
     dispatch(update());
   },[backers]);
@@ -91,7 +107,7 @@ const Content = () =>{
         <div className="content-box total">
           <div className="columns">
             <div className="column">
-                <div className="title">${currentAmount}</div>
+                <div className="title">${formatNumber(currentAmount)}</div>
                 <p className="gray">of $100,000 backed</p>
             </div>
             <div className="column">
@@ -106,7 +122,7 @@ const Content = () =>{
 
           {/* 막대 그래프 */}
           <div className="progressbar">
-            <div className="progress" style={{ width : `${percentage}%` }}></div>
+            <div className="progress" style={{ width : `${percentage > 100? 100 :percentage }%` }}></div>
           </div>
         </div>
 
