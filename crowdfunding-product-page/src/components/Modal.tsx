@@ -18,6 +18,7 @@ const Modal = ({isOpen ,  closeModal, openConfirmModal } : any) => {
     const [selected, setSelected] = useState<modal>({} as modal);
     const [pledge, setPledge] = useState<Backer>({id: "", pledgeId: "", amount: 0});
     const radioRef = useRef<null[] | HTMLInputElement[]>([]);
+    const [errorMessage, setErrorMessage] = useState<string>("");
 
     const dispatch = useDispatch();
 
@@ -49,8 +50,13 @@ const Modal = ({isOpen ,  closeModal, openConfirmModal } : any) => {
         if(pledge.amount <= 0)
             return;
 
+        if(pledge.amount >= crowd.progress.currentAmount)
+            return setErrorMessage("You can't support us more than total amount($"+crowd.progress.currentAmount+")");
+
         dispatch(add(pledge));
         dispatch(update());
+
+        setErrorMessage("");
         //클로즈모달 열기
         openConfirmModal();
     };
@@ -70,6 +76,9 @@ const Modal = ({isOpen ,  closeModal, openConfirmModal } : any) => {
                         </div>
                     </div>
                     <div>Want to support us in bringing Mastercraft Bamboo Monitor Rise out in the world?</div>
+                    <div className="has-text-right has-text-danger">
+                        { errorMessage }
+                    </div>
                     {
                         data.map((d:modal, index:number)=> (
                             <div key={index} className={(selected.id == "s"+index ? "selected-line":"default-line")+" card my-6 py-5 is-shadowless"}> 
@@ -133,6 +142,7 @@ const Modal = ({isOpen ,  closeModal, openConfirmModal } : any) => {
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         ))  
