@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { Card } from "../components/Card"
 import { rootState } from "../store"
-import { search } from '../store/index';
+//import { setQuery, setResult } from '../store/index';
 
 import recurring from "/images/icon-recurring-bills.svg";
 import  searchImg  from "/images/icon-search.svg"
@@ -14,18 +14,14 @@ export const RecurringBills = () => {
     const dispatch = useDispatch();
     const _data = useSelector((state:rootState)=> state.dataReducer);
     
-// const [ filterData, setFilterData]  = useState<any>([]);
-//     const [search, setSearch ] = useState(""); 
-
+    const [search, setSearch ] = useState(""); 
     
+    const filterData = _data.transactions.filter(transaction =>
+        transaction.name.toLowerCase().includes(search.toLowerCase())
+    );
 
-//     useEffect(()=>{
-//         const d = _data.transactions.filter(transaction =>
-//         transaction.name.toLowerCase().includes(search.toLocaleLowerCase())
-//         );
-//         setFilterData(d);
+   // dispatch(setResult(filterData));
 
-//     },[search]);
 
     // 서수 접미사 붙이기 함수
     function ordinal_suffix_of(d:any) {
@@ -34,19 +30,11 @@ export const RecurringBills = () => {
         let j = day % 10;
         let k = day % 100;
 
-        if (j === 1 && k !== 11) {
-            return day + "st";
-        }
-        else if (j === 2 && k !== 12) {
-            return day + "nd";
-        }
-        else if (j === 3 && k !== 13) {
-            return day + "rd";
-        }
+        if (j === 1 && k !== 11) return day + "st";
+        else if (j === 2 && k !== 12)return day + "nd";
+        else if (j === 3 && k !== 13)return day + "rd";
         return day+'th';
     }
-
-    
 
     return (
         <div className="flex flex-col lg:flex-row">
@@ -86,7 +74,8 @@ export const RecurringBills = () => {
                 <div className="flex ">
                     <div className="w-1/2">
                         <input type="text" 
-                            onChange={(e)=>{dispatch(search(e.target.value))}}
+                           // onChange={(e)=>{dispatch(setQuery(e.target.value))}}
+                              onChange={(e)=>{}}
                             className="rounded-md w-[100%] p-2 border-1 placeholder:text-slate-300 border-slate-300 overflow-hidden" 
                             placeholder={"Search bills"}
                         >
@@ -114,8 +103,8 @@ export const RecurringBills = () => {
                                 <span className="col-span-2 ml-auto">Amount</span>
                         </li>
 
-                        { filterData.length > 0 ? (
-                            filterData.map((transaction, index) => {
+                        { _data.transactions.length > 0 ? (
+                            _data.transactions.map((transaction, index) => {
                                 const profileName = transaction.name.toLowerCase().replace(/\s+/g,'-');
                                 const profilePath = `/images/avatars/`+profileName+`.jpg`;
                                 const ordinalSuffixDate = 'Monthly-'+ordinal_suffix_of(transaction.date);
