@@ -3,9 +3,9 @@ import { rootState } from "../store"
 import { useState } from "react";
 
 import { Card } from "../components/Card"
-import { PotAddModal } from "../components/moals/PotAddModal";
-import { PotDeleteModal } from "../components/moals/PotDeleteModal";
-import { PotDropModal } from "../components/moals/PotDropModal";
+import { PotAddModal } from "../components/modal/PotAddModal";
+import { PotDeleteModal } from "../components/modal/PotDeleteModal";
+import { PotDropModal } from "../components/modal/PotDropModal";
 
 import dots from "/images/dots-three-thin.svg";
 

@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
 import { Card } from "../components/Card";
-import { IRootState } from "../store";
+import { rootState } from "../store";
 import pot from "/images/icon-pot.svg";
 
 export const OverView = () => {
-    const _data = useSelector((state:IRootState)=> state.dataReducer);
+    const _data = useSelector((state:rootState)=> state.dataReducer);
   
     const balance = Object.values(_data.balance);
     const pots = _data.pots.slice(0, 4);
