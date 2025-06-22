@@ -34,6 +34,7 @@ const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 	};
 	setPot(newPot);
 	dispatch(addPot(newPot));
+	closeModal();
 }
 	const handleBackdropClick = (e : React.MouseEvent<HTMLDivElement>) => {
         closeModal();
@@ -58,7 +59,7 @@ const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		<>
 			{openModal && (
 				<form onSubmit={handlerSubmit}>
-					<div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-100">
+					<div className="fixed inset-0 z-50 flex items-center bg-opacity-100">
 						<div className="bg-white p-6 rounded-xl shadow-xl max-w-sm w-full relative">
 							<div className="flex justify-between ">
 								<span className="text-2xl self-center">Add New Pot</span>

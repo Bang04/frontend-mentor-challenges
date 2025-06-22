@@ -24,8 +24,8 @@ export const Pots = () => {
  
  
     return (
-        <div className="flex flex-col ">
-             <div className="flex flex-row flex-nowrap justify-between">
+        <div className="flex flex-col p-8">
+             <div className="flex flex-row flex-nowrap justify-between mb-8">
                 <div className="text-5xl text-gray-900">Pots</div>
                  <button 
                     onClick={() => handlerAddPotModal("add")}
@@ -35,7 +35,7 @@ export const Pots = () => {
                 </button>
             </div>
 
-            <div className="flex flex-wrap md:flex-row justify-center">
+            <div className="flex flex-wrap md:flex-row">
             
                 {
                     _data.pots.length > 0 ? (
