@@ -12,7 +12,7 @@ import close from "/images/icon-close-modal.svg";
 	theme : string;
 };
 
-export const PotAddModal = ({ openModal, closeModal, Mode }: any) => {
+export const PotAddModal = ({ openModal, closeModal, modalType }: any) => {
 
 	const [ pot, setPot ] = useState<pot>({name: "", target:0, total:0,theme:""});
 	const dispatch = useDispatch();
@@ -57,12 +57,13 @@ const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
 	return (
 		<>
-			{openModal && (
+			{openModal == "add" && (
 				<form onSubmit={handlerSubmit}>
-					<div className="fixed inset-0 z-50 flex items-center bg-opacity-100">
+					<div className="fixed inset-0 z-50 flex justify-center items-center bg-opacity-100">
+						 <div className="absolute inset-0 bg-black opacity-50"></div>
 						<div className="bg-white p-6 rounded-xl shadow-xl max-w-sm w-full relative">
-							<div className="flex justify-between ">
-								<span className="text-2xl self-center">Add New Pot</span>
+							<div className="flex justify-between pb-5">
+								<span className="text-2xl self-center font-semibold">Add New Pot</span>
 								<button
 										onClick={(e:any)=> handleBackdropClick(e)}
 										className="p-2 rounded hover:bg-gray-100"
@@ -71,19 +72,20 @@ const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 								</button>
 							</div>
 
-							<div>
-								<p>Create a pot to set savings targets. These can help keep you on track as you save for special purchases.</p>
+							<div className="pb-5">
+								<p className="text-sm text-gray-500">Create a pot to set savings targets. These can help keep you on track as you save for special purchases.</p>
 							</div>
-							<div>
-								<label className="block text-sm font-medium text-gray-700">Pot Name</label>
+							<div className="pb-3">
+								<label className="block text-sm font-medium text-gray-500">Pot Name</label>
 								<input type="text" name="name" placeholder="e.g.Rainy Days" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+								<p className="text-xs text-right text-gray-400 pt-1">30 characters left</p>
 							</div>
-							<div>
+							<div className="pb-3">
 								<label className="block text-sm font-medium text-gray-700">Target</label>
 								<input type="text" name="target" placeholder="$ e.g.2000" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"/>
 							</div>
 
-							<div>
+							<div className="pb-5">
 								<label className="block text-sm font-medium text-gray-700">Theme</label>
 								<select name="theme" defaultValue="" className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">	
 									{ 	
@@ -92,7 +94,7 @@ const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 									)}
 								</select>
 							</div>
-							<button type="submit" className="w-full py-2 px-4 bg-black text-white font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">Add Pot</button>
+							<button type="submit" className="text-xs w-full py-3 px-4 bg-black text-white font-normal rounded-md focus:outline-none">Add Pot</button>
 						</div>
 					</div>
 				</form>

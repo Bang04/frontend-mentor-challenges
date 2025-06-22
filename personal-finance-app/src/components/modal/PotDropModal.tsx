@@ -1,11 +1,20 @@
-import close from "/images/icon-close-modal.svg";
 
 export const PotDropModal = ({ openModal, closeModal }: any) => {
-	// Use the destructured props to avoid the error
+	
+
+	const handleBackdropClick = (e : React.MouseEvent<HTMLDivElement>) => {
+          closeModal();  
+    }
+
+
 	return (
-		<div>
-			<button onClick={openModal}>Edit Pot</button>
-			<button onClick={closeModal}>Delete Pot</button>
-		</div>
+		<>
+			{openModal == "menu" && (
+				<div className="bg-white rounded-xl">
+					<button onClick={openModal}>Edit Pot</button>
+					<button className="text-red-100" onClick={closeModal}>Delete Pot</button>
+				</div>
+			)}
+		</>
 	);
 }

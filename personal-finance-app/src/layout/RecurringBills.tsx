@@ -37,7 +37,7 @@ export const RecurringBills = () => {
     }
 
     return (
-        <div className="flex flex-col lg:flex-row">
+        <div className="flex flex-col lg:flex-row mx-auto my-auto">
             <div className="flex flex-col  md:flex-row lg:flex-col">
                 <Card title="" link="">
                     <div className="flex flex-col justify-between bg-black text-white w-[25vw]">
