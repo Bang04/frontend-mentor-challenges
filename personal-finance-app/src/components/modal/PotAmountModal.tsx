@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import close from "/images/icon-close-modal.svg";
 import { useSelector } from "react-redux";
@@ -36,15 +36,29 @@ export const PotAmountModal = ({ closeModal, modalType , idx}: PotAmountModalPro
     const text = MODAL_TEXT[modalType];
 
     const [inputValue , setInputValue ] = useState<number>(0); //입력한 값
-    const [changeTotal , setChageTotal ] = useState<number>(0); // 전체값 -inputValue = total
-    const [ beforePct , setBeforePct ] = useState<number>(0); // 입력한 값 백분율 
-    const [ afterPct , setAfterPct ] = useState<number>(0); // 입력한 값 백분율 
-    const [ diffPct, setDiffPct] = useState<number>(0);
-    const [error, setError] = useState<string>("");
+    const [changeTotal , setChageTotal ] = useState<number>(0); // 전체값 - inputValue 
+    const [ currentPct , setCrrentPct ] = useState<number>(0); // 현재 total 백분율 
+    const [ changePct , setChangePct ] = useState<number>(0); // 변경된 total 백분율 
+    const [ diffPct, setDiffPct] = useState<number>(); // 추가 or 빼기
+    const [error, setError] = useState<string>(""); // 에러 메세지
+
+    
 
     const handleBackdropClick = (e : React.MouseEvent<HTMLDivElement>) => {
         closeModal();
     }
+    useEffect(() => {
+      
+        if (data && 
+            typeof data.total === "number" && 
+            typeof data.target === "number" && 
+            data.target !== 0
+        ) {
+            setChageTotal(data.total)
+            setCrrentPct(Number(((data.total / data.target) * 100).toFixed(2)));
+        }
+        
+    }, []);
 
     useEffect(() =>{
         const amount = parseFloat(inputValue.toString());
@@ -54,29 +68,43 @@ export const PotAmountModal = ({ closeModal, modalType , idx}: PotAmountModalPro
                 setError("0 이상만 입력 가능합니다.");
                 return;
             }
-            if (data && typeof data.total === "number" && amount > data.total) {
+            if (modalType === "withdraw" && data && typeof data.total === "number" && amount > data.total) {
                 setError("잔액보다 많이 뺄 수 없습니다.");
                 return;
             }
-            const newTotal = data && typeof data.total === "number" ? Math.max(data.total - amount, 0) : 0; //음수 방지
-            
-            if(!isNaN(newTotal)){
-                setChageTotal(newTotal);
+
+            if (modalType === "money" && data && typeof data.total === "number" && amount > data.target) {
+                setError("목표 금액 초과되었습니다. 이하로 입력해주세요");
+                return;
+            }
+            //const newTotal = data && typeof data.total === "number" ? Math.max(data.total - amount, 0) : 0; //음수 방지
+
+            const newTotal = data
+                ? modalType === "money"
+                ? data.total + amount 
+                    : Math.max(data.total - amount, 0)
+                : 0;
+
+            setChageTotal(newTotal);
+            console.log("inputValue : "+inputValue);
+            console.log("changeTotal : "+changeTotal);
+            console.log("changePct: "+ changePct);
+            if(!isNaN(changeTotal)){
                 if (data && typeof data.target === "number" && data.target !== 0) {
-                    setAfterPct(Number(((changeTotal / data.target) * 100).toFixed(2)));
-                    setBeforePct(Number(((data.total / data.target) * 100).toFixed(2)));
-                    setDiffPct(Number(Math.round(beforePct -afterPct).toFixed(2)));
-                   console.log("diffPct : "+ diffPct);
-                } 
+                    const current = Number(((changeTotal / data.target) * 100).toFixed(2));
+                    setCrrentPct(current);
+                    const changed = Number(((changeTotal / data.target) * 100).toFixed(2));
+                    setChangePct(changed);
+                    const diff = data && modalType === "money"
+                                ? Math.abs(currentPct + changePct) : Math.abs(currentPct - changePct);
+
+                    setDiffPct(Number(diff.toFixed(2)));
+                }
             }else{
                  setError("숫자를 입력해주세요.");
                  return;
             }
-
-          
-            
-        },1000); //1초 후
-
+        },500); //1초 후
         return () => clearTimeout(timeout);
     },[inputValue])
 
@@ -108,13 +136,15 @@ return (
                            width: `${diffPct}%`
                         }}>
                     </div>
-                     <div className={` h-3 ${modalType == "money" ? 'bg-green-800' : 'bg-red-600'}`} 
-                        style={{ width: `${afterPct}%` }}>
-                    </div>
+                    {inputValue > 0 && (
+                        <div className={` h-3 ${modalType == "money" ? 'bg-green-800' : 'bg-red-600'}`} 
+                            style={{ width: `${changePct}%` }}>
+                        </div>
+                    )}
                 </div>
             </div>
              <div className="flex justify-between"> 
-                <span className="text-xs text-red-600">{afterPct} %</span>
+                <span className="text-xs text-red-600">{changePct} %</span>
                 <span className="text-xs gray-100">Target of ${data?.target}</span>
             </div>
             <div className="pb-3">
