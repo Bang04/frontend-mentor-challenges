@@ -1,27 +1,31 @@
+import React, { useState } from "react";
+
+
 import { useSelector } from "react-redux";
-import { rootState } from "../store"
-import { useState } from "react";
+import { getPot, rootState } from "../store"
 
 import { Card } from "../components/Card"
 import { PotAddModal } from "../components/modal/PotAddModal";
+import { PotEditModal } from "../components/modal/PotEditModal";
 import { PotDeleteModal } from "../components/modal/PotDeleteModal";
 import { PotDropModal } from "../components/modal/PotDropModal";
 import { PotAmountModal } from "../components/modal/PotAmountModal";
+
 import dots from "/images/dots-three-thin.svg";
 
 export const Pots = () => {
-    const _data = useSelector((state:rootState)=> state.dataReducer);
+    const pots = useSelector((state:rootState)=> state.potReducer);
     
-    const [isOpen, setIsOpen] = useState(false);
-    const [ idx , setIdx ] = useState<number>();
-    const [modalType , setModalType ] = useState(""); //add | menu | del | edit
+    const [ isOpen, setIsOpen ] = useState(false);
+    const [ id , setId ] = useState<string>();
+    const [ modalType , setModalType ] = useState("");
     const [ modalPosition, setModalPosition ] = useState({top: 0, left:0});
     const closeModal = () =>{
         setIsOpen(false);
     }
     // 1.NewAdd, 2.DropMenu 
     const handleOpenModal = (type:string, e: React.MouseEvent<HTMLElement>) => {
-        const rect = (e.currentTarget).getBoundingClientRect(); // 클릭된 position 값 얻기
+         const rect = (e.currentTarget).getBoundingClientRect(); // 클릭된 position 값 얻기
         const X_OFFSET = 100; //100px 만큼 이동
 
         setIsOpen(true); // modal open 여부
@@ -33,30 +37,23 @@ export const Pots = () => {
    
     }
     //3.Edit Add, 4.Edit Withdraw
-    const handleEditOpen = (type:string, e: React.MouseEvent<HTMLElement>, index : number) => {
-        const rect = (e.currentTarget).getBoundingClientRect(); // 클릭된 position 값 얻기
-        const X_OFFSET = 100; //100px 만큼 이동
-
+    const handleEditOpen = (type:string, id : string) => {
         setIsOpen(true); // modal open 여부
         setModalType(type); // modal 타입(수정,삭제,드롭메뉴 등등)
-        setModalPosition({ 
-            top: rect.bottom + window.scrollY, // 버튼의 아래쪽 + 스크롤 보정
-            left: rect.left + window.scrollX - X_OFFSET  // 버튼의 왼쪽});
-        });
-        setIdx(index);//선택된 index
+        setId(id);//선택된 id
     }
 
     return (
         <div className="flex flex-col p-8 mx-auto my-auto">
              <div className="flex flex-row flex-nowrap justify-between mb-8">
                 <div className="text-5xl text-gray-900">Pots</div>
-                 <button onClick={(e) => handleOpenModal("add", e)}  className="text-sm text-white  bg-black font-semibold py-4 px-4 rounded-lg">+Add New Pot</button>
+                 <button onClick={(e) => handleOpenModal("insert", e)}  className="text-sm text-white  bg-black font-semibold py-4 px-4 rounded-lg">+Add New Pot</button>
             </div>
 
             <div className="flex flex-wrap md:flex-row">
                 {
-                    _data.pots.length > 0 ? (
-                    _data.pots.map((item, index) => (
+                    pots.length > 0 ? (
+                    pots.map((item, index) => (
                     
                         <div key={index} className="flex w-full  md:w-1/2 ">
                             <Card  title="" link="">
@@ -85,8 +82,8 @@ export const Pots = () => {
                                         <span className="text-gray-500">Target of ${item.target}</span>
                                     </div>
                                     <div className="flex justify-between">
-                                        <button onClick={(e) => handleEditOpen("money", e, index)}  className="text-sm bg-gray-100 font-semibold hover:bg-white w-full max-w-9/10 rounded-lg">+Add Money</button>
-                                        <button onClick={(e) => handleEditOpen("withdraw",e, index)} className="text-sm bg-gray-100 font-semibold hover:bg-white w-full  max-w-9/10 py-3 rounded-lg">Withdraw</button>
+                                        <button onClick={() => handleEditOpen("add", item.id)}  className="text-sm bg-gray-100 font-semibold hover:bg-white w-full max-w-9/10 rounded-lg">+Add Money</button>
+                                        <button onClick={() => handleEditOpen("withdraw", item.id)} className="text-sm bg-gray-100 font-semibold hover:bg-white w-full  max-w-9/10 py-3 rounded-lg">Withdraw</button>
                                     </div>
                                 </div>
                             </Card>
@@ -102,16 +99,18 @@ export const Pots = () => {
             {(() => {
                 if (!isOpen) return null;
                 switch (modalType) {
-                    case "add":
+                    case "insert":
                         return <PotAddModal closeModal={closeModal} />;
+                    case "edit":
+                        return <PotEditModal closeModal={closeModal} id={id}/>;
                     case "delete":
-                        return <PotDeleteModal closeModal={closeModal} />;
+                        return <PotDeleteModal closeModal={closeModal} id={id} handleEditOpen = {handleEditOpen}/>;
                     case "drop":
-                        return <PotDropModal closeModal={closeModal}  position={modalPosition} handleOpenModal={handleOpenModal}  />;
-                    case "money":
-                        return <PotAmountModal closeModal={closeModal} modalType={modalType} idx={idx} />;
+                        return <PotDropModal closeModal={closeModal}  position={modalPosition} handleEditOpen={handleEditOpen}  />;
+                    case "add":
+                        return <PotAmountModal closeModal={closeModal} modalType={modalType} id={id} />;
                     case "withdraw":
-                        return <PotAmountModal closeModal={closeModal} modalType={modalType} idx={idx}  />;
+                        return <PotAmountModal closeModal={closeModal} modalType={modalType} id={id}  />;
                     default:
                         return null;
                 }

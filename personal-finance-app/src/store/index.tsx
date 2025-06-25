@@ -23,13 +23,14 @@ export interface Budget {
 }
 
 export interface Pot{
+    id : string;
     name : string;
     target : number;
     total : number;
     theme : string;
 }
 
-const initialState: { balance: Balance, transactions: Transaction[], budgets: Budget[], pots: Pot[] } = {
+const initialDataState: { balance: Balance, transactions: Transaction[], budgets: Budget[], pots: Pot[] } = {
     balance: data.balance,
     transactions: data.transactions,
     budgets: data.budgets,
@@ -38,43 +39,57 @@ const initialState: { balance: Balance, transactions: Transaction[], budgets: Bu
 
 const _data = createSlice({
     name: 'dataReducer',
-    initialState,
+    initialState: initialDataState,
     reducers: {
         get: (state, action) => {
             return state;
         },
-        addPot : (state, action: PayloadAction<Pot>) => {
-            state.pots.push(action.payload);
+    
+    }
+});
+
+const pot = createSlice({
+    name: 'potReducer',
+    initialState: initialDataState.pots,
+    reducers: {
+        getPot: (state) =>  state,
+        setPot : (state, action: PayloadAction<Pot>) => {
+            state.push({
+                id: (state.length + 1).toString(),
+                name: action.payload.name,
+                target: action.payload.target,
+                theme: action.payload.theme,
+                total: 0
+            });
+        },
+        updatePot :(state, action) =>{
+            const idx = state.findIndex(pot => pot.id === action.payload.id);
+            if(idx !== -1) {
+                state[idx] = {
+                    ...state[idx],
+                    ...action.payload
+                };
+            }
+        },
+        removePot :(state, action) =>{
+
         }
     
     }
 });
 
-// const searchReducer : any = createSlice({
-//     name : 'recurringReducer',
-//     initialState : data.transactions,
-//     reducers : {
-//         setNameQuery : (state, action) => {
-//             const value = action.payload.value.toLowerCase();
-
-//             if(!value) return state;
-
-//             return 
-//         },  
-//         getResult : (state, action) => {
-
-//         }
-//     }
-// })
-
 
 const store = configureStore({
     reducer: {
-        dataReducer: _data.reducer   
+        dataReducer: _data.reducer,
+        potReducer : pot.reducer
     }
 });
 
-export const { get, addPot } = _data.actions;
+
+// Rename get from _data.actions to dataGet to avoid naming conflict
+export const { get } = _data.actions;
+export const { getPot , setPot } = pot.actions;
 export default store;
 export type rootState = ReturnType<typeof store.getState>
 

@@ -1,10 +1,10 @@
 
-export const PotDropModal = ({ handleOpenModal, closeModal, position, }: any) => {
+export const PotDropModal = ({ handleEditOpen, closeModal, position, }: any) => {
 
 	const handleBackdropClick = (e : React.MouseEvent<HTMLDivElement>) => {
 		if((e.target as HTMLElement).id === "modal-backdrop"){
 
-          closeModal();  
+        //  closeModal();  
 		}
     }
 
@@ -16,8 +16,8 @@ export const PotDropModal = ({ handleOpenModal, closeModal, position, }: any) =>
 			style={{ top: position.top , left: position.left }}
 		>
 			<div className="flex flex-col bg-white rounded-xl shadow-xl relative">
-				<button onClick={(e) => handleOpenModal("edit", e)}  className="py-3 px-6">Edit Pot</button>
-				<button onClick={(e) => handleOpenModal("delete", e)} className="py-3 px-6 text-red-600" >Delete Pot</button>
+				<button onClick={(e) => handleEditOpen("edit", e)}  className="py-3 px-6">Edit Pot</button>
+				<button onClick={(e) => handleEditOpen("delete", e)} className="py-3 px-6 text-red-600" >Delete Pot</button>
 			</div>
 		</div>
 	);
