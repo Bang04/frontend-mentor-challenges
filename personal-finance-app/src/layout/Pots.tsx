@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 
 import { useSelector } from "react-redux";
-import { getPot, rootState } from "../store"
+import { rootState } from "../store"
 
 import { Card } from "../components/Card"
 import { PotAddModal } from "../components/modal/PotAddModal";
@@ -20,14 +20,21 @@ export const Pots = () => {
     const [ id , setId ] = useState<string>();
     const [ modalType , setModalType ] = useState("");
     const [ modalPosition, setModalPosition ] = useState({top: 0, left:0});
+
     const closeModal = () =>{
         setIsOpen(false);
     }
-    // 1.NewAdd, 2.DropMenu 
-    const handleOpenModal = (type:string, e: React.MouseEvent<HTMLElement>) => {
-         const rect = (e.currentTarget).getBoundingClientRect(); // 클릭된 position 값 얻기
+    // 1.NewAdd,
+    const handleInsertModal = (type:string, e: React.MouseEvent<HTMLElement>) => {  
+        setIsOpen(true); // modal open 여부
+        setModalType(type); // modal 타입
+   
+    }
+    //2.DropMenu 
+    const handleDropModal = (type:string, e: React.MouseEvent<HTMLElement>,id : string) => {
+        const rect = (e.currentTarget).getBoundingClientRect(); // 클릭된 position 값 얻기
         const X_OFFSET = 100; //100px 만큼 이동
-
+        setId(id);
         setIsOpen(true); // modal open 여부
         setModalType(type); // modal 타입(수정,삭제,드롭메뉴 등등)
         setModalPosition({ 
@@ -36,7 +43,8 @@ export const Pots = () => {
         });
    
     }
-    //3.Edit Add, 4.Edit Withdraw
+
+    //3.NewAdd, Edit Add, 4.Edit Withdraw
     const handleEditOpen = (type:string, id : string) => {
         setIsOpen(true); // modal open 여부
         setModalType(type); // modal 타입(수정,삭제,드롭메뉴 등등)
@@ -47,7 +55,7 @@ export const Pots = () => {
         <div className="flex flex-col p-8 mx-auto my-auto">
              <div className="flex flex-row flex-nowrap justify-between mb-8">
                 <div className="text-5xl text-gray-900">Pots</div>
-                 <button onClick={(e) => handleOpenModal("insert", e)}  className="text-sm text-white  bg-black font-semibold py-4 px-4 rounded-lg">+Add New Pot</button>
+                 <button onClick={(e) => handleInsertModal("insert", e)}  className="text-sm text-white  bg-black font-semibold py-4 px-4 rounded-lg">+Add New Pot</button>
             </div>
 
             <div className="flex flex-wrap md:flex-row">
@@ -56,6 +64,7 @@ export const Pots = () => {
                     pots.map((item, index) => (
                     
                         <div key={index} className="flex w-full  md:w-1/2 ">
+                            <input type="hidden" name="id" value={item.id} />
                             <Card  title="" link="">
                                 <div className="flex justify-between">
                                     
@@ -63,7 +72,7 @@ export const Pots = () => {
                                         <div className={`w-3 h-3 rounded-full `} style={{ backgroundColor: item.theme }}></div>
                                         <span className="">{item.name}</span>
                                     </div>
-                                    <div className="w-10" onClick={(e) => handleOpenModal("drop", e)} ><img src={dots} alt="" /></div>
+                                    <div className="w-10" onClick={(e) => handleDropModal("drop", e,item.id)} ><img src={dots} alt="" /></div>
                                 </div>
                                 <div>
                                     <div className="flex justify-between"> 
@@ -104,9 +113,9 @@ export const Pots = () => {
                     case "edit":
                         return <PotEditModal closeModal={closeModal} id={id}/>;
                     case "delete":
-                        return <PotDeleteModal closeModal={closeModal} id={id} handleEditOpen = {handleEditOpen}/>;
+                        return <PotDeleteModal closeModal={closeModal} handleEditOpen = {handleEditOpen} id={id} />;
                     case "drop":
-                        return <PotDropModal closeModal={closeModal}  position={modalPosition} handleEditOpen={handleEditOpen}  />;
+                        return <PotDropModal closeModal={closeModal}  position={modalPosition} handleEditOpen={handleEditOpen}  id={id}/>;
                     case "add":
                         return <PotAmountModal closeModal={closeModal} modalType={modalType} id={id} />;
                     case "withdraw":

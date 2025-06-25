@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from "react";
 
 import close from "/images/icon-close-modal.svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { rootState } from "../../store";
+import { updatePot } from "../../store";
 
 const MODAL_TEXT = {
   add: {
@@ -32,6 +33,8 @@ interface PotAmountModalProps {
 
 export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProps) => {
     const _data = useSelector((state:rootState)=> state.dataReducer);
+    const dispatch = useDispatch();
+    
     const pot =  _data.pots.find((pot) => pot.id == id);
     const text = MODAL_TEXT[modalType];
 
@@ -45,11 +48,21 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
 
     
 
+    const onClickHandler = () => {
+        if (id !== undefined && pot) {
+            dispatch(updatePot({ id, total: changeTotal }));
+            closeModal();
+        } else if (id === undefined) {
+            setError("ID가 정의되지 않았습니다.");
+        } else {
+            setError("Pot이(가) 정의되지 않았습니다.");
+        }
+    }
     const handleBackdropClick = (e : React.MouseEvent<HTMLDivElement>) => {
         closeModal();
     }
+    
     useEffect(() => {
-      
         if (pot && 
             typeof pot.target === "number" && 
             typeof pot.target === "number" && 
@@ -58,26 +71,27 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
             const pct = Number(((pot.total / pot.target) * 100).toFixed(2));
             setCrrentPct(pct);
             setChageTotal(pot.total);
-            // setCrrentPct(Number(((pot.total / pot.target) * 100).toFixed(2)));
-            // console.log("currentPct : "+ currentPct);
+
+            const withdraw = Number(((changeTotal / pot.target) * 100).toFixed(2));
+            const diff = Number(pct-withdraw);
+            setDiffPct(diff);
         }
         
     }, []);
 
     useEffect(() =>{
-        const amount = parseFloat(inputValue.toString());
         const timeout = setTimeout(() => {
             setError("");
-            if(amount < 0){
+            if(Number(inputValue) < 0){
                 setError("0$ 이상 입력 가능합니다.");
                 return;
             }
-            if (modalType === "withdraw" && pot && typeof pot.total === "number" && amount > pot.total) { //출금하기
+            if (modalType === "withdraw" && pot && typeof pot.total === "number" && inputValue > pot.total) { //출금하기
                 setError("잔액보다 많이 뺄 수 없습니다.");
                 return;
             }
 
-            if (modalType === "add" && pot && typeof pot.total === "number" && amount > pot.target) { //입금하기
+            if (modalType === "add" && pot && typeof pot.total === "number" && inputValue > pot.target) { //입금하기
                 setError("목표 금액 초과되었습니다. 이하로 입력해주세요");
                 return;
             }
@@ -87,7 +101,7 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
                 typeof pot.target === "number" && 
                 pot.target !== 0 
             ){
-                if(amount > 0){
+                if(inputValue > 0){
                     if(modalType == "add" ){
                         const newTotal = pot.total + inputValue;
                         const pct = Number(((pot.total / pot.target) * 100).toFixed(2));
@@ -95,20 +109,13 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
                         const newPct = Number(((newTotal / pot.target) * 100).toFixed(2));
                         setChangePct(newPct);
                         setChageTotal(Number(newTotal));
-
-                    }else if(modalType == "withdraw"){
-                        // const newTotal = pot.total + inputValue;
-                        //    const newPct = Number(((newTotal / pot.target) * 100).toFixed(2));
-                        //    console.log("withdraw pct : "+pct);
-                        //    setChangePct(newPct);
-                        // setDiffPct(pct);
                     }
+                   
                 }else{
-                    console.log("amount 0 보다 작음 : "+amount);
                     setChangePct(0);
                     setChageTotal(pot.total);
                 }
-               
+                
             }  
           
     },500); //1초 후
@@ -137,18 +144,17 @@ return (
             </div>
              
             <div>
-               
-                    { modalType == "add" ? (
+                { modalType == "add" ? (
+                    <div className="flex w-full h-3 bg-gray-100">
+                        <div className='h-3 bg-black' style={{ width: `${currentPct}%` }}></div>
+                        <div className='h-3 bg-green-800' style={{ width: `${changePct}%` }}> </div>
+                    </div>
+                ):(
                         <div className="flex w-full h-3 bg-gray-100">
-                            <div className='h-3 bg-black' style={{ width: `${currentPct}%` }}></div>
-                            <div className='h-3 bg-green-800' style={{ width: `${changePct}%` }}> </div>
-                        </div>
-                    ):(
-                         <div className="flex w-full h-3 bg-gray-100">
-                            <div className='h-3 bg-black' style={{ width: `${diffPct}%` }}></div>
-                            <div className=' h-3  bg-red-600' style={{ width: `${changePct}%`}}></div>
-                        </div>
-                    )}
+                        <div className='h-3 bg-black' style={{ width: `${diffPct}%` }}></div>
+                        <div className=' h-3  bg-red-600' style={{ width: `${changePct}%`}}></div>
+                    </div>
+                )}
             </div>
              <div className="flex justify-between"> 
                 <span className="text-xs text-red-600">{changePct} %</span>
@@ -160,7 +166,10 @@ return (
                 {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
             </div>
             
-            <button type="button" className="text-xs w-full py-3 px-4 bg-black text-white font-normal rounded-md focus:outline-none">Confilrm {text.btn}</button>
+            <button 
+                type="button" 
+                onClick={onClickHandler}
+                className="text-xs w-full py-3 px-4 bg-black text-white font-normal rounded-md focus:outline-none">Confilrm {text.btn}</button>
         </div>
 	</div>
     );

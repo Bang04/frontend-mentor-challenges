@@ -71,8 +71,8 @@ const pot = createSlice({
                 };
             }
         },
-        removePot :(state, action) =>{
-
+        removePot :(state, action ) =>{
+            return state.filter(pot => pot.id !== action.payload);
         }
     
     }
@@ -89,7 +89,7 @@ const store = configureStore({
 
 // Rename get from _data.actions to dataGet to avoid naming conflict
 export const { get } = _data.actions;
-export const { getPot , setPot } = pot.actions;
+export const { getPot , setPot, updatePot, removePot } = pot.actions;
 export default store;
 export type rootState = ReturnType<typeof store.getState>
 
