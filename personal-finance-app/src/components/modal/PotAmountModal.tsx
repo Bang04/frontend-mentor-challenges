@@ -5,7 +5,7 @@ import close from "/images/icon-close-modal.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { rootState } from "../../store";
 import { updatePot } from "../../store";
-
+import { Pot } from "../../store";
 const MODAL_TEXT = {
   add: {
      title: "Add to 'Savings'",
@@ -32,10 +32,11 @@ interface PotAmountModalProps {
 }
 
 export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProps) => {
-    const _data = useSelector((state:rootState)=> state.dataReducer);
+   
     const dispatch = useDispatch();
-    
-    const pot =  _data.pots.find((pot) => pot.id == id);
+    const pot = useSelector((state: rootState) =>
+        state.potReducer.find((pot: Pot) => pot.id === id) //수정 할 pot 데이터 가져오기
+    );
     const text = MODAL_TEXT[modalType];
 
     const [ inputValue , setInputValue ] = useState<number>(0); //입력한 값
@@ -77,7 +78,7 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
             setDiffPct(diff);
         }
         
-    }, []);
+    }, [pot]);
 
     useEffect(() =>{
         const timeout = setTimeout(() => {

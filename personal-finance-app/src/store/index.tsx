@@ -55,19 +55,17 @@ const pot = createSlice({
         getPot: (state) =>  state,
         setPot : (state, action: PayloadAction<Pot>) => {
             state.push({
+                ...action.payload,
                 id: (state.length + 1).toString(),
-                name: action.payload.name,
-                target: action.payload.target,
-                theme: action.payload.theme,
-                total: 0
+                total: 0,
             });
         },
         updatePot :(state, action) =>{
             const idx = state.findIndex(pot => pot.id === action.payload.id);
-            if(idx !== -1) {
+             if(idx !== -1) {
                 state[idx] = {
                     ...state[idx],
-                    ...action.payload
+                    ...action.payload,
                 };
             }
         },

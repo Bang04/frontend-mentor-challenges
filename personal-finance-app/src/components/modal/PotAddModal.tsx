@@ -21,7 +21,11 @@ export const PotAddModal = ({ isOpen, closeModal, modalType }: any) => {
 
 	const onSavePotClick = () => {
 		if(name && target && theme){
-			dispatch(setPot({id: "",name, target, theme,total: 0}));
+			dispatch(setPot({
+				name, target, theme,
+				id: "",
+				total: 0
+			}));
 			setName('');
 			setTarget(0);
 		}

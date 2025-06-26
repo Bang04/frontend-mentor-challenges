@@ -1,8 +1,6 @@
 
 export const PotDropModal = ({ handleEditOpen, closeModal, position, id }: any) => {
 
-
-	console.log("삭제할 id : "+id);
 	const handleBackdropClick = (e : React.MouseEvent<HTMLDivElement>) => {
 		if((e.target as HTMLElement).id === "modal-backdrop"){
           closeModal();  
