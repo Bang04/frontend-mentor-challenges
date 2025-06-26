@@ -41,7 +41,6 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
 
     const [ inputValue , setInputValue ] = useState<number>(0); //입력한 값
     const [ currentPct , setCrrentPct ] = useState<number>(0); // 현재 total 백분율 
-
     const [ changeTotal , setChageTotal ] = useState<number>(0); // 전체값 - inputValue 
     const [ changePct , setChangePct ] = useState<number>(0); // 변경된 total 백분율 
     const [ diffPct, setDiffPct] = useState<number>(0); // 추가 or 빼기
@@ -65,7 +64,6 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
     }
     
     useEffect(() => {
-        console.log("open : "+currentPct);
         if (pot) {
             const pct = Number(((pot.total / pot.target) * 100).toFixed(2));
             setCrrentPct(pct);
@@ -96,37 +94,29 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
                 typeof pot.target === "number" && 
                 pot.target !== 0 
             ){
+                let newTotal = pot.total;
+
                 if(inputValue > 0){
                     if(modalType == "add" ){
-                        const newTotal = pot.total + inputValue;
-                        const pct = Number(((pot.total / pot.target) * 100).toFixed(2));
-                        setCrrentPct(pct);   //기존 퍼센트 바 
-                        const newPct = Number(((newTotal / pot.target) * 100).toFixed(2));
-                        setChangePct(newPct);
-                        setChageTotal(Number(newTotal));
-                    }else{ // withdraw
-                       
-                        const pct = Number(((pot.total / pot.target) * 100).toFixed(2));
-                        setCrrentPct(pct);   
-                        const total = Math.round((pot.total-inputValue));
-                        setChageTotal(total);
-                        const withdraw = Number(((total / pot.target) * 100).toFixed(2));
-                        setChangePct(withdraw);
-                        const diff = Number(currentPct-changePct);
-                        setDiffPct(diff);
+                        newTotal += inputValue;
+                      
+                    }else if(modalType == "withdraw" ){ // withdraw
+                       newTotal -= inputValue;
                     }
                    
-                }else{
-                    setChangePct(0);
-                    setChageTotal(pot.total);
-                    setDiffPct(currentPct);
+                    const newPct = Math.round((newTotal / pot.target) * 10000) / 100;
+                    const currentPct = Math.round((pot.total / pot.target) * 10000) / 100;
+                    
+                    setCrrentPct(currentPct);
+                    setChangePct(newPct);
+                    setDiffPct(Math.abs(currentPct - newPct));
+                    setChageTotal(newTotal);
                 }
-                
             }  
           
-    },300); //1초 후
+    },100); //1초 후
         return () => clearTimeout(timeout);
-    },[inputValue])
+    },[inputValue,pot, modalType])
 
 return (
    <div className="fixed inset-0 z-50 flex justify-center items-center bg-opacity-100">
@@ -157,8 +147,8 @@ return (
                     </div>
                 ):(
                         <div className="flex w-full h-3 bg-gray-100">
-                        <div className='h-3 bg-black' style={{ width: `${diffPct}%` }}></div>
-                        <div className=' h-3  bg-red-600' style={{ width: `${changePct}%`}}></div>
+                        <div className='h-3 bg-black' style={{ width: `${changePct }%` }}></div>
+                        <div className=' h-3  bg-red-600' style={{ width: `${diffPct}%`}}></div>
                     </div>
                 )}
             </div>
