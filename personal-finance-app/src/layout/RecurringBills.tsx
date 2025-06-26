@@ -8,20 +8,22 @@ import  searchImg  from "/images/icon-search.svg"
 import due  from "/images/icon-bill-due.svg";
 import paid from "/images/icon-bill-paid.svg";
 import { useEffect, useRef, useState } from "react";
-
+import { setFilter, setSortOption } from "../store/index"
 
 export const RecurringBills = () => {
     const dispatch = useDispatch();
-    const _data = useSelector((state:rootState)=> state.dataReducer);
+    const transactions = useSelector((state:rootState)=> state.dataReducer.filteredTransactions);
     
-    const [search, setSearch ] = useState(""); 
-    
-    const filterData = _data.transactions.filter(transaction =>
-        transaction.name.toLowerCase().includes(search.toLowerCase())
-    );
+    const [searchTerm, setSearchTerm ] = useState(""); 
+    const [sortBy , setSortBy ]  = useState(""); 
 
-   // dispatch(setResult(filterData));
-
+    useEffect(()=> {
+       dispatch(setFilter(searchTerm));
+    },[searchTerm]);
+   
+    useEffect(() => {
+        dispatch(setSortOption(sortBy));
+    },[sortBy])
 
     // 서수 접미사 붙이기 함수
     function ordinal_suffix_of(d:any) {
@@ -36,46 +38,46 @@ export const RecurringBills = () => {
         return day+'th';
     }
 
+
+
     return (
         <div className="flex flex-col lg:flex-row mx-auto my-auto">
             <div className="flex flex-col  md:flex-row lg:flex-col">
-                <Card title="" link="">
-                    <div className="flex flex-col justify-between bg-black text-white w-[25vw]">
-                        <img className="w-8 py-8" src={recurring}></img>
-                        <span className="">Total Bills</span>
-                        <span className="pt-3 pb-5">$190.00</span>
-                    </div>
-                </Card>
-                <Card title="" link="">
-                    <span className="">Summary</span>
+                 <div className="flex flex-col justify-between p-6 rounded-md bg-black text-white w-[15vw]">
+                    <img className="w-7  pb-6" src={recurring}></img>
+                    <span className="text-xs">Total Bills</span>
+                    <span className="text-3xl font-bold">$190.00</span>
+                </div>
+                <div className="bg-white p-6 rounded-md shadow-md">
+                    <span className="text-sm font-semibold">Summary</span>
                     <ul>
-                            <li>
+                            <li className="text-xs py-2 border-b border-gray-200">
                                 <div className="flex justify-between">
                                     <span>Paid Bills</span>
-                                    <span>$190.00</span>
+                                    <span className="font-semibold">$190.00</span>
                                 </div>
                             </li>
-                            <li>
+                            <li className="text-xs py-2 border-b border-gray-200">
                                 <div className="flex justify-between">
                                     <span>Total Upcoming</span>
-                                    <span>$194.98</span>
+                                    <span className="font-semibold">$194.98</span>
                                 </div>
                             </li>
-                            <li>
+                            <li className="text-xs py-2">
                                 <div className="flex justify-between">
-                                    <span>Due Soon</span>
-                                    <span>$59.98</span>
+                                    <span className="text-red-500">Due Soon</span>
+                                    <span className="text-red-500 font-semibold">$59.98</span>
                                 </div>
                             </li>
                         </ul>
-                </Card>
+                </div>
             </div>
-            <Card>
-                <div className="flex ">
+            <div className="bg-white p-6 rounded-md shadow-md w-full">
+                <div className="flex">
                     <div className="w-1/2">
                         <input type="text" 
                            // onChange={(e)=>{dispatch(setQuery(e.target.value))}}
-                              onChange={(e)=>{}}
+                              onChange={(e)=>{ setSearchTerm(e.target.value); }}
                             className="rounded-md w-[100%] p-2 border-1 placeholder:text-slate-300 border-slate-300 overflow-hidden" 
                             placeholder={"Search bills"}
                         >
@@ -83,8 +85,8 @@ export const RecurringBills = () => {
                         <img src={searchImg} className="absolute top-[43%] right-[60%] bg-white"></img>
                     </div>
                         <div className="w-1/2">
-                        <span>Sort by</span>
-                        <select name="sort" className="rounded-md w-[60%] p-2 border-1 border-slate-300 overflow-hidden">
+                        <span className="text-gray-500 text-xs">Sort by</span>
+                        <select name="sort"  onChange={(e)=>{ setSortBy(e.target.value); }} className="text-gray-500 text-base rounded-md w-[60%] p-2 border-1 border-slate-300 overflow-hidden">
                             <option value="Latest">Latest</option>
                             <option value="Oldest">Oldest</option>
                             <option value="AtoZ">A to Z</option>
@@ -98,13 +100,13 @@ export const RecurringBills = () => {
                 <div>
                     <ul>
                         <li className="grid grid-cols-10 border-b-1 border-[#B3B3B3] pb-5">
-                            <span className="col-span-5">Blill Title</span>
-                            <span className="col-span-3">Due Date</span>
-                                <span className="col-span-2 ml-auto">Amount</span>
+                            <span className="text-gray-500 text-xs col-span-5">Blill Title</span>
+                            <span className="text-gray-500 text-xs col-span-3">Due Date</span>
+                                <span className="text-gray-500 text-xs col-span-2 ml-auto">Amount</span>
                         </li>
 
-                        { _data.transactions.length > 0 ? (
-                            _data.transactions.map((transaction, index) => {
+                        { transactions.length > 0 ? (
+                            transactions.map((transaction, index) => {
                                 const profileName = transaction.name.toLowerCase().replace(/\s+/g,'-');
                                 const profilePath = `/images/avatars/`+profileName+`.jpg`;
                                 const ordinalSuffixDate = 'Monthly-'+ordinal_suffix_of(transaction.date);
@@ -132,7 +134,7 @@ export const RecurringBills = () => {
                         }
                     </ul> 
                 </div>  
-            </Card>
+            </div>
         </div>
     )
 }

@@ -30,11 +30,12 @@ export interface Pot{
     theme : string;
 }
 
-const initialDataState: { balance: Balance, transactions: Transaction[], budgets: Budget[], pots: Pot[] } = {
+const initialDataState: { balance: Balance, transactions: Transaction[], filteredTransactions: Transaction[],  budgets: Budget[], pots: Pot[] } = {
     balance: data.balance,
-    transactions: data.transactions,
     budgets: data.budgets,
-    pots: data.pots
+    pots: data.pots,
+    transactions: data.transactions,
+    filteredTransactions: data.transactions
 }
 
 const _data = createSlice({
@@ -44,7 +45,37 @@ const _data = createSlice({
         get: (state, action) => {
             return state;
         },
-    
+        setFilter(state, action) {
+            const keyword = action.payload.toLowerCase();
+            state.filteredTransactions =  state.transactions.filter(transaction =>
+            transaction.name.toLowerCase().includes(keyword));
+        }, 
+        setSortOption : (state, action ) => {
+            const sortData = [...state.filteredTransactions];
+            switch(action.payload){
+                case 'Latest':
+                    sortData.sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+                    break;
+                case 'Oldest':
+                    sortData.sort((a,b) => new Date(a.date).getTime() -new Date(b.date).getTime());
+                    break;
+                case 'AtoZ':
+                    sortData.sort((a,b) => a.name.localeCompare(b.name));
+                    break;
+                case 'ZtoA':
+                    sortData.sort((a,b) => b.name.localeCompare(a.name));
+                    break;
+                case 'Highest':
+                    sortData.sort((a,b)=> b.amount - a.amount);
+                    break;
+                case 'Lowest':
+                    sortData.sort((a,b) => a.amount - b.amount);
+                    break;
+                default :
+                    break;
+            }
+              state.filteredTransactions = sortData;
+        },
     }
 });
 
@@ -86,7 +117,7 @@ const store = configureStore({
 
 
 // Rename get from _data.actions to dataGet to avoid naming conflict
-export const { get } = _data.actions;
+export const { get, setFilter , setSortOption } = _data.actions;
 export const { getPot , setPot, updatePot, removePot } = pot.actions;
 export default store;
 export type rootState = ReturnType<typeof store.getState>
