@@ -59,25 +59,19 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
             setError("Pot이(가) 정의되지 않았습니다.");
         }
     }
+
     const handleBackdropClick = (e : React.MouseEvent<HTMLDivElement>) => {
         closeModal();
     }
     
     useEffect(() => {
-        if (pot && 
-            typeof pot.target === "number" && 
-            typeof pot.target === "number" && 
-            pot.target !== 0
-        ) {
+        console.log("open : "+currentPct);
+        if (pot) {
             const pct = Number(((pot.total / pot.target) * 100).toFixed(2));
             setCrrentPct(pct);
             setChageTotal(pot.total);
-
-            const withdraw = Number(((changeTotal / pot.target) * 100).toFixed(2));
-            const diff = Number(pct-withdraw);
-            setDiffPct(diff);
+            setDiffPct(currentPct);
         }
-        
     }, [pot]);
 
     useEffect(() =>{
@@ -110,16 +104,27 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
                         const newPct = Number(((newTotal / pot.target) * 100).toFixed(2));
                         setChangePct(newPct);
                         setChageTotal(Number(newTotal));
+                    }else{ // withdraw
+                       
+                        const pct = Number(((pot.total / pot.target) * 100).toFixed(2));
+                        setCrrentPct(pct);   
+                        const total = Math.round((pot.total-inputValue));
+                        setChageTotal(total);
+                        const withdraw = Number(((total / pot.target) * 100).toFixed(2));
+                        setChangePct(withdraw);
+                        const diff = Number(currentPct-changePct);
+                        setDiffPct(diff);
                     }
                    
                 }else{
                     setChangePct(0);
                     setChageTotal(pot.total);
+                    setDiffPct(currentPct);
                 }
                 
             }  
           
-    },500); //1초 후
+    },300); //1초 후
         return () => clearTimeout(timeout);
     },[inputValue])
 
