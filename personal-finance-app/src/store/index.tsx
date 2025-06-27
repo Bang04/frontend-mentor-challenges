@@ -42,9 +42,6 @@ const _data = createSlice({
     name: 'dataReducer',
     initialState: initialDataState,
     reducers: {
-        get: (state, action) => {
-            return state;
-        },
         setFilter(state, action) {
             const keyword = action.payload.toLowerCase();
             state.filteredTransactions =  state.transactions.filter(transaction =>
@@ -117,7 +114,7 @@ const store = configureStore({
 
 
 // Rename get from _data.actions to dataGet to avoid naming conflict
-export const { get, setFilter , setSortOption } = _data.actions;
+export const { setFilter , setSortOption } = _data.actions;
 export const { getPot , setPot, updatePot, removePot } = pot.actions;
 export default store;
 export type rootState = ReturnType<typeof store.getState>
