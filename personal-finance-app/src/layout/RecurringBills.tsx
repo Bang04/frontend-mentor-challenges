@@ -62,19 +62,19 @@ export const RecurringBills = () => {
 
     return (
         <div className="flex p-6 mx-auto my-auto">
-             <div className="flex flex-col md:w-3xl">
+             <div className="flex flex-col min-w-xs md:w-3xl">
                 <div className="flex mt-5 font-bold text-5xl">Recurring Bills</div>
                 
                 <div className="flex flex-col">
                     <div className="flex flex-col md:flex-row">
-                        <div className="flex flex-row w-full md:flex-col md:w-1/2 pt-7 pb-7 pr-8 pl-8 rounded-lg bg-black text-white">
+                        <div className="flex flex-row w-full md:flex-col md:w-lg pt-7 pb-7 pr-8 pl-8 rounded-lg bg-black text-white">
                             <img className="w-12" src={recurring}></img>
-                            <div className="flex flex-col sm:pl-8 md:pl-0">
+                            <div className="flex flex-col pl-8 md:pl-0 md:pt-8">
                                 <span className="leading-10 text-base">Total Bills</span>
-                                <span className="text-4xl font-bold mt-2">$384.98</span>
+                                <span className="text-4xl font-bold">$384.98</span>
                             </div>
                         </div>
-                        <div className="flex flex-col w-full  md:w-1/2 justify-between bg-white p-6 rounded-lg shadow-md">
+                        <div className="flex flex-col w-full  md:w-lg justify-between bg-white p-6 rounded-lg shadow-md">
                             <div className="leading-8 text-2xl font-semibold sm:mb-5">Summary</div>
                                 <div className="flex">
                                     <ul className="flex flex-col w-full">
@@ -94,29 +94,24 @@ export const RecurringBills = () => {
 
                     <div className="flex flex-col p-5 bg-white rounded-lg shadow-md">
                         <div className="flex">
-                            <div className="flex basis-full relative">
+                            <div className="flex relative  md:w-1/2">
                                 <input type="text" 
                                     onChange={(e)=>{ setSearchTerm(e.target.value); }}
-                                    className="w-full  rounded-md p-2 border-1 placeholder:text-slate-300 overflow-hidden" 
+                                    className="w-full rounded-md p-2 border-1 placeholder:text-slate-300 overflow-hidden" 
                                     placeholder={"Search bills"}
                                 >
                                 </input>
-                                <img src={searchImg} className="absolute top-[38%] right-[36%] bg-white"></img>
+                                <img src={searchImg} className="absolute top-[38%] right-[10%] bg-white"></img>
                             </div>
-                            <div className="flex  w-full justify-end">
-                                {/* selectbox  mobile ver  - icon button
-
-                                <button id="toggleMobileBtn" onClick={(e) =>handlerSort} className="block md:hidden">
-                                    <img src={iconsort} />
+                            <div className="flex  w-full md:w-1/2 justify-end">
+                                <button id="toggleMobileBtn" className="block md:hidden">
+                                    <img className="w-6"  src={iconsort} onClick={()=>{}}/>
                                 </button>
-                                  -  class  hidden md:block 이용하기
-                                */}
-                                
-                                <span className="text-gray-500 text-sm ">Sort by</span>
+                                <span className="flex hidden md:block text-gray-500 text-sm ">Sort by</span>
                                 <select name="sort"
-                                        id="toggleSelectBtn"  
-                                        onChange={(e)=>{ setSortBy(e.target.value); }} 
-                                        className="w-full text-gray-500 text-base rounded-md p-2 border-1 border-slate-300 overflow-hidden">
+                                    id="toggleSelectBtn"  
+                                    onChange={(e)=>{ setSortBy(e.target.value); }} 
+                                    className="hidden md:block text-gray-500 text-base rounded-md p-2 border-1 border-slate-300 overflow-hidden">
                                     <option value="Latest">Latest</option>
                                     <option value="Oldest">Oldest</option>
                                     <option value="AtoZ">A to Z</option>
@@ -126,16 +121,15 @@ export const RecurringBills = () => {
                                 </select>
                             </div>
                             <div className="block md:hidden">
-
                             </div>
                         </div>
 
                         <div className="w-full mx-auto pt-3">
-                            <ul className="flex  hidden md:block text-gray-400 ">
-                                <li className="w-full md:w-1/3 text-xs basis-1/2 p-3 text-left">Blill Title</li>
-                                <li className="w-full md:w-1/3 text-xs basis-1/4 p-3 text-left text-sm">Due Date</li>
-                                <li className="w-full md:w-1/3 text-xs basis-1/4 p-3 text-right">Amount</li>
-                            </ul>     
+                            <div className="flex text-gray-400  hidden md:flex">
+                                <div className="w-3/5  pt-3 pb-3">Blill Title</div>
+                                <div className="w-1/5  pt-3 pb-3">Due Date</div>
+                                <div className="w-1/5 text-right pt-3 pb-3 ">Amount</div>
+                            </div>     
                             <ul  className="divide-y  rounded-b-lg border-b-indigo-100">
                             { transactions.length > 0 ? (
                                 transactions.map((transaction, index) => {
@@ -145,17 +139,17 @@ export const RecurringBills = () => {
                                     const amount = Math.abs(transaction.amount).toLocaleString();
                                 
                                     return (
-                                        <li key={index} className="flex flex-col lg:items-center hover:bg-gray-50 cursor-pointer pt-5 pb-5">
-                                            <div className="lg:basis-1/2 flex items-center gap-2 text-left">
+                                        <li key={index} className="flex flex-col w-full md:flex-row hover:bg-gray-50 cursor-pointer pt-5 pb-5">
+                                            <div className="flex md:w-3/5 items-center gap-2 text-left">
                                                 <img src={profilePath}  className="w-[45px] h-[45px] rounded-full"/>
                                                 <div className="text-xl font-semibold pl-2">{transaction.name}</div>
                                             </div>
-                                            <div className="flex justify-between">
-                                                <div className={`flex lg:basis-1/4 flex items-center justify-center gap-2 text-center ${transaction.recurring ? 'text-gray-500' : 'text-green-800'}`}>
+                                            <div className="flex  md:w-2/5  justify-between md:justify-start">
+                                                <div className={`flex md:w-2/3  justify-start items-center gap-2 text-center ${transaction.recurring ? 'text-gray-500' : 'text-green-800'}`}>
                                                     <div className=" whitespace-nowrap">{ordinalSuffixDate}</div>
                                                     <img className=" w-4 h-4 shrink-0" src={transaction.recurring? due : paid} />
                                                 </div>
-                                                <div className={` flex lg:basis-1/4 text-xl font-semibold ${transaction.recurring ? 'text-red-400' : 'text-black'}`}>
+                                                <div className={` flex md:w-1/3 justify-end text-xl font-semibold ${transaction.recurring ? 'text-red-400' : 'text-black'}`}>
                                                     ${amount}
                                                 </div>    
                                             </div>                            
