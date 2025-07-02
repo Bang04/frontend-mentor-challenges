@@ -62,37 +62,37 @@ export const RecurringBills = () => {
 
     return (
         <div className="flex p-6 mx-auto my-auto">
-             <div className="flex flex-col min-w-xs md:w-3xl">
+             <div className="flex flex-col min-w-xs md:w-3xl lg:w-5xl">
                 <div className="flex mt-5 font-bold text-5xl">Recurring Bills</div>
                 
-                <div className="flex flex-col">
-                    <div className="flex flex-col md:flex-row">
-                        <div className="flex flex-row w-full md:flex-col md:w-lg pt-7 pb-7 pr-8 pl-8 rounded-lg bg-black text-white">
+                <div className="flex flex-col lg:flex-row">
+                    <div className="flex flex-col md:flex-row lg:w-1/3 lg:flex-col md:mb-8">
+                        <div className="flex flex-row w-full md:flex-col md:w-lg lg:w-xs pt-7 pb-7 pr-8 pl-8 lg:mb-8 rounded-lg bg-black text-white">
                             <img className="w-12" src={recurring}></img>
                             <div className="flex flex-col pl-8 md:pl-0 md:pt-8">
                                 <span className="leading-10 text-base">Total Bills</span>
                                 <span className="text-4xl font-bold">$384.98</span>
                             </div>
                         </div>
-                        <div className="flex flex-col w-full  md:w-lg justify-between bg-white p-6 rounded-lg shadow-md">
+
+                        <div className="flex flex-col w-full  md:w-lg lg:w-xs  justify-between bg-white p-6 rounded-lg shadow-md">
                             <div className="leading-8 text-2xl font-semibold sm:mb-5">Summary</div>
-                                <div className="flex">
-                                    <ul className="flex flex-col w-full">
-                                        <li className="text-gray-400 leading-10 text-lg">Paid Bills</li>
-                                        <li className="text-gray-400 leading-10">Total Upcoming</li>
-                                        <li className="text-red-400 leading-10 ">Due Soon</li>
-                                    </ul>
-                                    <ul className="flex flex-col w-full text-right">
-                                        <li className="leading-10 text-lg font-semibold"> 2($320.00)</li>
-                                        <li className="leading-10 text-lg font-semibold">6($1,230.98)</li>
-                                        <li className="leading-10 text-lg font-semibold text-red-500">2($40.98)</li>
-                                    </ul>
-                                </div>
-                           
+                            <div className="flex">
+                                <ul className="flex flex-col w-full">
+                                    <li className="text-gray-400 leading-10 text-lg">Paid Bills</li>
+                                    <li className="text-gray-400 leading-10">Total Upcoming</li>
+                                    <li className="text-red-400 leading-10 ">Due Soon</li>
+                                </ul>
+                                <ul className="flex flex-col w-full text-right">
+                                    <li className="leading-10 text-lg font-semibold"> 2($320.00)</li>
+                                    <li className="leading-10 text-lg font-semibold">6($1,230.98)</li>
+                                    <li className="leading-10 text-lg font-semibold text-red-500">2($40.98)</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="flex flex-col p-5 bg-white rounded-lg shadow-md">
+                    <div className="flex flex-col p-5 bg-white lg:w-2/3 rounded-lg shadow-md">
                         <div className="flex">
                             <div className="flex relative  md:w-1/2">
                                 <input type="text" 
