@@ -17,23 +17,63 @@ export const RecurringBills = () => {
     const [searchTerm, setSearchTerm ] = useState(""); 
     const [sortBy , setSortBy ]  = useState(""); 
 
-    const [PaidBills , setPaidBills] = useState<number>(); 
-    const [TotalUpcoming , setTotalUpcoming] = useState<number>(); 
-    const [DueSoon , setDueSoon] = useState<number>(); 
+    const [BillsTotal , setBillsTotal] = useState<number>(); 
+    const [PaidBills , setPaidBills] = useState<number>();     //지불 완료 total
+    const [PaidCount, setPaidCount] = useState<number>();      //지불 완료 Count
+    const [Upcoming , setUpcoming] = useState<number>();       //다가오는 청구서 금액
+     const [UpcomingCount, setUpcomingCount] = useState<number>();//다가오는 청구서 Count
+    const [DueSoon , setDueSoon] = useState<number>();          //곧 마감될 청구서 총 금액
+     const [DueSoonCount, setDueSoonCount] = useState<number>(); //곧 마감될 청구서 총 Count
     
 
     useEffect(()=> {
-        const filterTransctions = transactions.filter(transaction => 
-            transaction.recurring ==true && 
-            transaction.category === "Bills" &&
-            transaction.amount  < 0 
-        );
-        let BillsTotal = 0;
-        filterTransctions.map((item) => {
-            BillsTotal +=item.amount;
-        });
+       const today = new Date();
 
-        setPaidBills(BillsTotal);
+        const filteredBills = transactions
+            .filter(
+                (item) =>
+                item.category === "Bills" &&
+                item.amount < 0
+            );
+        
+        //Total
+        let BillsTotal = filteredBills
+            .reduce((sum, item) =>  sum + Math.abs(item.amount), 0);
+            setBillsTotal(BillsTotal);
+      
+        //Paid , 이미결제 된 청구서 / 
+        let paidBillsArr = filteredBills
+            .filter((item) => item.recurring === false);
+
+        let paidBillsSum = paidBillsArr.reduce((sum, item) => sum + Math.abs(item.amount), 0);
+
+        setPaidBills(paidBillsSum);
+        setPaidCount(paidBillsArr.length);
+        
+
+
+        //Upcoming : true / 아직 결제되지 않은 청구서 합
+        let upcomingArr = filteredBills
+            .filter((item) => 
+                item.recurring === true &&
+                new Date(item.date) > new Date()); //오늘 이후
+        let upcomingSum = upcomingArr.reduce((sum, item) => sum + Math.abs(item.amount), 0);
+        setUpcoming(upcomingSum);
+        setUpcomingCount(upcomingArr.length);
+
+
+        //Due : 7일 이내 납부일 청구서 
+        const oneWeekLater = new Date();
+        oneWeekLater.setDate(new Date().getDate() + 7);
+
+        let dueArr = upcomingArr.filter(item => (
+            item.recurring === true &&
+            new Date(item.date) <= oneWeekLater
+        ));
+        let dueSum = dueArr.reduce((sum, item) => sum + Math.abs(item.amount), 0);
+        setDueSoon(dueSum);
+        setDueSoonCount(dueArr.length);
+
     },[]);
 
 
@@ -71,7 +111,7 @@ export const RecurringBills = () => {
                             <img className="w-12" src={recurring}></img>
                             <div className="flex flex-col pl-8 md:pl-0 md:pt-8">
                                 <span className="leading-10 text-base">Total Bills</span>
-                                <span className="text-4xl font-bold">$384.98</span>
+                                <span className="text-4xl font-bold">${BillsTotal}</span>
                             </div>
                         </div>
 
@@ -84,9 +124,9 @@ export const RecurringBills = () => {
                                     <li className="text-red-400 leading-10 ">Due Soon</li>
                                 </ul>
                                 <ul className="flex flex-col w-full text-right">
-                                    <li className="leading-10 text-lg font-semibold"> 2($320.00)</li>
-                                    <li className="leading-10 text-lg font-semibold">6($1,230.98)</li>
-                                    <li className="leading-10 text-lg font-semibold text-red-500">2($40.98)</li>
+                                    <li className="leading-10 text-lg font-semibold"> {PaidCount}(${PaidBills})</li>
+                                    <li className="leading-10 text-lg font-semibold">{UpcomingCount}(${Upcoming})</li>
+                                    <li className="leading-10 text-lg font-semibold text-red-500">{DueSoonCount}(${DueSoon})</li>
                                 </ul>
                             </div>
                         </div>
