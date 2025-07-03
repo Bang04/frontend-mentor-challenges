@@ -54,7 +54,8 @@ export const Pots = () => {
     return (
         <div className="flex flex-col p-8 mx-auto my-auto">
              <div className="flex flex-row flex-nowrap justify-between mb-8">
-                <div className="text-5xl text-gray-900">Pots</div>
+                 <div className="flex mt-5 font-semibold text-4xl mb-8">Pots</div>
+                
                  <button onClick={(e) => handleInsertModal("insert", e)}  className="text-sm text-white  bg-black font-semibold py-4 px-4 rounded-lg">+Add New Pot</button>
             </div>
 

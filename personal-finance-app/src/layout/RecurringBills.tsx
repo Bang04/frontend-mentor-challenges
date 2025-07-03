@@ -103,7 +103,7 @@ export const RecurringBills = () => {
     return (
         <div className="flex p-6 mx-auto my-auto">
              <div className="flex flex-col min-w-xs md:w-3xl lg:w-5xl">
-                <div className="flex mt-5 font-bold text-5xl">Recurring Bills</div>
+                <div className="flex mt-5 font-semibold text-4xl mb-8">Recurring Bills</div>
                 
                 <div className="flex flex-col lg:flex-row">
                     <div className="flex flex-col md:flex-row lg:w-1/3 lg:flex-col md:mb-8">
