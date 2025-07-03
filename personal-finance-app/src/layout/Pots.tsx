@@ -91,9 +91,9 @@ export const Pots = () => {
                                         <span className="text-gray-500">{((item.total / item.target) * 100).toFixed(2)}%</span>
                                         <span className="text-gray-500">Target of ${item.target}</span>
                                     </div>
-                                    <div className="flex justify-between">
-                                        <button onClick={() => handleEditOpen("add", item.id)}  className="text-sm bg-gray-100 font-semibold hover:bg-white w-full max-w-9/10 rounded-lg">+Add Money</button>
-                                        <button onClick={() => handleEditOpen("withdraw", item.id)} className="text-sm bg-gray-100 font-semibold hover:bg-white w-full  max-w-9/10 py-3 rounded-lg">Withdraw</button>
+                                    <div className="flex gap-[10px] justify-between">
+                                        <button onClick={() => handleEditOpen("add", item.id)}      className="p-3 text-sm bg-[#F8F4F0] font-semibold flex-1 rounded-lg">+Add Money</button>
+                                        <button onClick={() => handleEditOpen("withdraw", item.id)} className="p-3 text-sm bg-[#F8F4F0] font-semibold flex-1 rounded-lg">Withdraw</button>
                                     </div>
                                 </div>
                             </Card>
