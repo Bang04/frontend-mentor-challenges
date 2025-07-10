@@ -64,12 +64,14 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
     }
     
     useEffect(() => {
-        if (pot) {
-            const pct = Number(((pot.total / pot.target) * 100).toFixed(2));
-            setCrrentPct(pct);
-            setChageTotal(pot.total);
-            setDiffPct(currentPct);
+        if(inputValue === 0){
+            if (pot) {
+                setCrrentPct(Number(((pot.total / pot.target) * 100).toFixed(2)));
+                setChageTotal(pot.total);
+                setDiffPct(0);
+            }
         }
+        
     }, [pot]);
 
     useEffect(() =>{
@@ -79,12 +81,12 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
                 setError("0$ 이상 입력 가능합니다.");
                 return;
             }
-            if (modalType === "withdraw" && pot && typeof pot.total === "number" && inputValue > pot.total) { //출금하기
+            if (modalType === "withdraw" && pot && typeof pot?.total === "number" && inputValue > pot.total) { //출금하기
                 setError("잔액보다 많이 뺄 수 없습니다.");
                 return;
             }
 
-            if (modalType === "add" && pot && typeof pot.total === "number" && inputValue > pot.target) { //입금하기
+            if (modalType === "add" && pot && typeof pot?.total === "number" && inputValue > pot.target) { //입금하기
                 setError("목표 금액 초과되었습니다. 이하로 입력해주세요");
                 return;
             }
@@ -96,7 +98,7 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
             ){
                 let newTotal = pot.total;
 
-                if(inputValue > 0){
+                if(inputValue >= 0){
                     if(modalType == "add" ){
                         newTotal += inputValue;
                       
@@ -110,6 +112,7 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
                     setCrrentPct(currentPct);
                     setChangePct(newPct);
                     setDiffPct(Math.abs(currentPct - newPct));
+                  
                     setChageTotal(newTotal);
                 }
             }  
