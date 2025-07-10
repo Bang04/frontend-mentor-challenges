@@ -25,7 +25,7 @@ export 	const colorOptions = [
 		{ key: 'Pink', value: '#F2CDAC' },
 ];
 
-export const PotEditModal = ({ isOpen, closeModal, id }: any) => {
+export const PotEditModal = ({ closeModal, id }: any) => {
 	const dispatch = useDispatch();
 	const pot = useSelector((state: rootState) =>
 		state.potReducer.find((pot: Pot) => pot.id === id)

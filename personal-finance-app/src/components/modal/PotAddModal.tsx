@@ -6,43 +6,8 @@ import { setPot } from "../../store";
 import close from "/images/icon-close-modal.svg";
 
 
-export const PotAddModal = ({ isOpen, closeModal, modalType }: any) => {
+export const PotAddModal = ({ closeModal }: any) => {
 
-	const [name, setName ] = useState('');
-	const [target , setTarget ] = useState<number>(0);
-	const [theme , setTheme ] = useState('');
-
-	const dispatch = useDispatch();
-
-	const onNameChanged = (e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value);
-	const onTargetChanged = (e: React.ChangeEvent<HTMLInputElement>) => setTarget(Number(e.target.value));
-	const onThemeChanged = (e: React.ChangeEvent<HTMLSelectElement>) => setTheme(e.target.value);
-
-
-	const onSavePotClick = () => {
-		if(name && target && theme){
-			dispatch(setPot({
-				name, target, theme,
-				id: "",
-				total: 0
-			}));
-			setName('');
-			setTarget(0);
-		}
-		//e.preventDefault();
-		// const formData = new FormData(e.currentTarget);
-		// const name = formData.get("name") as string;
-		// const target = Number(formData.get("target"));
-		// const theme = formData.get("theme") as string;
-
-		// const newPot: pot = {name,target,total: 0,theme};
-
-		//dispatch(addPot(newPot));
-		closeModal();
-	}
-	const handleBackdropClick = (e : React.MouseEvent<HTMLDivElement>) => {
-        closeModal();
-    }
 	const colorOptions = [
 		{ key: 'Green', value: '#277C78' },
 		{ key: 'Yellow', value: '#FFFF00' },
@@ -58,6 +23,30 @@ export const PotAddModal = ({ isOpen, closeModal, modalType }: any) => {
 		{ key: 'Army', value: '#4B5320' },        
 		{ key: 'Pink', value: '#FFC0CB' },
 	];
+
+	const [name, setName ] = useState('');
+	const [target , setTarget ] = useState<number>(0);
+	const [theme , setTheme ] = useState(colorOptions[0].value);
+
+	const dispatch = useDispatch();
+
+	const onNameChanged = (e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value);
+	const onTargetChanged = (e: React.ChangeEvent<HTMLInputElement>) => setTarget(Number(e.target.value));
+	const onThemeChanged = (e: React.ChangeEvent<HTMLSelectElement>) => setTheme(e.target.value);
+
+
+	const onSavePotClick = () => {
+		if(name && target && theme){
+			dispatch(setPot({name, target, theme, id: "",total: 0}));
+			setName('');
+			setTarget(0);
+		}
+	
+		closeModal();
+	}
+	const handleBackdropClick = (e : React.MouseEvent<HTMLDivElement>) => {
+		closeModal();
+	}
 
 	return (
 		<div className="fixed inset-0 z-50 flex justify-center items-center bg-opacity-100">
