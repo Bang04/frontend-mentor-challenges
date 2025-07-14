@@ -4,6 +4,7 @@ import budgets from "/images/icon-nav-budgets.svg"
 import pots from "/images/icon-nav-pots.svg"
 import recurringBills from "/images/icon-nav-recurring-bills.svg"
 import logoL from "/images/logo-large.svg";
+import { Link } from "react-router-dom"
 
 export const SideBar = () => {
     const menu = [
@@ -20,12 +21,12 @@ export const SideBar = () => {
             {
                 menu.map((value, _index)=> (
                     <div key={_index}>
-                        <a href={"/"+value.name.toString().toLowerCase().replace(" ", "-")}> 
+                        <Link to={"/"+value.name.toString().toLowerCase().replace(" ", "-")}> 
                             <figure>
                                 <img src={value.icon}/>
                             </figure>
                             {value.name}
-                        </a>
+                        </Link>
                     </div>
                 ))
             }
