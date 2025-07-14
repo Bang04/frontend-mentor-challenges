@@ -25,7 +25,6 @@ export const Pots = () => {
     
 
     useEffect(() =>{
-        console.log(pots);
         setData(pots);
         
     },[pots]);
