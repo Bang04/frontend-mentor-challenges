@@ -3,7 +3,17 @@ import { Card } from "../components/Card"
 import { rootState } from "../store";
 import { StringKeyObject } from "../store/type";
 import { Bar } from "../components/Bar";
-import { Circular } from "../components/Circular";
+import { Circular } from "../components/Donut";
+import { DonutChart } from "../components/DonutChart";
+
+
+// 사용 예시
+const sampleData = [
+    { value: 40, color: "tomato" },
+    { value: 6, color: "orange" },
+    { value: 11, color: "mediumseagreen" },
+    { value: 43, color: "royalblue" },
+  ];
 
 function entries<T extends object>(obj: T): [keyof T, T[keyof T]][] {
     return Object.entries(obj) as [keyof T, T[keyof T]][];
@@ -51,6 +61,21 @@ export const Budgets = () => {
             }
     });
 
+
+    const info = latest.reduce((p:{ total: number, data: {value: number, color: string}[]}, n)=> {
+            return {
+                total: p.total + n.info[0].maximum,
+                data:[   
+                    ...p.data,
+                    {
+                        value: n.latestSpent,
+                        color: n.info[0].theme
+                    }
+                ]
+            };
+    }, {total: 0, data: []});
+
+
     return (
         <div className="bg-[#F8F4F0] w-screen">
             <div className="flex justify-between m-10">
@@ -64,7 +89,8 @@ export const Budgets = () => {
                         <Card link="">
                             <div className="">
                                 <div>
-                                    <Circular></Circular>
+                                    <Circular info={info}></Circular>
+                                    {/* <DonutChart data={sampleData} /> */}
                                 </div>
                                 <div className="font-bold">
                                     Spending Summary
