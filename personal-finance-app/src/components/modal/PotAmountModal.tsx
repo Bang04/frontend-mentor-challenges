@@ -46,66 +46,76 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
     const [ changePct , setChangePct ] = useState<number>(0); // 변경된 total 백분율 
     const [ diffPct , setDiffPct] = useState<number>(0); // 추가 or 빼기
     const [error , setError] = useState<string>(""); // 에러 메세지
-    const [isSend , setIsSend ] = useState<boolean>(false);   
 
-
-    const checkInput = () : boolean => {
-        let total = pot?.total;
-        let sate = true;
-        if(Number(inputValue) < 0){
-            setError("0$ 이상 입력 가능합니다.");
-            sate = false;
-        }
-        if (modalType === "withdraw" ) { //출금하기
-            if (typeof total === "undefined") {
-                setError("총액 정보가 없습니다.");
-                sate = false;
-            } else if (changeTotal > total && typeof pot?.total === "number") {
-                setError("잔액보다 많이 뺄 수 없습니다.");
-                sate = false;
+    //초기화 
+    const initialize = () =>{
+        console.log("initialize 호출");
+       if ( inputValue === 0 && 
+            pot &&
+            typeof pot.total === "number" &&
+            typeof pot.target === "number" &&
+            pot.target !== 0
+        ){
+            const pct = Number(((pot.total / pot.target) * 100).toFixed(2));
+            setCrrentPct(pct);
+            setChangeTotal(pot.total);
+            setError(""); 
+            if(modalType == "add"){ //저금할때
+                setDiffPct(0);
+                setChangePct(Number(((pot.total / pot.target) * 100).toFixed(2)));
+            }
+            if(modalType == "withdraw"){//출금할때
+                setDiffPct(pct);
+                setChangePct(0);
             }
         }
-        if (
-            modalType === "add" &&
-            typeof pot?.total === "number" &&
-            typeof total === "number" &&
-            changeTotal > total
-        ) { //입금하기
-            setError("목표 금액 초과되었습니다. 이하로 입력해주세요");
-            sate = false;
+    }
+    const validate = () => {
+        let isResult = true;
+        const parsed = Number(inputValue);
+        if(inputValue == 0 || isNaN(Number(inputValue))){
+            setError("숫자를 입력해 주세요");
+            isResult = false;
+            return;
         }
-        // if(inputValue === 0){ //inputValue 입력값 없을때 초기화
-        //     setError("");
-        //     setDiffPct(0);
-        //     setChangePct(0);
-        //     setError("금액을 입력해주세요");
-        //     sate = false;
-        // }
-        return sate;
+        if(!Number.isInteger(inputValue)){
+            setError("정수만 입력해 주세요");
+             isResult = false;
+            return;
+        }
+        if(parsed <=0){
+             setError("1이상 입력해 주세요");
+             isResult = false;
+            return;
+        }
+        if ( modalType == "add" && pot &&  typeof pot.target === "number" &&  parsed > pot.target && (parsed + pot.total) > pot.target){
+            setError(`입력한 값 또는 입력한 값 + Total 합은 목표 금액($${pot.target}) 보다 클 수 없습니다.`);
+             isResult = false;
+            return;
+        }
+         if(modalType == "withdraw" && pot &&  typeof pot.target === "number" && parsed > pot.total){
+            setError(`출금 가능한 금액($${pot.target})을 초과할 수 없습니다.`);
+             isResult = false;
+            return;
+        }
+
+        return isResult;
     }
 
     const handleBackdropClick = (e : React.MouseEvent<HTMLDivElement>) => {
         closeModal();
     }
     
+    //load될때 초기화
     useEffect(() => {
-        if(inputValue === 0){
-            // setError("");
-            // setDiffPct(0);
-            // setChangePct(0);
-            // setError("금액을 입력해주세요");
-            if (pot && typeof pot.total === "number" && typeof pot.target === "number" && pot.target !== 0) {
-                setCrrentPct(Number(((pot.total / pot.target) * 100).toFixed(2)));
-                setChangeTotal(pot.total);
-                setDiffPct(0);
-                setChangePct(Number(((pot.total / pot.target) * 100).toFixed(2)));
-            }
-        }
-    }, [pot]);
+        initialize();
+        setError("");
+    }, [modalType]);
 
     useEffect(() =>{
+         initialize();
+         setError("");
         const timeout = setTimeout(() => {
-            setError(""); 
             if (!pot) {
                 setError("Pot이(가) 정의되지 않았습니다.");
                 return;
@@ -120,38 +130,44 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
                     typeof pot.target === "number" && 
                     pot.target !== 0 
                 ){
-                    const newPct = (newTotal / pot.target) * 100; //입력된 금액 퍼센트 
-                    const currentPct = (pot.total / pot.target) * 100; //현재 퍼센트
-                    setCrrentPct(currentPct);
-                   
+                    const newPct = (newTotal / pot.target) * 100; //변경된 total 퍼센트 
+                    const minusPct = (inputValue / pot.target) * 100; //입력한 total 퍼센트
+                    const current = (pot.total / pot.target) * 100; //현재 퍼센트
+                    const changeTotalPct = (changeTotal / pot.target) * 100;
+                    
+                    setCrrentPct(currentPct);// add 일때
+                    setChangeTotal(newTotal); // 뺄때 변동 % 프로그래스바 
 
-                    if(newTotal > pot.total){
-                         setChangePct(currentPct);
+                    if(modalType == "withdraw" ){
+                       if(inputValue > pot.total){ //저금액보다 입력값이 초과한 경우
+                            setDiffPct(0); //기존 그래프 0%
+                            setChangePct(current);  //출금 그래프 기존금액 % 길이 넣음
+                       }else{
+                            setDiffPct(newPct); 
+                            setChangePct(minusPct);
+                       }
                     }else{
-                        setChangePct(newPct);
+                        setChangePct(changeTotalPct); //변경된 total 값 퍼센트 
+                        setDiffPct(newPct); // add 일때
                     }
-                   
-                    setDiffPct(currentPct - newPct);
-                    setChangeTotal(newTotal);
-                    setIsSend(true);
                 }
-            }  
-    },100); //1초 후
+            }else{
+                initialize();
+            }
+    },1000); //1초 후
         return () => clearTimeout(timeout);
     },[inputValue,pot, modalType])
 
 
     const onClickHandler = () => {
-        setIsSend(checkInput());
-        if(isSend){
-            if (id !== undefined){
-                dispatch(updatePot({ id, total: changeTotal }));
-                closeModal();
-            }
-        }
-        if (id === undefined) {
+         if (id === undefined) {
             setError("ID가 정의되지 않았습니다.");
         }
+        if (validate()) {
+            dispatch(updatePot({ id, total: changeTotal }));
+            closeModal();
+        }
+       
     }
 
 return (
@@ -176,29 +192,30 @@ return (
             </div>
               { modalType == "add" ? (// 저금추가
                 <>
-                 <div>
+                    {/* 그래프 */}
                     <div className="flex w-full h-3 bg-gray-100">
-                        <div className='h-3 bg-black' style={{ width: `${currentPct}%` }}></div>
-                        <div className='h-3 bg-green-800' style={{ width: `${diffPct}%` }}> </div>
+                        <div className='h-3 bg-black' style={{ width: `${currentPct}%` }}></div>  {/* 기존 그래프 */}
+                        <div className='h-3 bg-green-800 overflow-x-hidden' style={{ width: `${diffPct}%` }}> </div> {/* 변동 그래프 */}
                     </div>
-                </div>
-                <div className="flex justify-between"> 
-                    <span className="text-xs text-green-800">{changePct.toFixed(2)} %</span>
-                    <span className="text-xs gray-100">Target of ${pot?.target}</span>
-                </div>
+                    {/* 기존 target 퍼센트, +,-퍼센트 */}
+                    <div className="flex justify-between"> 
+                        <span className="text-xs text-green-800">{diffPct.toFixed(2)} %</span>
+                        <span className="text-xs gray-100">Target of ${pot?.target}</span>
+                    </div>
                 </>
-               
                 ):(
                 // 저금빼기 
                 <>
                     <div>
+                         {/* 그래프 */}
                         <div className="flex w-full h-3 bg-gray-100">
-                            <div className='h-3 bg-black' style={{ width: `${changePct.toFixed(2) }%` }}></div>
-                            <div className=' h-3  bg-red-600' style={{ width: `${diffPct.toFixed(2)}%`}}></div>
+                            <div className='h-3 bg-black' style={{ width: `${diffPct}%` }}></div>{/* 기존 그래프 */}
+                            <div className=' h-3  bg-red-600 overflow-x-hidden' style={{ width: `${changePct}%`}}></div>{/* 변동 그래프 */}
                         </div>
                     </div>
+                     {/* 기존 target 퍼센트, +,-퍼센트 */}
                     <div className="flex justify-between"> 
-                        <span className="text-xs text-red-600">{changePct.toFixed(2)} %</span>
+                        <span className="text-xs text-red-600">{diffPct.toFixed(2)} %</span>
                         <span className="text-xs gray-100">Target of ${pot?.target}</span>
                     </div>
                 </>
@@ -209,7 +226,7 @@ return (
                 <label className="block text-sm font-medium text-gray-700">Amount to {text.input}</label>
                 <input 
                     onChange={(e) => {setInputValue(Number(e.target.value))}} 
-                    type="number" name="target" placeholder="$" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                    type="text" name="target" placeholder="$" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"/>
                 {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
             </div>
             
