@@ -4,7 +4,8 @@ import budgets from "/images/icon-nav-budgets.svg"
 import pots from "/images/icon-nav-pots.svg"
 import recurringBills from "/images/icon-nav-recurring-bills.svg"
 import logoL from "/images/logo-large.svg";
-import { Link } from "react-router-dom"
+import { Link } from "react-router"
+
 
 export const SideBar = () => {
     const menu = [
@@ -20,17 +21,12 @@ export const SideBar = () => {
             <img src={logoL}/>
             {
                 menu.map((value, _index)=> (
-                    <div key={_index}>
-                        <Link to={"/"+value.name.toString().toLowerCase().replace(" ", "-")}> 
-                            <figure>
-                                <img src={value.icon}/>
-                            </figure>
-                            {value.name}
-                        </Link>
-                    </div>
+                     <Link to={"/"+value.name.toString().toLowerCase().replace(" ", "-")}>
+                        <img src={value.icon}/> {value.name}
+                    </Link>
+
                 ))
             }
-        
         </aside>
     )
 };
