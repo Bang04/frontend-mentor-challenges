@@ -30,25 +30,44 @@ export interface Pot{
     theme : string;
 }
 
-const initialDataState: { balance: Balance, transactions: Transaction[], filteredTransactions: Transaction[],  budgets: Budget[], pots: Pot[] } = {
+const initialDataState: { 
+    balance: Balance, 
+    transactions: Transaction[], 
+   // filteredTransactions: Transaction[],  
+    budgets: Budget[], 
+    pots: Pot[] ,
+    filterKeyword : String,
+    sortOption: string,
+} = {
     balance: data.balance,
     budgets: data.budgets,
     pots: data.pots,
     transactions: data.transactions,
-    filteredTransactions: data.transactions
+    //filteredTransactions: data.transactions,
+    filterKeyword: '',
+    sortOption: ''
 }
 
 const _data = createSlice({
     name: 'dataReducer',
     initialState: initialDataState,
     reducers: {
-        setFilter(state, action) {
+        getKeyword: (state) =>  {
+            return state
+        },
+        setKeyword: (state, action) =>  {
+            state.filterKeyword = action.payload;
+        }
+        ,setSortOption(state, action) {
+            state.filterKeyword = action.payload;
+        }
+        ,setFilter(state, action) {
             const keyword = action.payload.toLowerCase();
-            state.filteredTransactions =  state.transactions.filter(transaction =>
+            state.transactions =  state.transactions.filter(transaction =>
             transaction.name.toLowerCase().includes(keyword));
         }, 
-        setSortOption : (state, action ) => {
-            const sortData = [...state.filteredTransactions];
+        setSortData : (state, action ) => {
+            const sortData = [...state.transactions];
             switch(action.payload){
                 case 'Latest':
                     sortData.sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -71,7 +90,7 @@ const _data = createSlice({
                 default :
                     break;
             }
-              state.filteredTransactions = sortData;
+              state.transactions = sortData;
         },
     }
 });
@@ -114,7 +133,7 @@ const store = configureStore({
 
 
 // Rename get from _data.actions to dataGet to avoid naming conflict
-export const { setFilter , setSortOption } = _data.actions;
+export const { getKeyword,setKeyword, setFilter , setSortData } = _data.actions;
 export const { getPot , setPot, updatePot, removePot } = pot.actions;
 export default store;
 export type rootState = ReturnType<typeof store.getState>
