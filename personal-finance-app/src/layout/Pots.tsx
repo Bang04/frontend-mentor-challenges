@@ -88,8 +88,8 @@ export const Pots = () => {
                                         <span className="text-3xl font-semibold">${(item.total).toFixed(2)}</span>
                                     </div>
                                     <div className="mb-4">
-                                        <div className="w-full h-3 bg-gray-100">
-                                            <div  className={`h-3 `} style={{ 
+                                        <div className="w-full h-3 bg-gray-100 overflow-hidden">
+                                            <div  className={`h-3`} style={{ 
                                                   width: `${(item.total / item.target) * 100}%`,
                                                   backgroundColor: item.theme }}>
                                             </div>
