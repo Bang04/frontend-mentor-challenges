@@ -4,113 +4,45 @@ import { useDispatch } from "react-redux";
 import { setPot } from "../../store";
 
 import close from "/images/icon-close-modal.svg";
-
+import { validateInputs , validateField } from "./PotValidators";
 
 export const PotAddModal = ({ closeModal }: any) => {
 
-	const colorOptions = [
-		{ key: 'Green', value: '#277C78' },
-		{ key: 'Yellow', value: '#FFFF00' },
-		{ key: 'Cyan', value: '#00FFFF' },      
-		{ key: 'Navy', value: '#000080' },
-		{ key: 'Red', value: '#FF0000' },
-		{ key: 'Purple', value: '#826CB0' },
-		{ key: 'Turquoise', value: '#40E0D0' },  
-		{ key: 'Brown', value: '#A52A2A' },
-		{ key: 'Megenta', value: '#FF00FF' },   
-		{ key: 'Blue', value: '#0000FF' },
-		{ key: 'Gray', value: '#626070' },
-		{ key: 'Army', value: '#4B5320' },        
-		{ key: 'Pink', value: '#FFC0CB' },
-	];
+	
 
-	const [name, setName ] = useState('');
+	const [potName, setPotName ] = useState<string>("");
 	const [target, setTarget ] = useState<number>(0);
 	const [theme, setTheme ] = useState(colorOptions[0].value);
-	const [charCnt, setCharCnt ] = useState(30); //글자수 target 체크
-	const [titleError, setTitleError] = useState<string>(""); //글자수(title) error message
-	const [amountError, setAmountrror] = useState<string>("");//목표액(target) error message
-	
+
+	const [errors, setErrors] = useState("");
+
 	const dispatch = useDispatch();
 
-	const onNameChanged = (e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value);
-	const onTargetChanged = (e: React.ChangeEvent<HTMLInputElement>) => setTarget(Number(e.target.value));
-	const onThemeChanged = (e: React.ChangeEvent<HTMLSelectElement>) => setTheme(e.target.value);
-
-
 	const onSavePotClick = () => {
-		console.log("name : "+ name);
-		console.log("target : "+ target);
-		console.log("theme : "+ theme);
-
-		// Validate name directly
-		if (!name.trim()) {
-			setTitleError("제목을 입력해주세요.");
-			return;
-		}
-		if (name.length > 30) {
-			setTitleError("30자 미만으로 입력해주세요.");
-			return;
-		}
-		setTitleError("");
-
-		if(!Number(target)){
-			setAmountrror("숫자만 입력해주세요");
-			return;
-		}else if(target < 0 || target > 2000){
-			setAmountrror("목표액은 0 이상 2000 이하로 입력해주세요");
-			return;
-			
-		}else if(!Number.isInteger(target)){
-			setAmountrror("정수만 입력 가능합니다.");
-			return;
-		}
-		setAmountrror("");
-		if (name && target && theme) {
-			dispatch(setPot({ name, target, theme, id: "", total: 0 }));
-			setName('');
-			setTarget(0);
-			closeModal();
+		const error = validateInputs(potName,target);
+		if(error == "" ){
+			if (potName && target && theme) {
+				dispatch(setPot({ name: potName, target, theme, id: "", total: 0 }));
+				setPotName('');
+				setTarget(0);
+				closeModal();
+			}
+		}else{
+			setErrors(error);
 		}
 	}
+
+	const handlerKeyUp = (e : React.KeyboardEvent<HTMLInputElement>) => {
+		const msg = validateField( e.currentTarget.name, e.currentTarget.value );
+		setErrors(msg);
+	}
+
 	const handlerBackdropClick = (e : React.MouseEvent<HTMLDivElement>) => {
 		closeModal();
 	}
-
-	const handlerTitleKeyUp = (e : React.KeyboardEvent<HTMLInputElement>) => {
-		const val = e.currentTarget.value;
-		if (val && val.length > 30 ) {
-			val.slice(0,30);
-			setTitleError("30자 미만으로 입력해주세요.");
-		}else if(val.trim() == ""){
-			setTitleError("제목을 입력해주세요.");
-		}else{
-			setTitleError("");
-		}
-		setName(val);
-		setCharCnt(val.length);
-	}
-
-	const handlerTargetKeyUp = (e : React.KeyboardEvent<HTMLInputElement>) => {
-		let inputNumber = e.currentTarget.value.replace(/[^0-9]/g, '');
-		let targetNumber = Number(inputNumber);
-		
-		if(targetNumber < 0 || targetNumber > 2000){
-			setAmountrror("목표액은 0 이상 2000 이하로 입력해주세요");
-			
-		}else if(!Number.isInteger(targetNumber)){
-			setAmountrror("정수만 입력 가능합니다.");
-		}
-		setTarget(targetNumber);
-	}
-
 	useEffect(() => {
-		handlerTitleKeyUp
-	},[name]);
-
-	useEffect(() => {
-		handlerTargetKeyUp
-	},[target]);
+		handlerKeyUp
+	},[name,target]);
 
 	return (
 		<div className="fixed inset-0 z-50 flex justify-center items-center bg-opacity-100">
@@ -129,24 +61,24 @@ export const PotAddModal = ({ closeModal }: any) => {
 						<p className="text-sm text-gray-500">Create a pot to set savings targets. These can help keep you on track as you save for special purchases.</p>
 					</div>
 					<div className="pb-3">
-						<label className="block text-sm font-medium text-gray-500">Pot Name</label>
-						<input type="text" name="name" id="name" placeholder="e.g.Rainy Days" onChange={(e) => onNameChanged} onKeyUp={handlerTitleKeyUp}  maxLength={30} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+						<label htmlFor="name" className="block text-sm font-medium text-gray-500">Pot Name</label>
+						<input type="text" name="name" placeholder="e.g.Rainy Days" onChange={(e) => setPotName(e.target.value)} onKeyUp={handlerKeyUp}  maxLength={30} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"/>
 						<p className="text-xs text-right text-gray-400 pt-1">{charCnt} characters left</p>
-						   {titleError && <p className="text-red-500 text-sm mt-1">{titleError}</p>}
 					</div>
 					<div className="pb-3">
-						<label className="block text-sm font-medium text-gray-700">Target</label>
-						<input type="text" name="target" placeholder="$ e.g.2000" onChange={(e) => onTargetChanged} onKeyUp={handlerTargetKeyUp} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-						 {amountError && <p className="text-red-500 text-sm mt-1">{amountError}</p>}
-					</div>
+						<label htmlFor="target" className="block text-sm font-medium text-gray-700">Target</label>
+						<input type="text" name="target" placeholder="$ e.g.2000" onChange={(e) => setTarget(Number(e.target.value))} onKeyUp={handlerKeyUp} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+						
 					<div className="pb-5">
 						<label className="block text-sm font-medium text-gray-700">Theme</label>
-						<select name="theme" defaultValue="" onChange={onThemeChanged} className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">	
+						<select name="theme" defaultValue="" onChange={(e) =>setTheme(e.target.value)} className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">	
 							{ 	
 								colorOptions.map((color, index) =>
 									<option key={index} value={color.value}>{color.key}</option>
 							)}
 						</select>
+					</div>
+					 {errors && <p className="text-red-500 text-sm mt-1">{errors}</p>}
 					</div>
 					<button type="button" onClick = {onSavePotClick} className="text-xs w-full py-3 px-4 bg-black text-white font-normal rounded-md focus:outline-none">Add Pot</button>
 				</div>
@@ -154,3 +86,19 @@ export const PotAddModal = ({ closeModal }: any) => {
 	);
 
 }
+
+const colorOptions = [
+		{ key: 'Green', value: '#277C78' },
+		{ key: 'Yellow', value: '#FFFF00' },
+		{ key: 'Cyan', value: '#00FFFF' },      
+		{ key: 'Navy', value: '#000080' },
+		{ key: 'Red', value: '#FF0000' },
+		{ key: 'Purple', value: '#826CB0' },
+		{ key: 'Turquoise', value: '#40E0D0' },  
+		{ key: 'Brown', value: '#A52A2A' },
+		{ key: 'Megenta', value: '#FF00FF' },   
+		{ key: 'Blue', value: '#0000FF' },
+		{ key: 'Gray', value: '#626070' },
+		{ key: 'Army', value: '#4B5320' },        
+		{ key: 'Pink', value: '#FFC0CB' },
+	];
