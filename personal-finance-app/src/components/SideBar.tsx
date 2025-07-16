@@ -6,6 +6,7 @@ import recurringBills from "/images/icon-nav-recurring-bills.svg"
 import logoL from "/images/logo-large.svg";
 import { Link } from "react-router"
 
+
 export const SideBar = () => {
     const menu = [
         {icon: overview, name: "OverView"},
@@ -23,6 +24,7 @@ export const SideBar = () => {
                      <Link to={"/"+value.name.toString().toLowerCase().replace(" ", "-")}>
                         <img src={value.icon}/> {value.name}
                     </Link>
+
                 ))
             }
         </aside>

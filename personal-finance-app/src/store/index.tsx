@@ -99,7 +99,11 @@ const pot = createSlice({
     name: 'potReducer',
     initialState: initialDataState.pots,
     reducers: {
-        getPot: (state) =>  state,
+        getPot: (state) =>  {
+            state.map((k,v)=>console.log(k,v));
+            
+            return state;
+        },
         setPot : (state, action: PayloadAction<Pot>) => {
             state.push({
                 ...action.payload,
