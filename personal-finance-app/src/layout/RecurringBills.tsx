@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
-import { rootState } from "../store"
+import { rootState, Transaction } from "../store"
 import { useEffect, useState } from "react";
-import { setFilter, setSortOption } from "../store/index"
+import { setFilter, setSortData } from "../store/index"
 
 import iconsort from "/images/icon-sort-mobile.svg";
 import recurring from "/images/icon-recurring-bills.svg";
@@ -12,24 +12,22 @@ import paid from "/images/icon-bill-paid.svg";
 
 export const RecurringBills = () => {
     const dispatch = useDispatch();
-    const transactions = useSelector((state:rootState)=> state.dataReducer.filteredTransactions);
-    
-    const [searchTerm, setSearchTerm ] = useState(""); 
+    const transactions = useSelector((state: rootState) => state.dataReducer.transactions);
+    const searchKeyword = useSelector((state:any) => state.dataReducer);
+
+    const [keyword, setKeyword ] = useState(""); 
     const [sortBy , setSortBy ]  = useState(""); 
 
     const [BillsTotal , setBillsTotal] = useState<number>(); 
     const [PaidBills , setPaidBills] = useState<number>();     //지불 완료 total
     const [PaidCount, setPaidCount] = useState<number>();      //지불 완료 Count
     const [Upcoming , setUpcoming] = useState<number>();       //다가오는 청구서 금액
-     const [UpcomingCount, setUpcomingCount] = useState<number>();//다가오는 청구서 Count
+    const [UpcomingCount, setUpcomingCount] = useState<number>();//다가오는 청구서 Count
     const [DueSoon , setDueSoon] = useState<number>();          //곧 마감될 청구서 총 금액
-     const [DueSoonCount, setDueSoonCount] = useState<number>(); //곧 마감될 청구서 총 Count
+    const [DueSoonCount, setDueSoonCount] = useState<number>(); //곧 마감될 청구서 총 Count
     
-
     useEffect(()=> {
-       const today = new Date();
-
-        const filteredBills = transactions
+        const filteredBills = (transactions ?? [])
             .filter(
                 (item) =>
                 item.category === "Bills" &&
@@ -77,12 +75,13 @@ export const RecurringBills = () => {
     },[]);
 
 
+
     useEffect(()=> {
-       dispatch(setFilter(searchTerm));
-    },[searchTerm]);
+       dispatch(setFilter(keyword));
+    },[keyword]);
    
     useEffect(() => {
-        dispatch(setSortOption(sortBy));
+        dispatch(setSortData(sortBy));
     },[sortBy])
 
     // 서수 접미사 붙이기 함수
@@ -103,7 +102,7 @@ export const RecurringBills = () => {
     return (
         <div className="flex p-6 mx-auto my-auto">
              <div className="flex flex-col min-w-xs md:w-3xl lg:w-5xl">
-                <div className="flex mt-5 font-bold text-5xl">Recurring Bills</div>
+                <div className="flex mt-5 font-semibold text-4xl mb-8">Recurring Bills</div>
                 
                 <div className="flex flex-col lg:flex-row">
                     <div className="flex flex-col md:flex-row lg:w-1/3 lg:flex-col md:mb-8">
@@ -136,18 +135,18 @@ export const RecurringBills = () => {
                         <div className="flex">
                             <div className="flex relative  md:w-1/2">
                                 <input type="text" 
-                                    onChange={(e)=>{ setSearchTerm(e.target.value); }}
+                                    onChange={(e)=>{setKeyword(e.target.value)}}
                                     className="w-full rounded-md p-2 border-1 placeholder:text-slate-300 overflow-hidden" 
                                     placeholder={"Search bills"}
                                 >
                                 </input>
-                                <img src={searchImg} className="absolute top-[38%] right-[10%] bg-white"></img>
+                                <img src={searchImg} className="absolute top-[34%] right-[4%] bg-white"></img>
                             </div>
                             <div className="flex  w-full md:w-1/2 justify-end">
                                 <button id="toggleMobileBtn" className="block md:hidden">
                                     <img className="w-6"  src={iconsort} onClick={()=>{}}/>
                                 </button>
-                                <span className="flex hidden md:block text-gray-500 text-sm ">Sort by</span>
+                                <span className="flex  hidden md:flex md:items-center md:mr-3 text-gray-500 text-sm ">Sort by</span>
                                 <select name="sort"
                                     id="toggleSelectBtn"  
                                     onChange={(e)=>{ setSortBy(e.target.value); }} 
@@ -171,9 +170,9 @@ export const RecurringBills = () => {
                                 <div className="w-1/5 text-right pt-3 pb-3 ">Amount</div>
                             </div>     
                             <ul  className="divide-y  rounded-b-lg border-b-indigo-100">
-                            { transactions.length > 0 ? (
+                            { transactions && transactions.length > 0 ? 
                                 transactions.map((transaction, index) => {
-                                    const profileName = transaction.name.toLowerCase().replace(/\s+/g,'-');
+                                    const profileName = transaction.name.toLowerCase().replace(/\s+/g,'-').replace(/&/g, "and");
                                     const profilePath = `/images/avatars/`+profileName+`.jpg`;
                                     const ordinalSuffixDate = 'Monthly-'+ordinal_suffix_of(transaction.date);
                                     const amount = Math.abs(transaction.amount).toLocaleString();
@@ -196,10 +195,9 @@ export const RecurringBills = () => {
                                         </li>
                                     )
                                 }
-                            )
-                                ) : (
-                                    <li>No results found</li>
                                 )
+                                :  <li>No results found</li>
+                                
                             }
                             </ul>
                         </div>  

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { removePot } from "../../store";
 import close from "/images/icon-close-modal.svg";
 
-export const PotDeleteModal = ({ openModal, closeModal, modalType, id }: any) => {
+export const PotDeleteModal = ({ closeModal, id }: any) => {
 
 	const dispatch = useDispatch();
 	const onClickHandler = () => {
