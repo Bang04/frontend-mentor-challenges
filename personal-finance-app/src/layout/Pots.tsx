@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { rootState } from "../store"
 
-import { Card } from "../components/Card"
+import { Card } from "../components/card"
 import { PotAddModal } from "../components/modal/PotAddModal";
 import { PotEditModal } from "../components/modal/PotEditModal";
 import { PotDeleteModal } from "../components/modal/PotDeleteModal";

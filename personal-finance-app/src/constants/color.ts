@@ -1,0 +1,15 @@
+export const COLOR = [
+    { key: 'Green', value: '#277C78' },
+    { key: 'Yellow', value: '#FFFF00' },
+    { key: 'Cyan', value: '#00FFFF' },      
+    { key: 'Navy', value: '#000080' },
+    { key: 'Red', value: '#FF0000' },
+    { key: 'Purple', value: '#826CB0' },
+    { key: 'Turquoise', value: '#40E0D0' },  
+    { key: 'Brown', value: '#A52A2A' },
+    { key: 'Megenta', value: '#FF00FF' },   
+    { key: 'Blue', value: '#0000FF' },
+    { key: 'Gray', value: '#626070' },
+    { key: 'Army', value: '#4B5320' },        
+    { key: 'Pink', value: '#FFC0CB' },
+];

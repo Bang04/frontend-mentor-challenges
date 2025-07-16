@@ -1,19 +1,12 @@
 import { useSelector } from "react-redux";
-import { Card } from "../components/Card"
-import { rootState } from "../store";
-import { StringKeyObject } from "../store/type";
-import { Bar } from "../components/Bar";
-import { Circular } from "../components/Donut";
-import { DonutChart } from "../components/DonutChart";
+import { Card } from "../../components/card"
+import { rootState } from "../../store";
+import { StringKeyObject } from "../../store/type";
+import { Donut } from "../../components/donut";
+import { useState } from "react";
+import { BudgetsAddModal } from "./BudgetsAddModal";
+import { Modal } from "../../components/modal";
 
-
-// 사용 예시
-const sampleData = [
-    { value: 40, color: "tomato" },
-    { value: 6, color: "orange" },
-    { value: 11, color: "mediumseagreen" },
-    { value: 43, color: "royalblue" },
-  ];
 
 function entries<T extends object>(obj: T): [keyof T, T[keyof T]][] {
     return Object.entries(obj) as [keyof T, T[keyof T]][];
@@ -28,6 +21,16 @@ function setDate<T extends Date>  (date: T): string {
 }
 
 export const Budgets = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleModal = (e:any) => {
+        setIsOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsOpen(false);
+    }
+
     //1. get redux data
     const budgets = useSelector((state:rootState)=> state.dataReducer.budgets);
     const transactions = useSelector((state:rootState)=>state.dataReducer.transactions);
@@ -80,8 +83,9 @@ export const Budgets = () => {
         <div className="bg-[#F8F4F0] w-screen">
             <div className="flex justify-between m-10">
                 <div className="font-semibold text-xl">Budgets</div>
-                <button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    + Add New Budgets</button>
+                <button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={(e)=>handleModal(e)}>
+                    + Add New Budgets
+                </button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-5 gap-5 mx-10 my-10">
                 <div className="col-span-2">
@@ -89,8 +93,7 @@ export const Budgets = () => {
                         <Card link="">
                             <div className="">
                                 <div>
-                                    <Circular info={info}></Circular>
-                                    {/* <DonutChart data={sampleData} /> */}
+                                    <Donut info={info}></Donut>
                                 </div>
                                 <div className="font-bold">
                                     Spending Summary
@@ -121,7 +124,7 @@ export const Budgets = () => {
                                                 Maxinum of {value?.info[0].maximum}
                                             </div>
                                             <div>
-                                                <Bar total={value?.info[0].maximum} spent={value?.latestSpent} color={value?.info[0].theme}></Bar>
+                                                <bar total={value?.info[0].maximum} spent={value?.latestSpent} color={value?.info[0].theme}></bar>
                                             </div>
                                             <div className="grid grid-cols-2 text-xs">
                                                 <div className="col-span-1">
@@ -168,6 +171,9 @@ export const Budgets = () => {
                     }
                 </div>
             </div>
+
+            <BudgetsAddModal isOpen={isOpen} onClose={closeModal}></BudgetsAddModal>
+
         </div>
     )
 }

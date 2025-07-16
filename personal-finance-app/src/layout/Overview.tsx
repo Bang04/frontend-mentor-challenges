@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Card } from "../components/Card";
+import { Card } from "../components/card";
 import { rootState } from "../store";
 import pot from "/images/icon-pot.svg";
 
