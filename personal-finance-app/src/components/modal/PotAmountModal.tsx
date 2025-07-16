@@ -49,7 +49,6 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
 
     //초기화 
     const initialize = () =>{
-        console.log("initialize 호출");
        if ( inputValue === 0 && 
             pot &&
             typeof pot.total === "number" &&

@@ -63,7 +63,7 @@ export const PotAddModal = ({ closeModal }: any) => {
 					<div className="pb-3">
 						<label htmlFor="name" className="block text-sm font-medium text-gray-500">Pot Name</label>
 						<input type="text" name="name" placeholder="e.g.Rainy Days" onChange={(e) => setPotName(e.target.value)} onKeyUp={handlerKeyUp}  maxLength={30} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-						<p className="text-xs text-right text-gray-400 pt-1">{charCnt} characters left</p>
+						<p className="text-xs text-right text-gray-400 pt-1">30 characters left</p>
 					</div>
 					<div className="pb-3">
 						<label htmlFor="target" className="block text-sm font-medium text-gray-700">Target</label>
