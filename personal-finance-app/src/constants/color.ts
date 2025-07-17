@@ -1,6 +1,6 @@
 export const COLOR = [
-    { key: 'Green', value: '#277C78' },
-    { key: 'Yellow', value: '#FFFF00' },
+    { key: 'Green', value: '#277C78', disabled: true },
+    { key: 'Yellow', value: '#FFFF00', disabled: true },
     { key: 'Cyan', value: '#00FFFF' },      
     { key: 'Navy', value: '#000080' },
     { key: 'Red', value: '#FF0000' },

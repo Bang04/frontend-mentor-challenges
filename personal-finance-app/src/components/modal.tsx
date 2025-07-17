@@ -1,22 +1,29 @@
 import { PropsWithChildren } from "react";
 import close from "/images/icon-close-modal.svg";
 
-type modal = {
-    IsOpen: boolean
+export type modalType = "ADD" | "EDIT" | "REMOVE" | "ETC";
+
+export type modal = {
+	type: modalType,
+    isOpen: boolean
     closeModal: ()=>void
-	save: ()=>void
-    title: string
-    description: string
-	button: {name: string, type: string}
+	save?: ()=>void
+    title?: string
+    description?: string
+	button?: {name: string, type: string}
+	prop?: any
 } & PropsWithChildren
 
-export const Modal = ({ IsOpen, closeModal, title, description, button, children, save }:modal) => {
+export const Modal = ({ isOpen, closeModal, title, description, button, children, save }:modal) => {
     
-    if(!IsOpen) return null;
+    if(!isOpen) return null;
 
-    const handleModal = (_e: any) => {
-        closeModal();
-    }
+	const handleModal = (e: any) => {
+		if(save){
+			save();
+			closeModal();
+		}
+	};
 
     return (
         <div className="fixed inset-0 z-50 flex justify-center items-center bg-opacity-100">
@@ -25,7 +32,7 @@ export const Modal = ({ IsOpen, closeModal, title, description, button, children
 				<div className="flex justify-between pb-5">
 					<span className="text-2xl self-center font-semibold">{ title }</span>
 					<button
-						onClick={(e:any)=> handleModal(e)}
+						onClick={(e:any)=> closeModal()}
 						className="p-2 rounded hover:bg-gray-100">
 							<img src={close} />
 					</button>
@@ -34,7 +41,7 @@ export const Modal = ({ IsOpen, closeModal, title, description, button, children
 					<p className="text-sm text-gray-500">{ description }</p>
 				</div>
                 { children }
-                <button type="button" onClick = {()=>save()} className="text-xs w-full py-3 px-4 bg-black text-white font-normal rounded-md focus:outline-none">{ button.name  }</button>
+                <button type="button" onClick = {(e)=>handleModal(e)} className="text-xs w-full py-3 px-4 bg-black text-white font-normal rounded-md focus:outline-none">{ button?.name  }</button>
             </div>
         </div>
     );

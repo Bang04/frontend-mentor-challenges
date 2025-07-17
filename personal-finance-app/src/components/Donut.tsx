@@ -1,5 +1,6 @@
 export type donut = {
   total: number,
+  spent: number,
   data: {
     color: string,
     value: number
@@ -70,7 +71,7 @@ export const Donut = ({ info }: { info: donut}) => {
               </svg> 
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <p className="text-3xl font-bold m-2">
-                  $338
+                  ${info.spent}
                 </p>
                 <p className="text-xs text-gray-400">
                   of ${info.total} limit
