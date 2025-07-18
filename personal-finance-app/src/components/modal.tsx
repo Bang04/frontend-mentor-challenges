@@ -1,26 +1,26 @@
 import { PropsWithChildren } from "react";
 import close from "/images/icon-close-modal.svg";
 
-export type modalType = "ADD" | "EDIT" | "REMOVE" | "ETC";
+export type modalType = "ADD" | "EDIT" | "REMOVE" ;
 
 export type modal = {
 	type: modalType,
     isOpen: boolean
     closeModal: ()=>void
-	save?: ()=>void
+	edit?: ()=>void
     title?: string
     description?: string
-	button?: {name: string, type: string}
+	buttons?: {name: string, type: string, color: {text: string, background: string}}[]
 	prop?: any
 } & PropsWithChildren
 
-export const Modal = ({ isOpen, closeModal, title, description, button, children, save }:modal) => {
+export const Modal = ({ type, isOpen, closeModal, title, description, buttons, children, edit }:modal) => {
     
     if(!isOpen) return null;
 
 	const handleModal = (e: any) => {
-		if(save){
-			save();
+		if(edit){
+			edit();
 			closeModal();
 		}
 	};
@@ -41,7 +41,12 @@ export const Modal = ({ isOpen, closeModal, title, description, button, children
 					<p className="text-sm text-gray-500">{ description }</p>
 				</div>
                 { children }
-                <button type="button" onClick = {(e)=>handleModal(e)} className="text-xs w-full py-3 px-4 bg-black text-white font-normal rounded-md focus:outline-none">{ button?.name  }</button>
+				{
+					buttons?.map((button,_index)=> (
+						type == button.type ?
+							<button type="button" onClick = {(e)=>handleModal(e)} className={button.color.background+" my-1 cursor-pointer text-xs w-full py-3 px-4 font-normal rounded-md focus:outline-none "+button.color.text}>{ button?.name  }</button>:<></>
+					))
+				}
             </div>
         </div>
     );

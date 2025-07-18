@@ -3,7 +3,7 @@ import { Card } from "../../components/card"
 import { rootState } from "../../store";
 import { StringKeyObject } from "../../store/type";
 import { Donut } from "../../components/donut";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BudgetsModal } from "./BudgetsModal";
 import { Bar } from "../../components/bar";
 import { modalType } from "../../components/modal";
@@ -24,8 +24,10 @@ function setDate<T extends Date>  (date: T): string {
 export const Budgets = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [modalType, setModalType] = useState<modalType>("ADD");
+    const [selectedData, setSelectedData] = useState({});
 
-    const handleModal = (type: modalType) => {
+    const handleModal = (type: modalType, value: any) => {
+        setSelectedData(value);
         setModalType(type);
         setIsOpen(true);
     };
@@ -35,7 +37,7 @@ export const Budgets = () => {
     }
 
     //1. get redux data
-    const budgets = useSelector((state:rootState)=> state.dataReducer.budgets);
+    const budgets = useSelector((state:rootState)=> state.budgetReducer);
     const transactions = useSelector((state:rootState)=>state.dataReducer.transactions);
 
     //2. budgets category name (already exist)
@@ -131,8 +133,10 @@ export const Budgets = () => {
                                     <div className="flex flex-col divide-y-3 p-3" key={index}>
                                         {/* FIXME */}
                                         <Card link={0}>
-                                            {/* <div className="" onClick={()=> handleModal("EDIT")}>임시 EDIT</div>
-                                            <div className="" onClick={()=> handleModal("REMOVE")}>임시 DELETE</div> */}
+                                            <div className="text-xs text-right">
+                                                <div className="" onClick={()=> handleModal("EDIT", value)}>임시 EDIT</div>
+                                                <div className="" onClick={()=> handleModal("REMOVE", value)}>임시 DELETE</div>
+                                            </div>
 
                                             <div className="flex flex-row items-center">
                                                 <div className={`w-3 h-3 rounded-full `} style={{ backgroundColor: value?.info[0].theme }}></div>
@@ -194,7 +198,7 @@ export const Budgets = () => {
                 </div>
             </div>
 
-            <BudgetsModal isOpen={isOpen} closeModal={closeModal} type={modalType} prop={"test"}></BudgetsModal>
+            <BudgetsModal isOpen={isOpen} closeModal={closeModal} type={modalType} prop={selectedData}></BudgetsModal>
         </div>
     )
 }

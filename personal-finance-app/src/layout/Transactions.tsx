@@ -3,6 +3,7 @@ import { Card } from "../components/card"
 import { rootState } from "../store";
 import { useState } from "react";
 import  search  from "/images/icon-search.svg"
+import { Dropdown } from "../components/dropdown";
 
 export const Transactions = () => {
     const _data = useSelector((state:rootState)=> state.dataReducer);
@@ -20,17 +21,19 @@ export const Transactions = () => {
         <div className="bg-[#F8F4F0] flex mx-auto my-auto">
             <Card title="" link="">
                 <div className="">
-                    <div className="grid">
+                    <div className="flex justify-between">
                         <div className="relative">
                             <input type="text" className="rounded-md w-[30%] p-2 border-1 placeholder:text-slate-300 border-slate-300 overflow-hidden" placeholder={"Search transaction"}>
                             </input>
                             <img src={search} className="absolute top-[30%] right-[71%] bg-white"></img>
                         </div>
                         <div>
-                            
-                        </div>
-                        <div>
-                            
+                            <span>
+                                <Dropdown title="Sort"></Dropdown>
+                            </span>
+                            <span>
+                                <Dropdown title="Transaction"></Dropdown>
+                            </span>
                         </div>
                     </div>
                     <div className="w-[80vw] my-5 text-xs">

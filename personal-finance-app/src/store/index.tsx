@@ -52,15 +52,6 @@ const _data = createSlice({
     name: 'dataReducer',
     initialState: initialDataState,
     reducers: {
-        add: (state, action)=> {
-            state.budgets.push(action.payload);
-        },
-        edit: (state, action)=> {
-
-        },
-        remove: (state, action)=> {
-
-        },
         getKeyword: (state:any) =>  {
             return state
         },
@@ -104,6 +95,28 @@ const _data = createSlice({
     }
 });
 
+const budget  = createSlice({
+    name: 'budgetReducer',
+    initialState: initialDataState.budgets,
+    reducers: {
+        edit: (state, action)=> {
+            const data = state.filter((v:any,i:number)=> v.category==action.payload.category);
+
+            if(data.length == 0){
+                state.push(action.payload);
+            } else{
+                state.map((v,i)=> (
+                    (v.category == action.payload.category) ?  Object.assign(v, action.payload):v
+                ));
+            }       
+        },
+        remove: (state, action)=> {
+            return state.filter((v,i)=> v.category != action.payload.category);
+        }
+    }
+});
+
+
 const pot = createSlice({
     name: 'potReducer',
     initialState: initialDataState.pots,
@@ -140,15 +153,17 @@ const pot = createSlice({
 const store = configureStore({
     reducer: {
         dataReducer: _data.reducer,
-        potReducer : pot.reducer
+        potReducer : pot.reducer,
+        budgetReducer: budget.reducer
     }
 });
 
 
 // Rename get from _data.actions to dataGet to avoid naming conflict
-export const { setSortOption, add, edit, remove } = _data.actions;
+export const { setSortOption } = _data.actions;
 export const { getKeyword,setKeyword, setFilter , setSortData } = _data.actions;
 export const { getPot , setPot, updatePot, removePot } = pot.actions;
+export const { edit, remove } = budget.actions;
 export default store;
 export type rootState = ReturnType<typeof store.getState>
 
