@@ -1,4 +1,5 @@
 export const CATEGORIES = [
+    {key: "", value: "All transaction"},
     {key: "Entertainment", value: "Entertainment"},
     {key: "Bills", value: "Bills"},
     {key: "Groceries", value: "Groceries"},
