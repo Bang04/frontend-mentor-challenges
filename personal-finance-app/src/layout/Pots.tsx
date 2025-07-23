@@ -73,8 +73,7 @@ export const Pots = () => {
                     
                         <div key={index} className="flex">
                             <input type="hidden" name="id" value={item.id} />
-                              <div className="bg-white rounded-xl shadow-md p-4 hover:shadow-lg transition-shadow cursor-pointer w-full">
-                          
+                            <Card link="">
                                 <div className="flex justify-between mb-6">
                                     <div className="flex flex-row items-center">
                                         <div className={`w-3 h-3 rounded-full `} style={{ backgroundColor: item.theme }}></div>
@@ -104,9 +103,8 @@ export const Pots = () => {
                                         <button onClick={() => handleEditOpen("withdraw", item.id)} className="p-3 text-sm bg-[#F8F4F0] font-semibold flex-1 rounded-lg">Withdraw</button>
                                     </div>
                                 </div>
-                            </div>
+                            </Card>
                         </div>
-                    
                     ))
                     ) : (
                     <div>No results found</div>
