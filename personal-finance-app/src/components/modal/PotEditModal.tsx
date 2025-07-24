@@ -25,6 +25,7 @@ export 	const colorOptions = [
 		{ key: 'Pink', value: '#F2CDAC' },
 ];
 
+// TODO: Modal 공통 모듈로 리팩토링 하기 
 export const PotEditModal = ({ closeModal, id }: any) => {
 	const dispatch = useDispatch();
 	const pot = useSelector((state: rootState) =>
