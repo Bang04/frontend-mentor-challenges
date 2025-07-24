@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 
 import { useSelector } from "react-redux";
-import { Pot, rootState } from "../store"
+import { Pot, rootState } from "../store/_index"
 
 import { Card } from "../components/card"
 import { PotAddModal } from "../components/modal/PotAddModal";

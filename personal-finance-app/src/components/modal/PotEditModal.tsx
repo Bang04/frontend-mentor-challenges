@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
-import { rootState } from "../../store";
+import { rootState } from "../../store/_index";
 import { useDispatch } from "react-redux";
-import { updatePot } from "../../store";
-import { Pot } from "../../store";
+import { updatePot } from "../../store/_index";
+import { Pot } from "../../store/_index";
 
 import close from "/images/icon-close-modal.svg";
 

@@ -1,32 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Card } from "../../components/card"
-import { rootState } from "../../store";
-import { StringKeyObject } from "../../store/type";
-import { Donut } from "../../components/donut";
+import { get, infos, rootState } from "../../store/_index";
+import { StringKeyObject, commonType } from "../../store/type";
 import { useState } from "react";
 import { BudgetsModal } from "./BudgetsModal";
 import { Bar } from "../../components/bar";
 import { modalType } from "../../components/modal";
 
 
-function entries<T extends object>(obj: T): [keyof T, T[keyof T]][] {
-    return Object.entries(obj) as [keyof T, T[keyof T]][];
-}
-
-function setDate<T extends Date>  (date: T): string {
-    const year = date.toLocaleDateString("en", { year: "numeric"});
-    const month = date.toLocaleDateString("en", {month: "short"});
-    const day = date.toLocaleDateString("en", {day: "numeric"});
-
-    return [day, month, year].join(" ");
-}
-
 export const Budgets = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [modalType, setModalType] = useState<modalType>("ADD");
     const [selectedData, setSelectedData] = useState({});
 
-    const handleModal = (type: modalType, value: any) => {
+    const handleModal = (type: modalType, value?: any) => {
         setSelectedData(value);
         setModalType(type);
         setIsOpen(true);
@@ -41,7 +28,7 @@ export const Budgets = () => {
     const transactions = useSelector((state:rootState)=>state.dataReducer.transactions);
 
     //2. budgets category name (already exist)
-    const category = budgets.map((value)=>value.category);
+    const category = budgets.data.map((value)=>value.category);
 
     //3. filtering transactions of budgets category
     const budgetsCategory = transactions.filter((value)=>category.includes(value.category));
@@ -53,10 +40,10 @@ export const Budgets = () => {
         return acc;
     }, {});
 
-    const latest = entries(categoryGroupedData).map(([key,value]:[string|number, {}[]])=> {
-            const info = budgets.filter(v=>v.category==key);
-            const latestSpent = value.reduce((curr:number,next:object)=> {
-                curr +=  (new Date(next.date).getMonth() == 7) ?  Math.abs(next?.amount) : 0;
+    const latest = commonType.entries(categoryGroupedData).map(([key,value]:[string|number, {}[]])=> {
+            const info = budgets.data.filter(v=>v.category==key);
+            const latestSpent = value.reduce((curr:number,next:any)=> {
+                curr +=  (new Date(next.date).getMonth() == 7) ?  Math.abs(next.amount) : 0;
                 return curr;
             }, 0);
             const remaining = info[0].maximum - latestSpent;
@@ -87,7 +74,8 @@ export const Budgets = () => {
 
     const dispatch = useDispatch();
 
-    // dispatch(test(info));
+    dispatch(infos(latest));
+    dispatch(get());  
 
     return (
         <div className="bg-[#F8F4F0] w-screen">
@@ -103,14 +91,14 @@ export const Budgets = () => {
                         <Card link="">
                             <div className="">
                                 <div>
-                                    <Donut info={info}></Donut>
+                                    {/* <Donut info={info}></Donut> */}
                                 </div>
                                 <div className="font-bold">
                                     Spending Summary
                                 </div> 
                                 <div>
                                 {
-                                    info.data.map((info,index)=> (
+                                    budgets.data.map((info:any,index)=> (
                                         <div key={index} className={"flex justify-between flex-row m-3 border-l-3 px-3"} style={{"borderLeftColor":`${info.color}`}}>
                                             <span className="text-xs py-1">{info.name}</span>
                                             <span className="">

@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { Modal, modal } from "../../components/modal";
 import { Select } from "../../components/select";
-import { edit, remove } from "../../store";
+import { edit, remove } from "../../store/_index";
 import { CATEGORIES } from "../../constants/categories";
 import { COLOR } from "../../constants/color";
 import { useState } from "react";

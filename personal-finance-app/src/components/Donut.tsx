@@ -19,10 +19,10 @@ const rounding = (info: donut) => {
   const percent = raw.map((v,i)=> Math.round(v*100/rawTotal));
 
   // 반올림 하는거 잘 분배하는 필요!
-  info.data.map((v,i)=> {
-    v.value = percent[i];
-    return v;
-  }); 
+  info.data.map((v,i)=> ({
+    ...v,
+    value: percent[i]
+  })); 
 
   return info;
 };

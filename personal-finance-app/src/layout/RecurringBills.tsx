@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
-import { rootState, Transaction } from "../store"
+import { rootState, Transaction } from "../store/_index"
 import { useEffect, useState } from "react";
-import { setFilter, setSortData } from "../store/index"
+import { setFilter, setSortData } from "../store/_index"
 
 import iconsort from "/images/icon-sort-mobile.svg";
 import recurring from "/images/icon-recurring-bills.svg";
