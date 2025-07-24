@@ -30,6 +30,9 @@ export interface Pot{
     theme : string;
 }
 
+
+
+
 const initialDataState: { 
     balance: Balance, 
     transactions: Transaction[], 
@@ -127,18 +130,47 @@ const pot = createSlice({
     }
 });
 
+export interface Toast{
+    id : string;
+    name : string;
+    target : number;
+    total : number;
+    theme : string;
+}
+interface ToastState {
+    toasts: Toast[];
+}
+const initialToastState: ToastState = { toasts: [] };
+
+const toast = createSlice({
+    name: 'toastReducer',
+    initialState: initialToastState,
+    reducers: {
+        setToast: (state, action: PayloadAction<Toast>) => {
+            state.toasts.push(action.payload);
+        },
+        removeToast: (state, action: PayloadAction<string>) => {
+            state.toasts = state.toasts.filter(toast => toast.id !== action.payload);
+        }
+    }
+});
+
 
 const store = configureStore({
     reducer: {
         dataReducer: _data.reducer,
-        potReducer : pot.reducer
+        potReducer : pot.reducer,
+        toastReducer : toast.reducer,
     }
 });
+
 
 
 // Rename get from _data.actions to dataGet to avoid naming conflict
 export const { getKeyword,setKeyword, setFilter , setSortData } = _data.actions;
 export const { getPot , setPot, updatePot, removePot } = pot.actions;
+export const { setToast,removeToast} = toast.actions;
+
 export default store;
 export type rootState = ReturnType<typeof store.getState>
 

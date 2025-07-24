@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-
-import { useSelector } from "react-redux";
-import { Pot, rootState } from "../store"
+import { useSelector, useDispatch } from "react-redux";
+import { Pot, rootState ,setToast } from "../store";
 
 import { Card } from "../components/Card"
 import { PotAddModal } from "../components/modal/PotAddModal";
@@ -11,9 +10,14 @@ import { PotDeleteModal } from "../components/modal/PotDeleteModal";
 import { PotDropModal } from "../components/modal/PotDropModal";
 import { PotAmountModal } from "../components/modal/PotAmountModal";
 
+import { ToastContainer } from "../components/toast/ToastContainer";
+
 import dots from "/images/dots-three-thin.svg";
 
 export const Pots = () => {
+
+    const dispatch = useDispatch();
+    
     const pots = useSelector((state:rootState)=> state.potReducer);
 
     const [data , setData ] = useState<Pot[]>();
@@ -51,6 +55,11 @@ export const Pots = () => {
         });
    
     }
+    //Toast 호출
+    const handlerToast = ({itemId} : any) =>{
+         const toastId = Date.now();
+         dispatch(setToast({toastId, itemId, 3000}));
+    }
 
     //3.NewAdd, Edit Add, 4.Edit Withdraw
     const handleEditOpen = (type:string, id : string) => {
@@ -80,6 +89,8 @@ export const Pots = () => {
                                         <span className="font-semibold pl-3">{item.name}</span>
                                     </div>
                                     <div className="w-10" onClick={(e) => handleDropModal("drop", e,item.id)} ><img src={dots} alt="" /></div>
+
+                                    <div className="w-10" onClick={(e) => handlerToast(e,item.id)} ><img src={dots} alt="" /></div>
                                 </div>
                                 <div>
                                     <div className="flex justify-between mb-4"> 
@@ -131,6 +142,8 @@ export const Pots = () => {
                         return null;
                 }
             })()}
+
+            <ToastContainer />
         </div>
   );
 };
