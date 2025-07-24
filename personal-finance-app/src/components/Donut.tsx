@@ -1,5 +1,6 @@
 export type donut = {
   total: number,
+  spent: number,
   data: {
     color: string,
     value: number
@@ -26,14 +27,14 @@ const rounding = (info: donut) => {
   return info;
 };
 
-export const Circular = ({ info }: { info: donut}) => {
+export const Donut = ({ info }: { info: donut}) => {
     let offset = 0;
     const test = rounding(info);
 
     return (
         <div className="flex justify-center itmes-center">
             <div className="relative">
-              <svg width={200} height={200} viewBox="0 0 42 42">
+               <svg width={300} height={300} viewBox="0 0 42 42">
               //기본 배경 원
                 <circle
                   cx="21"
@@ -49,24 +50,32 @@ export const Circular = ({ info }: { info: donut}) => {
                     offset += v.value;
 
                     return (
-                      <g key={i}>
-                        <circle
-                        cx="21"
-                        cy="21"
-                        r="15.9"
-                        stroke={v.color}
-                        stroke-width="5"
-                        fill="transparent"
-                        stroke-dasharray={`${v.value} ${100-v.value}`}
-                        stroke-dashoffset={dd}
-                      />
-                      </g>
+                      <>
+                        <g key={i}>
+                          <circle
+                            cx="21"
+                            cy="21"
+                            r="15.9"
+                            stroke={v.color}
+                            stroke-width="5"
+                            fill="transparent"
+                            stroke-dasharray={`${v.value} ${100-v.value}`}
+                            stroke-dashoffset={dd}
+                        />                        
+                        </g>
+                      </>
                     )
                   })
                 }
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center text-xl font-bold text-sky-500">
-                70%
+  
+              </svg> 
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <p className="text-3xl font-bold m-2">
+                  ${info.spent}
+                </p>
+                <p className="text-xs text-gray-400">
+                  of ${info.total} limit
+                </p>
               </div>
             </div>
         </div>

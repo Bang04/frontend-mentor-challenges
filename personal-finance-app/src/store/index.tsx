@@ -55,7 +55,7 @@ const _data = createSlice({
     name: 'dataReducer',
     initialState: initialDataState,
     reducers: {
-        getKeyword: (state) =>  {
+        getKeyword: (state:any) =>  {
             return state
         },
         setKeyword: (state, action) =>  {
@@ -71,6 +71,7 @@ const _data = createSlice({
         }, 
         setSortData : (state, action ) => {
             const sortData = [...state.transactions];
+
             switch(action.payload){
                 case 'Latest':
                     sortData.sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -93,10 +94,33 @@ const _data = createSlice({
                 default :
                     break;
             }
-              state.transactions = sortData;
+            
+            state.transactions = sortData;
         },
     }
 });
+
+const budget  = createSlice({
+    name: 'budgetReducer',
+    initialState: initialDataState.budgets,
+    reducers: {
+        edit: (state, action)=> {
+            const data = state.filter((v:any,i:number)=> v.category==action.payload.category);
+
+            if(data.length == 0){
+                state.push(action.payload);
+            } else{
+                state.map((v,i)=> (
+                    (v.category == action.payload.category) ?  Object.assign(v, action.payload):v
+                ));
+            }       
+        },
+        remove: (state, action)=> {
+            return state.filter((v,i)=> v.category != action.payload.category);
+        }
+    }
+});
+
 
 const pot = createSlice({
     name: 'potReducer',
@@ -156,21 +180,78 @@ const toast = createSlice({
 });
 
 
+const transactions = createSlice({
+    name: "transactionsReducer",
+    initialState: {data: initialDataState.transactions, filteredData: [] as any},
+    reducers: {
+        filteredByKeyword: (state, action) => {
+            if(action.payload=="")
+                state.filteredData = state.data;
+            else
+                state.filteredData = state.data.filter((value, index)=> value.name.indexOf(action.payload) > -1);
+
+            return state;
+        },
+        filteredByCategory: (state, action) => {
+            if(action.payload=="")
+                state.filteredData = state.data;
+            else
+                state.filteredData = state.data.filter((value, index)=> value.category == action.payload);
+
+            return state;
+        },
+        sortByOptions : (state, action ) => {
+            const sortData = [...state.filteredData] ?? [...state.data];
+
+            switch(action.payload){
+                case 'Latest':
+                    sortData.sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+                    break;
+                case 'Oldest':
+                    sortData.sort((a,b) => new Date(a.date).getTime() -new Date(b.date).getTime());
+                    break;
+                case 'AtoZ':
+                    sortData.sort((a,b) => a.name.localeCompare(b.name));
+                    break;
+                case 'ZtoA':
+                    sortData.sort((a,b) => b.name.localeCompare(a.name));
+                    break;
+                case 'Highest':
+                    sortData.sort((a,b)=> b.amount - a.amount);
+                    break;
+                case 'Lowest':
+                    sortData.sort((a,b) => a.amount - b.amount);
+                    break;
+                default :
+                    break;
+            }
+            
+            state.filteredData = sortData;
+        }
+    }
+})
+
+
 const store = configureStore({
     reducer: {
         dataReducer: _data.reducer,
         potReducer : pot.reducer,
         toastReducer : toast.reducer,
+        budgetReducer: budget.reducer,
+        transactionsReducer: transactions.reducer
     }
 });
 
 
 
 // Rename get from _data.actions to dataGet to avoid naming conflict
+export const { setSortOption } = _data.actions;
 export const { getKeyword,setKeyword, setFilter , setSortData } = _data.actions;
 export const { getPot , setPot, updatePot, removePot } = pot.actions;
 export const { setToast,removeToast} = toast.actions;
 
+export const { edit, remove } = budget.actions;
+export const { filteredByCategory, filteredByKeyword, sortByOptions } = transactions.actions;
 export default store;
 export type rootState = ReturnType<typeof store.getState>
 

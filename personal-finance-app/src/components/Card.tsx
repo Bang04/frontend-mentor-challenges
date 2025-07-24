@@ -1,9 +1,10 @@
 import { PropsWithChildren } from "react";
+import dots from "/images/dots-three-thin.svg";
 
 type card = {
     title?: string;
     subTitle?: string;
-    link?: string;
+    link?: string | SVGAElement | number;
     backColor?: string;
 } & PropsWithChildren;
 
@@ -16,8 +17,15 @@ export const Card = (prop: card) => {
         }>
             <div className="flex justify-between">
                 <div className="font-bold text-xl">{prop.title}</div>
-                <div className="text-[#B3B3B3] text-sm">
-                    {prop.link} <span className={"text-2xl ml-3 "+ (prop.link==""?"hidden":"")}>▸</span>
+                {/* FIXME 
+                klsdjfa*/}
+                <div className="cursor-pointer">
+                    {
+                       typeof prop.link == "string" ? 
+                        <span className="text-xs text-gray-500"> {prop.link} </span>
+                            : 
+                        <img src={dots} width={20} height={20}></img>
+                    }
                 </div>
             </div>
             <div className="">

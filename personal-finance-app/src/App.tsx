@@ -1,9 +1,9 @@
 import { Route, Routes } from 'react-router'
 import './App.css'
-import { SideBar } from './components/SideBar'
+import { SideBar } from './layout/SideBar'
 import { OverView } from './layout/Overview'
 import { Transactions } from './layout/Transactions'
-import { Budgets } from './layout/Budgets'
+import { Budgets } from './layout/budget/Budgets'
 import { Pots } from './layout/Pots'
 import { RecurringBills } from './layout/RecurringBills'
 
