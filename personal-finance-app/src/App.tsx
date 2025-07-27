@@ -6,10 +6,12 @@ import { Transactions } from './layout/Transactions'
 import { Budgets } from './layout/budget/Budgets'
 import { Pots } from './layout/Pots'
 import { RecurringBills } from './layout/RecurringBills'
+import { ToastProvider } from "./components/toast/ToastProvider";
 
 function App() {
 
   return (
+    <ToastProvider>
     <div className='flex flex-row w-screen bg-[#F8F4F0]'>
       <SideBar></SideBar>
       <Routes>
@@ -20,6 +22,7 @@ function App() {
         <Route path='/recurring-bills' element={<RecurringBills />}></Route>
       </Routes>
     </div>
+     </ToastProvider>
   )
 }
 

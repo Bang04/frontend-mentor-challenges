@@ -154,27 +154,23 @@ const pot = createSlice({
     }
 });
 
+export const TOAST_DELAY = 3000;
+
 export interface Toast{
-    id : string;
-    name : string;
-    target : number;
-    total : number;
-    theme : string;
+    id: number; 
+    itemId : number;
 }
-interface ToastState {
-    toasts: Toast[];
-}
-const initialToastState: ToastState = { toasts: [] };
+let  toasts: Toast[] = [];
 
 const toast = createSlice({
     name: 'toastReducer',
-    initialState: initialToastState,
+    initialState: toasts,
     reducers: {
         setToast: (state, action: PayloadAction<Toast>) => {
-            state.toasts.push(action.payload);
+            state.push(action.payload);
         },
-        removeToast: (state, action: PayloadAction<string>) => {
-            state.toasts = state.toasts.filter(toast => toast.id !== action.payload);
+        removeToast: (state, action: PayloadAction<number>) => {
+            return state.filter(toast => toast.id !== action.payload);
         }
     }
 });
