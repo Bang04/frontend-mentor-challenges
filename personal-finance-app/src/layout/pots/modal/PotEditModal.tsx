@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 import close from "/images/icon-close-modal.svg";
-import { RootState } from "../../store";
-import { Pot } from "../../store/slices/types";
+import { RootState } from "../../../store";
+import { Pot } from "../../../store/slices/types";
 
 
 export 	const colorOptions = [

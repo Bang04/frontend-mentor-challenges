@@ -4,9 +4,9 @@ import { SideBar } from './layout/SideBar'
 import { OverView } from './layout/Overview'
 import { Transactions } from './layout/Transactions'
 import { Budgets } from './layout/budget/Budgets'
-import { Pots } from './layout/Pots'
+import { Pots } from './layout/pots/Pots'
 import { RecurringBills } from './layout/RecurringBills'
-import { ToastProvider } from "./components/toast/ToastProvider";
+import { ToastProvider } from "./components/toast/provider";
 
 function App() {
 
