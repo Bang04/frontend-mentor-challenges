@@ -30,6 +30,9 @@ export interface Pot{
     theme : string;
 }
 
+
+
+
 const initialDataState: { 
     balance: Balance, 
     transactions: Transaction[], 
@@ -151,6 +154,27 @@ const pot = createSlice({
     }
 });
 
+export const TOAST_DELAY = 3000;
+
+export interface Toast{
+    id: number; 
+    itemId : number;
+}
+let  toasts: Toast[] = [];
+
+const toast = createSlice({
+    name: 'toastReducer',
+    initialState: toasts,
+    reducers: {
+        setToast: (state, action: PayloadAction<Toast>) => {
+            state.push(action.payload);
+        },
+        removeToast: (state, action: PayloadAction<number>) => {
+            return state.filter(toast => toast.id !== action.payload);
+        }
+    }
+});
+
 
 const transactions = createSlice({
     name: "transactionsReducer",
@@ -208,16 +232,20 @@ const store = configureStore({
     reducer: {
         dataReducer: _data.reducer,
         potReducer : pot.reducer,
+        toastReducer : toast.reducer,
         budgetReducer: budget.reducer,
         transactionsReducer: transactions.reducer
     }
 });
 
 
+
 // Rename get from _data.actions to dataGet to avoid naming conflict
 export const { setSortOption } = _data.actions;
 export const { getKeyword,setKeyword, setFilter , setSortData } = _data.actions;
 export const { getPot , setPot, updatePot, removePot } = pot.actions;
+export const { setToast,removeToast} = toast.actions;
+
 export const { edit, remove } = budget.actions;
 export const { filteredByCategory, filteredByKeyword, sortByOptions } = transactions.actions;
 export default store;

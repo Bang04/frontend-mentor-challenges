@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
-
-import { useSelector } from "react-redux";
-import { Pot, rootState } from "../store"
+import { useSelector, useDispatch } from "react-redux";
+import { Pot, rootState ,setToast } from "../store";
 
 import { Card } from "../components/card"
 import { PotAddModal } from "../components/modal/PotAddModal";
@@ -11,9 +10,13 @@ import { PotDeleteModal } from "../components/modal/PotDeleteModal";
 import { PotDropModal } from "../components/modal/PotDropModal";
 import { PotAmountModal } from "../components/modal/PotAmountModal";
 
+
 import dots from "/images/dots-three-thin.svg";
+import { ToastContext } from "../components/toast/ToastProvider";
 
 export const Pots = () => {
+    
+    const context = useContext(ToastContext);
     const pots = useSelector((state:rootState)=> state.potReducer);
 
     const [data , setData ] = useState<Pot[]>();
@@ -21,8 +24,6 @@ export const Pots = () => {
     const [ id , setId ] = useState<string>();
     const [ modalType , setModalType ] = useState("");
     const [ modalPosition, setModalPosition ] = useState({top: 0, left:0});
-
-    
 
     useEffect(() =>{
         setData(pots);
@@ -51,6 +52,12 @@ export const Pots = () => {
         });
    
     }
+    //Toast 호출
+    const handlerToast = (itemId: number, handleEditOpen : any) =>{
+        context.handlerAddToast({
+          id : Date.now(), itemId : itemId
+       },handleEditOpen )
+    }
 
     //3.NewAdd, Edit Add, 4.Edit Withdraw
     const handleEditOpen = (type:string, id : string) => {
@@ -65,7 +72,7 @@ export const Pots = () => {
                  <div className="flex mt-5 font-semibold text-4xl mb-8">Pots</div>
                  <button onClick={(e) => handleInsertModal("insert", e)}  className="text-sm text-white  bg-black font-semibold py-4 px-4 rounded-lg">+Add New Pot</button>
             </div>
-
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {
                     data && data.length > 0 ? (
@@ -73,14 +80,17 @@ export const Pots = () => {
                     
                         <div key={index} className="flex">
                             <input type="hidden" name="id" value={item.id} />
-                              <div className="bg-white rounded-xl shadow-md p-4 hover:shadow-lg transition-shadow cursor-pointer w-full">
-                          
+                            <Card link="">
                                 <div className="flex justify-between mb-6">
                                     <div className="flex flex-row items-center">
                                         <div className={`w-3 h-3 rounded-full `} style={{ backgroundColor: item.theme }}></div>
                                         <span className="font-semibold pl-3">{item.name}</span>
                                     </div>
-                                    <div className="w-10" onClick={(e) => handleDropModal("drop", e,item.id)} ><img src={dots} alt="" /></div>
+                                    {/* Modal 방식 Toast 완료시까지 주석 처리 */}
+                                    {/* <div className="w-10" onClick={(e) => handleDropModal("drop", e,item.id)} ><img src={dots} alt="" /></div> */}
+
+                                    {/* Toast방식 */}
+                                    <div className="w-10" onClick={() => handlerToast(Number(item.id), handleEditOpen)} ><img src={dots} alt="" /></div>
                                 </div>
                                 <div>
                                     <div className="flex justify-between mb-4"> 
@@ -104,9 +114,8 @@ export const Pots = () => {
                                         <button onClick={() => handleEditOpen("withdraw", item.id)} className="p-3 text-sm bg-[#F8F4F0] font-semibold flex-1 rounded-lg">Withdraw</button>
                                     </div>
                                 </div>
-                            </div>
+                            </Card>
                         </div>
-                    
                     ))
                     ) : (
                     <div>No results found</div>
