@@ -14,7 +14,7 @@ export interface donut {
 }
 
 
-const graphSlice = createSlice({
+const graph = createSlice({
     name: 'graph',
     initialState: initialDataState.budgets,
     reducers: {
@@ -28,13 +28,12 @@ const graphSlice = createSlice({
             }, {}); 
         },
         recent: (state, action) => {
-            const info = state.filter((v:Budget=> v.category=="");
-            const 
+            const info = state.filter(((v:Budget,index)=> v.category==""));
         }
 
 
     }
 });
 
-export const {} = graphSlice.actions;
-export default graphSlice.reducer;
+export const {} = graph.actions;
+export default graph.reducer;

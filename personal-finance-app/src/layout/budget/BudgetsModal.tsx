@@ -1,7 +1,6 @@
 import { useDispatch } from "react-redux";
 import { Modal, modal } from "../../components/modal";
 import { Select } from "../../components/select";
-import { edit, remove } from "../../store/_index";
 import { CATEGORIES } from "../../constants/categories";
 import { COLOR } from "../../constants/color";
 import { useState } from "react";
@@ -22,19 +21,19 @@ export const BudgetsModal = ({ isOpen, closeModal, prop, type }: modal) => {
 
     //FIXME 나중에 서버 붙이고 나서 id생성되면 수정
     const editBudget = () => {
-        if(type != "REMOVE"){
-            dispatch(edit({
-                "category": category,
-                "maximum": maximum*1, //number
-                "theme": color
-            }));
-        }else {
-            dispatch(remove({
-                "category": category,
-                "maximum": maximum*1,
-                "theme": color
-            }));
-        }
+        // if(type != "REMOVE"){
+        //     dispatch(edit({
+        //         "category": category,
+        //         "maximum": maximum*1, //number
+        //         "theme": color
+        //     }));
+        // }else {
+        //     dispatch(remove({
+        //         "category": category,
+        //         "maximum": maximum*1,
+        //         "theme": color
+        //     }));
+        // }
         
 	};
 

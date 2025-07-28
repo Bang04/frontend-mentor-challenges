@@ -66,5 +66,5 @@ const filterSlice = createSlice({
     }
 });
 
-export const {} = filterSlice.actions;
+export const { getKeyword, setKeyword, setFilter, filteredByCategory, filteredByKeyword, setSortOption, sortByOptions } = filterSlice.actions;
 export default filterSlice.reducer;

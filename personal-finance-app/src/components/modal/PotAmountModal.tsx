@@ -3,9 +3,8 @@ import React, { useEffect, useState } from "react";
 
 import close from "/images/icon-close-modal.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { rootState } from "../../store/_index";
-import { updatePot } from "../../store/_index";
-import { Pot } from "../../store/_index";
+import { RootState } from "../../store";
+import { Pot } from "../../store/slices/types";
 
 const MODAL_TEXT = {
   add: {
@@ -35,8 +34,8 @@ interface PotAmountModalProps {
 export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProps) => {
    
     const dispatch = useDispatch();
-    const pot = useSelector((state: rootState) =>
-        state.potReducer.find((pot: Pot) => pot.id === id) //수정 할 pot 데이터 가져오기
+    const pot = useSelector((state: RootState) =>
+        state.postReducer.pots.find((pot: Pot) => pot.id === id) //수정 할 pot 데이터 가져오기
     );
     const text = MODAL_TEXT[modalType];
 
@@ -163,7 +162,7 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
             setError("ID가 정의되지 않았습니다.");
         }
         if (validate()) {
-            dispatch(updatePot({ id, total: changeTotal }));
+            //dispatch(updatePot({ id, total: changeTotal }));
             closeModal();
         }
        

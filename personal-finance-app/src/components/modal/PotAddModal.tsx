@@ -1,7 +1,6 @@
 import React , { useEffect, useState } from "react";
 
 import { useDispatch } from "react-redux";
-import { setPot } from "../../store/_index";
 
 import close from "/images/icon-close-modal.svg";
 import { validateInputs , validateField } from "./PotValidators";
@@ -22,7 +21,7 @@ export const PotAddModal = ({ closeModal }: any) => {
 		const error = validateInputs(potName,target);
 		if(error == "" ){
 			if (potName && target && theme) {
-				dispatch(setPot({ name: potName, target, theme, id: "", total: 0 }));
+				//dispatch(setPot({ name: potName, target, theme, id: "", total: 0 }));
 				setPotName('');
 				setTarget(0);
 				closeModal();

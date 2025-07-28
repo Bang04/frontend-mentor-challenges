@@ -1,14 +1,13 @@
 import React , { useState } from "react";
 
 import { useDispatch } from "react-redux";
-import { removePot } from "../../store/_index";
 import close from "/images/icon-close-modal.svg";
 
 export const PotDeleteModal = ({ closeModal, id }: any) => {
 
 	const dispatch = useDispatch();
 	const onClickHandler = () => {
-		dispatch(removePot(id));
+		//dispatch(removePot(id));
 		closeModal();
 	}
 

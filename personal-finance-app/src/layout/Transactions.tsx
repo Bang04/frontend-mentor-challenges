@@ -1,16 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Card } from "../components/card"
-import { filteredByCategory, filteredByKeyword, rootState, sortByOptions } from "../store/_index";
 import { ChangeEvent, useEffect, useState } from "react";
 import  search  from "/images/icon-search.svg"
 import { Dropdown } from "../components/dropdown";
 import { CATEGORIES } from "../constants/categories";
 import { SORT_TEXT } from "../constants/sort";
+import { RootState } from "../store";
+import { filteredByCategory, filteredByKeyword, sortByOptions } from "../store/slices/filterSlice";
 
 export const Transactions = () => {
-    const data = useSelector((state:rootState)=> state.transactionsReducer);
-
-    
+    const data = useSelector((state:RootState)=> state.postReducer.transactions);
   
     const [category, setCategory] = useState<string>("");
     const [keyword, setKeyword] = useState<string>("");
@@ -34,7 +33,7 @@ export const Transactions = () => {
     }, [sortBy]);
 
     const countPerPage = 10;
-    const totalCounts = Math.ceil(data.filteredData.length/countPerPage);
+    const totalCounts = Math.ceil(data.length/countPerPage);
 
     const [pageNum, setPageNum] = useState(1);
 
@@ -73,7 +72,7 @@ export const Transactions = () => {
                                     <span className="col-span-1 ml-auto">Amount</span>
                                 </li>
                                 {
-                                    data.filteredData.slice(((pageNum*countPerPage)-countPerPage), pageNum*countPerPage).map((value:any,_index:any)=> (
+                                    data.slice(((pageNum*countPerPage)-countPerPage), pageNum*countPerPage).map((value:any,_index:any)=> (
                                         <li key={_index} className="grid grid-cols-10 border-b-1 border-[#B3B3B3] py-3">
                                             <span className="flex col-span-4">
                                                 <img src={value.avatar} className="h-12 w-12 rounded-full" />

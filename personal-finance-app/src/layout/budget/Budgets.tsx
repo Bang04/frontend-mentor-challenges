@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Card } from "../../components/card"
-import { get, infos, rootState } from "../../store/_index";
 import { StringKeyObject, commonType } from "../../store/type";
 import { useState } from "react";
 import { BudgetsModal } from "./BudgetsModal";
 import { Bar } from "../../components/bar";
 import { modalType } from "../../components/modal";
+import { RootState } from "../../store";
 
 
 export const Budgets = () => {
@@ -24,11 +24,11 @@ export const Budgets = () => {
     }
 
     //1. get redux data
-    const budgets = useSelector((state:rootState)=> state.budgetReducer);
-    const transactions = useSelector((state:rootState)=>state.dataReducer.transactions);
+    const budgets = useSelector((state:RootState)=> state.postReducer.budgets);
+    const transactions = useSelector((state:RootState)=>state.postReducer.transactions);
 
     //2. budgets category name (already exist)
-    const category = budgets.data.map((value)=>value.category);
+    const category = budgets.map((value)=>value.category);
 
     //3. filtering transactions of budgets category
     const budgetsCategory = transactions.filter((value)=>category.includes(value.category));
@@ -41,7 +41,7 @@ export const Budgets = () => {
     }, {});
 
     const latest = commonType.entries(categoryGroupedData).map(([key,value]:[string|number, {}[]])=> {
-            const info = budgets.data.filter(v=>v.category==key);
+            const info = budgets.filter(v=>v.category==key);
             const latestSpent = value.reduce((curr:number,next:any)=> {
                 curr +=  (new Date(next.date).getMonth() == 7) ?  Math.abs(next.amount) : 0;
                 return curr;
@@ -74,9 +74,6 @@ export const Budgets = () => {
 
     const dispatch = useDispatch();
 
-    dispatch(infos(latest));
-    dispatch(get());  
-
     return (
         <div className="bg-[#F8F4F0] w-screen">
             <div className="flex justify-between m-10">
@@ -98,7 +95,7 @@ export const Budgets = () => {
                                 </div> 
                                 <div>
                                 {
-                                    budgets.data.map((info:any,index)=> (
+                                    budgets.map((info:any,index)=> (
                                         <div key={index} className={"flex justify-between flex-row m-3 border-l-3 px-3"} style={{"borderLeftColor":`${info.color}`}}>
                                             <span className="text-xs py-1">{info.name}</span>
                                             <span className="">
@@ -167,7 +164,7 @@ export const Budgets = () => {
                                                                         </div>
                                                                         <div className="flex flex-col justify-center">
                                                                             <div className="font-bold ml-auto">${value?.amount}</div>
-                                                                            <div className="">{ setDate(new Date(value.date)) }</div>
+                                                                            <div className="">{ commonType.setDate(new Date(value.date)) }</div>
                                                                         </div>
                                                                     </div>
                                                                 </>

@@ -1,16 +1,16 @@
 import { useSelector } from "react-redux";
 import { Card } from "../components/card";
-import { infos, rootState } from "../store/_index";
 import pot from "/images/icon-pot.svg";
 import { Donut } from "../components/donut";
+import { RootState } from "../store";
 
 export const OverView = () => {
-    const _data = useSelector((state:rootState)=> state.dataReducer);
+    const _data = useSelector((state:RootState)=> state.postReducer);
   
     const balance = Object.values(_data.balance);
     const pots = _data.pots.slice(0, 4);
     const transactions = _data.transactions.slice(0,5);
-    const budgets = useSelector((state:rootState)=> state.budgetReducer);
+    const budgets = useSelector((state:RootState)=> state.postReducer.budgets);
     const bills = _data.transactions.filter((value)=>value.recurring);
 
 
@@ -91,7 +91,7 @@ const _budgets = () => {
             </div>
             <div className="">
                 {
-                    budgets.data.map((value,index)=> (
+                    budgets.map((value,index)=> (
                         <div key={index} className={"flex flex-col m-3 border-l-3"}
                         style={{"borderLeftColor":`${value.theme}`}}>
                             <span className="text-xs">{value.category}</span>

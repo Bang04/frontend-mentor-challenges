@@ -1,18 +1,18 @@
 import { useDispatch, useSelector } from "react-redux"
-import { rootState, Transaction } from "../store/_index"
 import { useEffect, useState } from "react";
-import { setFilter, setSortData } from "../store/_index"
 
 import iconsort from "/images/icon-sort-mobile.svg";
 import recurring from "/images/icon-recurring-bills.svg";
 import  searchImg  from "/images/icon-search.svg"
 import due  from "/images/icon-bill-due.svg";
 import paid from "/images/icon-bill-paid.svg";
+import { RootState } from "../store";
+import { setFilter } from "../store/slices/filterSlice";
 
 
 export const RecurringBills = () => {
     const dispatch = useDispatch();
-    const transactions = useSelector((state: rootState) => state.dataReducer.transactions);
+    const transactions = useSelector((state: RootState) => state.postReducer.transactions);
     const searchKeyword = useSelector((state:any) => state.dataReducer);
 
     const [keyword, setKeyword ] = useState(""); 
@@ -81,7 +81,7 @@ export const RecurringBills = () => {
     },[keyword]);
    
     useEffect(() => {
-        dispatch(setSortData(sortBy));
+       // dispatch(setSortData(sortBy));
     },[sortBy])
 
     // 서수 접미사 붙이기 함수

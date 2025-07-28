@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
-import { rootState } from "../../store/_index";
 import { useDispatch } from "react-redux";
-import { updatePot } from "../../store/_index";
-import { Pot } from "../../store/_index";
 
 import close from "/images/icon-close-modal.svg";
+import { RootState } from "../../store";
+import { Pot } from "../../store/slices/types";
 
 
 export 	const colorOptions = [
@@ -27,8 +26,9 @@ export 	const colorOptions = [
 
 export const PotEditModal = ({ closeModal, id }: any) => {
 	const dispatch = useDispatch();
-	const pot = useSelector((state: rootState) =>
-		state.potReducer.find((pot: Pot) => pot.id === id)
+	const pot = useSelector((state: RootState) =>
+		//state.potReducer.find((pot: Pot) => pot.id === id)
+		state.postReducer.pots.find((pot:Pot)=>pot.id === id)
 	);
 	
 	const [name, setName ] = useState("");
@@ -48,12 +48,12 @@ export const PotEditModal = ({ closeModal, id }: any) => {
 	const handlerUpdateClick = () => {
 	const targeNumber = Number(target);
 		if(name && !isNaN(targeNumber) && theme){
-			dispatch(updatePot({
-				id : id,
-				name: name, 
-				target:targeNumber, 
-				theme: theme
-			}));
+			// dispatch(updatePot({
+			// 	id : id,
+			// 	name: name, 
+			// 	target:targeNumber, 
+			// 	theme: theme
+			// }));
 		}
 		closeModal();
 	}
