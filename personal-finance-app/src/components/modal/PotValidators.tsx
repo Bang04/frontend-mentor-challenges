@@ -1,3 +1,4 @@
+// 유효성 체크 공통 모듈
 export const validateInputs = (name: any, target: any) => {
 
     if(name.trim() === "") {

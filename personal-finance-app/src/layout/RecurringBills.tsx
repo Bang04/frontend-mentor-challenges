@@ -8,6 +8,7 @@ import due  from "/images/icon-bill-due.svg";
 import paid from "/images/icon-bill-paid.svg";
 import { RootState } from "../store";
 import { setFilter } from "../store/slices/filterSlice";
+import { Card } from "../components/card";
 
 
 export const RecurringBills = () => {
@@ -104,17 +105,18 @@ export const RecurringBills = () => {
              <div className="flex flex-col min-w-xs md:w-3xl lg:w-5xl">
                 <div className="flex mt-5 font-semibold text-4xl mb-8">Recurring Bills</div>
                 
-                <div className="flex flex-col lg:flex-row">
-                    <div className="flex flex-col md:flex-row lg:w-1/3 lg:flex-col md:mb-8">
-                        <div className="flex flex-row w-full md:flex-col md:w-lg lg:w-xs pt-7 pb-7 pr-8 pl-8 lg:mb-8 rounded-lg bg-black text-white">
-                            <img className="w-12" src={recurring}></img>
-                            <div className="flex flex-col pl-8 md:pl-0 md:pt-8">
-                                <span className="leading-10 text-base">Total Bills</span>
-                                <span className="text-4xl font-bold">${BillsTotal}</span>
+                <div className="flex flex-col lg:flex-row  gap-5 md:gap-0 lg:gap-5">
+                    <div className="flex flex-col md:flex-row lg:w-1/3 lg:flex-col md:mb-8 gap-5">
+                        <Card link="" backColor="#000">
+                            <div className="flex flex-row md:flex-col text-white ">
+                                <img className="w-12" src={recurring}></img>
+                                <div className="flex flex-col pl-8 md:pl-0 md:pt-8">
+                                    <span className="leading-10 text-base">Total Bills</span>
+                                    <span className="text-4xl font-bold">${BillsTotal}</span>
+                                </div>
                             </div>
-                        </div>
-
-                        <div className="flex flex-col w-full  md:w-lg lg:w-xs  justify-between bg-white p-6 rounded-lg shadow-md">
+                        </Card>
+                        <Card link="">
                             <div className="leading-8 text-2xl font-semibold sm:mb-5">Summary</div>
                             <div className="flex">
                                 <ul className="flex flex-col w-full">
@@ -128,12 +130,13 @@ export const RecurringBills = () => {
                                     <li className="leading-10 text-lg font-semibold text-red-500">{DueSoonCount}(${DueSoon})</li>
                                 </ul>
                             </div>
-                        </div>
+                        </Card>
                     </div>
-
-                    <div className="flex flex-col p-5 bg-white lg:w-2/3 rounded-lg shadow-md">
-                        <div className="flex">
-                            <div className="flex relative  md:w-1/2">
+                    
+                           
+                    <Card link="">
+                        <div className="flex ">
+                            <div className="flex relative w-5/6  md:w-1/2">
                                 <input type="text" 
                                     onChange={(e)=>{setKeyword(e.target.value)}}
                                     className="w-full rounded-md p-2 border-1 placeholder:text-slate-300 overflow-hidden" 
@@ -142,7 +145,7 @@ export const RecurringBills = () => {
                                 </input>
                                 <img src={searchImg} className="absolute top-[34%] right-[4%] bg-white"></img>
                             </div>
-                            <div className="flex  w-full md:w-1/2 justify-end">
+                            <div className="flex w-1/6  md:w-1/2 justify-end">
                                 <button id="toggleMobileBtn" className="block md:hidden">
                                     <img className="w-6"  src={iconsort} onClick={()=>{}}/>
                                 </button>
@@ -162,7 +165,7 @@ export const RecurringBills = () => {
                             <div className="block md:hidden">
                             </div>
                         </div>
-
+                        
                         <div className="w-full mx-auto pt-3">
                             <div className="flex text-gray-400  hidden md:flex">
                                 <div className="w-3/5  pt-3 pb-3">Blill Title</div>
@@ -197,11 +200,10 @@ export const RecurringBills = () => {
                                 }
                                 )
                                 :  <li>No results found</li>
-                                
                             }
                             </ul>
                         </div>  
-                    </div>
+                    </Card>
                 </div>
              </div>
         </div>

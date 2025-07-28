@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 
+// TODO: Modal 공통 모듈로 리팩토링 하기 
 export const PotDropModal = ({ handleEditOpen, closeModal, position, id }: any) => {
 
 	const dropMenuRef = useRef<HTMLDivElement>(null);

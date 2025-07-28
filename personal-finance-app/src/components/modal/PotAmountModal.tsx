@@ -30,6 +30,7 @@ interface PotAmountModalProps {
     modalType : ModalType;
     id?: string;
 }
+// TODO: Modal 공통 모듈로 리팩토링 하기 
 // 저금/출금하기 기능
 export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProps) => {
    

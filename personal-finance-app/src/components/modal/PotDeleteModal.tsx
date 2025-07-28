@@ -3,6 +3,7 @@ import React , { useState } from "react";
 import { useDispatch } from "react-redux";
 import close from "/images/icon-close-modal.svg";
 
+// TODO: Modal 공통 모듈로 리팩토링 하기 
 export const PotDeleteModal = ({ closeModal, id }: any) => {
 
 	const dispatch = useDispatch();

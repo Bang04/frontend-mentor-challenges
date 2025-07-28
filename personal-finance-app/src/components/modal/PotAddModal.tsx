@@ -5,9 +5,8 @@ import { useDispatch } from "react-redux";
 import close from "/images/icon-close-modal.svg";
 import { validateInputs , validateField } from "./PotValidators";
 
+// TODO: Modal 공통 모듈로 리팩토링 하기 
 export const PotAddModal = ({ closeModal }: any) => {
-
-	
 
 	const [potName, setPotName ] = useState<string>("");
 	const [target, setTarget ] = useState<number>(0);

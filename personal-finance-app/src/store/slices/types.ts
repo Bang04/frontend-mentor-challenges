@@ -1,4 +1,4 @@
-import data from '../../assets/data.json';
+ import data from '../../assets/data.json';
 
 export interface Balance {
     current: number;
@@ -29,6 +29,10 @@ export interface Pot{
     theme : string;
 }
 
+export interface Toast{
+    id: number; 
+    itemId : number;
+}
 
   //임시!!!
 export const initialDataState: { 
