@@ -4,22 +4,22 @@ import { useSelector, useDispatch } from "react-redux";
 import { Pot, rootState ,setToast } from "../store";
 
 import { Card } from "../components/card"
-import { PotAddModal } from "../components/modal/PotAddModal";
-import { PotEditModal } from "../components/modal/PotEditModal";
-import { PotDeleteModal } from "../components/modal/PotDeleteModal";
-import { PotDropModal } from "../components/modal/PotDropModal";
-import { PotAmountModal } from "../components/modal/PotAmountModal";
+import { PotAddModal } from "./budget/modal/PotAddModal";
+import { PotEditModal } from "./budget/modal/PotEditModal";
+import { PotDeleteModal } from "./budget/modal/PotDeleteModal";
+import { PotDropModal } from "./budget/modal/PotDropModal";
+import { PotAmountModal } from "./budget/modal/PotAmountModal";
 
 
 import dots from "/images/dots-three-thin.svg";
-import { ToastContext } from "../components/toast/ToastProvider";
+import { ToastContext } from "../components/toast/provider";
 
 export const Pots = () => {
     
     const context = useContext(ToastContext);
     const pots = useSelector((state:rootState)=> state.potReducer);
 
-    const [data , setData ] = useState<Pot[]>();
+    const [ data , setData ] = useState<Pot[]>();
     const [ isOpen, setIsOpen ] = useState(false);
     const [ id , setId ] = useState<string>();
     const [ modalType , setModalType ] = useState("");
@@ -27,7 +27,6 @@ export const Pots = () => {
 
     useEffect(() =>{
         setData(pots);
-        
     },[pots]);
 
     const closeModal = () =>{
@@ -55,8 +54,8 @@ export const Pots = () => {
     //Toast 호출
     const handlerToast = (itemId: number, handleEditOpen : any) =>{
         context.handlerAddToast({
-          id : Date.now(), itemId : itemId
-       },handleEditOpen )
+          id : Date.now(), itemId : itemId, handleEditOpen
+       } )
     }
 
     //3.NewAdd, Edit Add, 4.Edit Withdraw

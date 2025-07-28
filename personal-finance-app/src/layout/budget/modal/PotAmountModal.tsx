@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 
 import close from "/images/icon-close-modal.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { rootState } from "../../store";
-import { updatePot } from "../../store";
-import { Pot } from "../../store";
+import { rootState } from "../../../store";
+import { updatePot } from "../../../store";
+import { Pot } from "../../../store";
 
 const MODAL_TEXT = {
   add: {

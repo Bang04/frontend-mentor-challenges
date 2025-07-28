@@ -1,7 +1,7 @@
 import React , { useEffect, useState } from "react";
 
 import { useDispatch } from "react-redux";
-import { setPot } from "../../store";
+import { setPot } from "../../../store";
 
 import close from "/images/icon-close-modal.svg";
 import { validateInputs , validateField } from "./PotValidators";
