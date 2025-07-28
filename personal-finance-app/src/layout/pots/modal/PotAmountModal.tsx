@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 
 import close from "/images/icon-close-modal.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
-import { Pot } from "../../store/slices/types";
+import { RootState } from "../../../store";
+import { Pot } from "../../../store/slices/types";
 
 const MODAL_TEXT = {
   add: {

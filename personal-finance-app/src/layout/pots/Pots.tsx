@@ -1,25 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { Card } from "../components/card"
-import { PotAddModal } from "../components/modal/PotAddModal";
-import { PotEditModal } from "../components/modal/PotEditModal";
-import { PotDeleteModal } from "../components/modal/PotDeleteModal";
-import { PotDropModal } from "../components/modal/PotDropModal";
-import { PotAmountModal } from "../components/modal/PotAmountModal";
+import { Card } from "../../components/card"
+import { PotAddModal } from "./modal/PotAddModal";
+import { PotEditModal } from "./modal/PotEditModal";
+import { PotDeleteModal } from "./modal/PotDeleteModal";
+import { PotDropModal } from "./modal/PotDropModal";
+import { PotAmountModal } from "./modal/PotAmountModal";
 
 
 import dots from "/images/dots-three-thin.svg";
-import { ToastContext } from "../components/toast/ToastProvider";
-import { RootState } from "../store";
-import { Pot } from "../store/slices/types";
+import { RootState } from "../../store";
+import { ToastContext } from "../../components/toast/provider";
+import { Pot } from "../../store/slices/types";
 
 export const Pots = () => {
     
     const context = useContext(ToastContext);
     const pots = useSelector((state:RootState)=> state.postReducer.pots);
 
-    const [data , setData ] = useState<Pot[]>();
+    const [ data , setData ] = useState<Pot[]>();
     const [ isOpen, setIsOpen ] = useState(false);
     const [ id , setId ] = useState<string>();
     const [ modalType , setModalType ] = useState("");
@@ -27,7 +27,6 @@ export const Pots = () => {
 
     useEffect(() =>{
         setData(pots);
-        
     },[pots]);
 
     const closeModal = () =>{
@@ -53,11 +52,11 @@ export const Pots = () => {
    
     }
     //Toast 호출
-    // const handlerToast = (itemId: number, handleEditOpen : any) =>{
-    //     context.handlerAddToast({
-    //       id : Date.now(), itemId : itemId
-    //    },handleEditOpen )
-    // }
+    const handlerToast = (itemId: number, handleEditOpen : any) =>{
+        context.handlerAddToast({
+          id : Date.now(), itemId : itemId, handleEditOpen
+       } )
+    }
 
     //3.NewAdd, Edit Add, 4.Edit Withdraw
     const handleEditOpen = (type:string, id : string) => {
