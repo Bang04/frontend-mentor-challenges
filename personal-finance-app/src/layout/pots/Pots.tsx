@@ -89,7 +89,7 @@ export const Pots = () => {
                                     {/* <div className="w-10" onClick={(e) => handleDropModal("drop", e,item.id)} ><img src={dots} alt="" /></div> */}
 
                                     {/* Toast방식 */}
-                                    {/* <div className="w-10" onClick={() => handlerToast(Number(item.id), handleEditOpen)} ><img src={dots} alt="" /></div> */}
+                                    <div className="w-10" onClick={() => handlerToast(Number(item.id), handleEditOpen)} ><img src={dots} alt="" /></div>
                                 </div>
                                 <div>
                                     <div className="flex justify-between mb-4"> 

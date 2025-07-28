@@ -4,7 +4,6 @@ import { TOAST_DELAY, removeToast } from "../../store/slices/toastSlice";
 
 export const ToastItem = ({toast} : any) => {
     const dispatch = useDispatch();
-    console.log("ToastItem 컴포넌트 호출");
 
     useEffect(() => {
         const timer = setTimeout(() => {

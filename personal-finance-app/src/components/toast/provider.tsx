@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "./container";
 import { RootState } from "../../store";
 import { removeToast, setToast } from "../../store/slices/toastSlice";
+import { Toast } from "../../store/slices/types";
 
 type ToastContextType = {
     handlerAddToast: ({ id, itemId , handleEditOpen}: any) => void;
@@ -25,8 +26,10 @@ export const ToastProvider = ({children} : any) => {
         dispatch(removeToast(id));
     };
 
-    const handlerAddToast = ({ id, itemId }: Toast) => {
-        dispatch(setToast({ id, itemId }));
+    const handlerAddToast = ({ id, itemId, handleEditOpen }: Toast) => {
+        dispatch(setToast({
+            id, itemId,  handleEditOpen
+        }));
     }
 
     return (
