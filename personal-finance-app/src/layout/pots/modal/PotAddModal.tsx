@@ -43,13 +43,13 @@ export const PotAddModal = ({ closeModal }: any) => {
 			type={"ADD"} 
 			isOpen={true} 
 			closeModal={closeModal}
-			edit = {onSavePotClick}	
 			title = 'Add New Pot'
 			description = 'Create a pot to set savings targets. These can help keep you on track as you save for special purchases.'
 			buttons = {[
 				{
 					name: 'Add Pot',
 					type: 'ADD',
+					handler: onSavePotClick	,
 					color: {
 						text : 'text-white',
 						background : 'bg-black'

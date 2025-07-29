@@ -17,6 +17,7 @@ export const Pots = () => {
     
     const context = useContext(ToastContext);
    
+    //let pots : Pot[] = useSelector((state:RootState)=> state.postReducer.pots);
     let pots : Pot[] = useSelector((state:RootState)=> state.postReducer.pots);
     const [ data , setData ] = useState<Pot[]>();
     const [ isOpen, setIsOpen ] = useState(false);

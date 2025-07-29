@@ -1,10 +1,10 @@
 
 import React, { useEffect, useState } from "react";
 
-import close from "/images/icon-close-modal.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { Pot } from "../../../store/slices/types";
+import { Modal } from "../../../components/modal";
 
 const MODAL_TEXT = {
   add: {
@@ -36,7 +36,7 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
    
     const dispatch = useDispatch();
     const pot = useSelector((state: RootState) =>
-        state.postReducer.pots.find((pot: Pot) => pot.id === id) //수정 할 pot 데이터 가져오기
+        state.postReducer.pots.find((pot: Pot) => pot.id === id) 
     );
     const text = MODAL_TEXT[modalType];
 
@@ -163,77 +163,76 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
             setError("ID가 정의되지 않았습니다.");
         }
         if (validate()) {
-            //dispatch(updatePot({ id, total: changeTotal }));
+           // dispatch(updatePot({ id, total: changeTotal }));
             closeModal();
         }
        
     }
 
 return (
-   <div className="fixed inset-0 z-50 flex justify-center items-center bg-opacity-100">
-		<div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="bg-white p-6 rounded-xl shadow-xl max-w-sm w-full relative">
-            <div className="flex justify-between pb-5">
-                <span className="text-2xl self-center font-semibold">{text.title}</span>
-                <button
-                        onClick={(e:any)=> handleBackdropClick(e)}
-                        className="p-2 rounded hover:bg-gray-100"
-                    >
-                    <img src={close} />
-                </button>
-            </div>
-            <div className="pb-5">
-                <p className="text-sm text-gray-500">{text.description}</p>
-            </div>
-            <div className="flex justify-between"> 
-                <span className="text-xs text-gray-500">New Amount</span>
-                <span className="text-3xl font-semibold">${changeTotal.toFixed(2)}</span>
-            </div>
-              { modalType == "add" ? (// 저금추가
-                <>
-                    {/* 그래프 */}
-                    <div className="flex w-full h-3 bg-gray-100">
-                        <div className='h-3 bg-black' style={{ width: `${currentPct}%` }}></div>  {/* 기존 그래프 */}
-                        <div className='h-3 bg-green-800 overflow-x-hidden' style={{ width: `${diffPct}%` }}> </div> {/* 변동 그래프 */}
-                    </div>
-                    {/* 기존 target 퍼센트, +,-퍼센트 */}
-                    <div className="flex justify-between"> 
-                        <span className="text-xs text-green-800">{diffPct.toFixed(2)} %</span>
-                        <span className="text-xs gray-100">Target of ${pot?.target}</span>
-                    </div>
-                </>
-                ):(
-                // 저금빼기 
-                <>
-                    <div>
-                         {/* 그래프 */}
-                        <div className="flex w-full h-3 bg-gray-100">
-                            <div className='h-3 bg-black' style={{ width: `${diffPct}%` }}></div>{/* 기존 그래프 */}
-                            <div className=' h-3  bg-red-600 overflow-x-hidden' style={{ width: `${changePct}%`}}></div>{/* 변동 그래프 */}
-                        </div>
-                    </div>
-                     {/* 기존 target 퍼센트, +,-퍼센트 */}
-                    <div className="flex justify-between"> 
-                        <span className="text-xs text-red-600">{diffPct.toFixed(2)} %</span>
-                        <span className="text-xs gray-100">Target of ${pot?.target}</span>
-                    </div>
-                </>
-               
-             )}
-           
-            <div className="pb-3">
-                <label className="block text-sm font-medium text-gray-700">Amount to {text.input}</label>
-                <input 
-                    onChange={(e) => {setInputValue(Number(e.target.value))}} 
-                    type="text" name="target" placeholder="$" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-                {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-            </div>
-            
-            <button 
-                type="button" 
-                onClick={onClickHandler}
-                className="text-xs w-full py-3 px-4 bg-black text-white font-normal rounded-md focus:outline-none">Confilrm {text.btn}</button>
+
+    <Modal 
+        type={"EDIT"} 
+        isOpen={true} 
+        closeModal={closeModal}
+        title = 'New Amount'
+        description = {text.description}
+        buttons = {[
+            {
+                name: `Confilrm ${text.btn}`,
+                type: 'EDIT',
+                handler: onClickHandler	,
+                color: {
+                    text : 'text-white',
+                    background : 'bg-black'
+                },
+            }
+        ]}
+    >
+        <div className="flex justify-between"> 
+            <span className="text-xs text-gray-500">New Amount</span>
+            <span className="text-3xl font-semibold">${changeTotal.toFixed(2)}</span>
         </div>
-	</div>
+            { modalType == "add" ? (// 저금추가
+            <>
+                {/* 그래프 */}
+                <div className="flex w-full h-3 bg-gray-100">
+                    <div className='h-3 bg-black' style={{ width: `${currentPct}%` }}></div>  {/* 기존 그래프 */}
+                    <div className='h-3 bg-green-800 overflow-x-hidden' style={{ width: `${diffPct}%` }}> </div> {/* 변동 그래프 */}
+                </div>
+                {/* 기존 target 퍼센트, +,-퍼센트 */}
+                <div className="flex justify-between"> 
+                    <span className="text-xs text-green-800">{diffPct.toFixed(2)} %</span>
+                    <span className="text-xs gray-100">Target of ${pot?.target}</span>
+                </div>
+            </>
+            ):(
+            // 저금빼기 
+            <>
+                <div>
+                        {/* 그래프 */}
+                    <div className="flex w-full h-3 bg-gray-100">
+                        <div className='h-3 bg-black' style={{ width: `${diffPct}%` }}></div>{/* 기존 그래프 */}
+                        <div className=' h-3  bg-red-600 overflow-x-hidden' style={{ width: `${changePct}%`}}></div>{/* 변동 그래프 */}
+                    </div>
+                </div>
+                    {/* 기존 target 퍼센트, +,-퍼센트 */}
+                <div className="flex justify-between"> 
+                    <span className="text-xs text-red-600">{diffPct.toFixed(2)} %</span>
+                    <span className="text-xs gray-100">Target of ${pot?.target}</span>
+                </div>
+            </>
+            
+            )}
+        
+        <div className="pb-3">
+            <label className="block text-sm font-medium text-gray-700">Amount to {text.input}</label>
+            <input 
+                onChange={(e) => {setInputValue(Number(e.target.value))}} 
+                type="text" name="target" placeholder="$" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+            {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+        </div>
+            
+    </Modal>
     );
 }	
