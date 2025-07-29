@@ -12,6 +12,7 @@ import { PotAmountModal } from "./modal/PotAmountModal";
 import dots from "/images/dots-three-thin.svg";
 import { RootState } from "../../store";
 import { ToastContext } from "../../components/toast/provider";
+//import { ToastContext } from "../../components/toast/toast";
 import { Pot } from "../../store/slices/types";
 
 export const Pots = () => {
@@ -52,9 +53,18 @@ export const Pots = () => {
    
     }
     //Toast 호출
-    const handlerToast = (itemId: number, handleEditOpen : any) =>{
+    const handlerToast = ( e: React.MouseEvent<HTMLElement>, itemId: number, handleEditOpen : any) =>{
+        console.log("handlerToast call");
+        
+        const rect = (e.currentTarget).getBoundingClientRect(); 
+        const X_OFFSET = 100; //100px 만큼 이동
+        
         context.handlerAddToast({
-          id : Date.now(), itemId : itemId, handleEditOpen
+          id : Date.now(), 
+          itemId: itemId, 
+          top: rect.bottom + window.scrollY, 
+          left: rect.left + window.scrollX - X_OFFSET, 
+          handleEditOpen
        } )
     }
 
@@ -89,7 +99,7 @@ export const Pots = () => {
                                     {/* <div className="w-10" onClick={(e) => handleDropModal("drop", e,item.id)} ><img src={dots} alt="" /></div> */}
 
                                     {/* Toast방식 */}
-                                    <div className="w-10" onClick={() => handlerToast(Number(item.id), handleEditOpen)} ><img src={dots} alt="" /></div>
+                                    <div className="w-10" onClick={(e) => handlerToast(e, Number(item.id), handleEditOpen)} ><img src={dots} alt="" /></div>
                                 </div>
                                 <div>
                                     <div className="flex justify-between mb-4"> 

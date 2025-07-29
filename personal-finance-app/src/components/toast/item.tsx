@@ -16,7 +16,8 @@ export const ToastItem = ({toast} : any) => {
     }, [toast]);
     
     return(
-        <div className="bg-white rounded-lg shadow-lg z-10">
+        <div className="absolute bg-white rounded-lg shadow-lg z-10"
+            style={{ top: toast.top , left: toast.left }}>
             <div className="flex flex-col">
                <button onClick={() => toast.handleEditOpen("edit", toast.itemId)}  className="py-3 px-6">Edit Pot</button>
 				<button onClick={() => toast.handleEditOpen("delete", toast.itemId)} className="py-3 px-6 text-red-600" >Delete Pot</button>

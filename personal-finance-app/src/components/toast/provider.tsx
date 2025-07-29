@@ -8,7 +8,7 @@ import { removeToast, setToast } from "../../store/slices/toastSlice";
 import { Toast } from "../../store/slices/types";
 
 type ToastContextType = {
-    handlerAddToast: ({ id, itemId , handleEditOpen}: any) => void;
+    handlerAddToast: ({ id, itemId , handleEditOpen}: Toast) => void;
 };
 
 export const ToastContext = createContext<ToastContextType>({
@@ -26,9 +26,9 @@ export const ToastProvider = ({children} : any) => {
         dispatch(removeToast(id));
     };
 
-    const handlerAddToast = ({ id, itemId, handleEditOpen }: Toast) => {
+    const handlerAddToast = ({ id, itemId, top, left, handleEditOpen }: Toast) => {
         dispatch(setToast({
-            id, itemId,  handleEditOpen
+            id, itemId, top, left, handleEditOpen
         }));
     }
 
