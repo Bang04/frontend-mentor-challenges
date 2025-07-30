@@ -5,13 +5,11 @@ import { ToastItem } from "./item";
 
 export const ToastContainer = ({ toasts, removeToast } : any) => {
 	return(
-		<div className="absolute bottom-0 right-0">
-			<div className="flex flex-col">
-				{toasts && toasts.map((toast: any) => (
-					<ToastItem key={toast.id} toast = {toast} onClose= {()=> removeToast(toast.id)} />
-				))}
-			</div>
-		</div>
+		<>
+			{toasts && toasts.map((toast: any) => (
+				<ToastItem key={toast.id} toast = {toast} onClose= {()=> removeToast(toast.id)} />
+			))}
+		</>
 	)
 }
 

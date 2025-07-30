@@ -1,26 +1,32 @@
-// import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import data from '../assets/data.json';
-// import { Balance } from "./slices/types";
-// import { Transaction } from "firebase/firestore";
+import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import data from '../assets/data.json';
+//import { Balance } from "./slices/types";
+//import { Transaction } from "firebase/firestore";
+export interface Pot{
+    id : string;
+    name : string;
+    target : number;
+    total : number;
+    theme : string;
+}
 
-
-// const initialDataState: { 
-//     balance: Balance, 
-//     transactions: Transaction[], 
-//    // filteredTransactions: Transaction[],  
-//     budgets: Budget[], 
-//     pots: Pot[] ,
-//     filterKeyword : String,
-//     sortOption: string,
-// } = {
-//     balance: data.balance,
-//     budgets: data.budgets,
-//     pots: data.pots,
-//     transactions: data.transactions,
-//     //filteredTransactions: data.transactions,
-//     filterKeyword: '',
-//     sortOption: ''
-// }
+const initialDataState: { 
+    //balance: Balance, 
+  //  transactions: Transaction[], 
+   // filteredTransactions: Transaction[],  
+   // budgets: Budget[], 
+    pots: Pot[] ,
+    filterKeyword : String,
+    sortOption: string,
+} = {
+    //balance: data.balance,
+   // budgets: data.budgets,
+    pots: data.pots,
+    //transactions: data.transactions,
+    //filteredTransactions: data.transactions,
+    filterKeyword: '',
+    sortOption: ''
+}
 
 // const _data = createSlice({
 //     name: 'dataReducer',
@@ -98,38 +104,69 @@
 //     }
 // });
 
+//********* 임시 데이터 ********/
 
-// const pot = createSlice({
-//     name: 'potReducer',
-//     initialState: initialDataState.pots,
-//     reducers: {
-//         getPot: (state) =>  {
-//             state.map((k,v)=>console.log(k,v));
-            
-//             return state;
-//         },
-//         setPot : (state, action: PayloadAction<Pot>) => {
-//             state.push({
-//                 ...action.payload,
-//                 id: (state.length + 1).toString(),
-//                 total: 0,
-//             });
-//         },
-//         updatePot :(state, action) =>{
-//             const idx = state.findIndex(pot => pot.id === action.payload.id);
-//              if(idx !== -1) {
-//                 state[idx] = {
-//                     ...state[idx],
-//                     ...action.payload,
-//                 };
-//             }
-//         },
-//         removePot :(state, action ) =>{
-//             return state.filter(pot => pot.id !== action.payload);
-//         }
+export interface Toast{
+    id: number; 
+    itemId : number;
+    top : number;   //postion X
+    left : number;  //position Y
+    handleEditOpen : () => void;
+}
+
+export const TOAST_DELAY = 3000;
+
+let  toasts: Toast[] = [];
+
+const toast = createSlice({
+    name: 'toastReducer',
+    initialState: toasts,
+    reducers: {
+        setToast: (state, action: PayloadAction<Toast>) => {
+            state.push(action.payload);
+        },
+        removeToast: (state, action: PayloadAction<number>) => {
+            return state.filter(toast => toast.id !== action.payload);
+        }
+    }
+});
+
+//********* 임시 데이터 ********/
+
+
+const pot = createSlice({
+    name: 'potReducer',
+    initialState: initialDataState.pots,
+    reducers: {
+        getPot: (state) =>  {
+            state.map((k,v)=>console.log(k,v));
+            return state;
+        },
+        setPot : (state, action: PayloadAction<Pot>) => {
+            state.push({
+                ...action.payload,
+                id: (state.length + 1).toString(),
+                total: 0,
+            });
+        },
+        updatePot :(state, action) =>{
+            console.log("####updatePot#####");
+            console.log(typeof action.payload.id);
+            const idx = state.findIndex(pot => pot.id === action.payload.id);
+             if(idx !== -1) {
+                state[idx] = {
+                    ...state[idx],
+                    ...action.payload,
+                };
+            }
+        },
+        removePot :(state, action ) =>{
+             console.log("#removePot ##");
+            return state.filter(pot => pot.id !== action.payload+"");
+        }
     
-//     }
-// });
+    }
+});
 
 
 // const transactions = createSlice({
@@ -184,24 +221,27 @@
 // })
 
 
-// const store = configureStore({
-//     reducer: {
-//         dataReducer: _data.reducer,
-//         potReducer : pot.reducer,
-//         budgetReducer: budget.reducer,
-//         transactionsReducer: transactions.reducer,
-//         //donutReducer: donut.reducer
-//     }
-// });
+const store = configureStore({
+    reducer: {
+       // dataReducer: _data.reducer,
+        potReducer : pot.reducer,
+       // budgetReducer: budget.reducer,
+        //transactionsReducer: transactions.reducer,
+        //donutReducer: donut.reducer
+        toastReducer : toast.reducer,
+    }
+});
 
 
 // // Rename get from _data.actions to dataGet to avoid naming conflict
 // export const { setSortOption } = _data.actions;
 // export const { getKeyword,setKeyword, setFilter , setSortData } = _data.actions;
-// export const { getPot , setPot, updatePot, removePot } = pot.actions;
+ export const { getPot , setPot, updatePot, removePot } = pot.actions;
 // export const { infos, edit, remove } = budget.actions;
 // export const { filteredByCategory, filteredByKeyword, sortByOptions } = transactions.actions;
 // //export const { get } = donut.actions;
-// export default store;
-// export type rootState = ReturnType<typeof store.getState>
+export const { setToast, removeToast } = toast.actions;
+
+ export default store;
+ export type rootState = ReturnType<typeof store.getState>
 
