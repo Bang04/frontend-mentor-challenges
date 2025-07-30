@@ -7,23 +7,15 @@ export type modal = {
 	type: modalType,
     isOpen: boolean
     closeModal: ()=>void
-	edit?: ()=>void
     title?: string
     description?: string
-	buttons?: {name: string, type: string, color: {text: string, background: string}}[]
+	buttons?: {name: string, type: string, handler?: ()=>void,  color: {text: string, background: string}}[]
 	prop?: any
 } & PropsWithChildren
 
-export const Modal = ({ type, isOpen, closeModal, title, description, buttons, children, edit }:modal) => {
+export const Modal = ({ type, isOpen, closeModal, title, description, buttons, children }:modal) => {
     
     if(!isOpen) return null;
-
-	const handleModal = (e: any) => {
-		if(edit){
-			edit();
-			closeModal();
-		}
-	};
 
     return (
         <div className="fixed inset-0 z-50 flex justify-center items-center bg-opacity-100">
@@ -44,7 +36,9 @@ export const Modal = ({ type, isOpen, closeModal, title, description, buttons, c
 				{
 					buttons?.map((button,_index)=> (
 						type == button.type ?
-							<button type="button" onClick = {(e)=>handleModal(e)} className={button.color.background+" my-1 cursor-pointer text-xs w-full py-3 px-4 font-normal rounded-md focus:outline-none "+button.color.text}>{ button?.name  }</button>:<></>
+							<button type="button" 
+								onClick = {(e)=> button.handler?  button.handler() : closeModal()} 
+								className={button.color.background+" my-1 cursor-pointer text-xs w-full py-3 px-4 font-normal rounded-md focus:outline-none "+button.color.text}>{ button?.name  }</button>:<></>
 					))
 				}
             </div>

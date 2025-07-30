@@ -4,7 +4,6 @@ import { Toast } from "./types";
 
 export const TOAST_DELAY = 3000;
 
-
 let  toasts: Toast[] = [];
 
 const toast = createSlice({

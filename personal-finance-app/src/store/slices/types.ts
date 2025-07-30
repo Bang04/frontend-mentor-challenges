@@ -32,6 +32,9 @@ export interface Pot{
 export interface Toast{
     id: number; 
     itemId : number;
+    top : number;   //postion X
+    left : number;  //position Y
+    handleEditOpen : () => void;
 }
 
   //임시!!!
