@@ -1,12 +1,12 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Card } from "../../components/card"
-import { StringKeyObject, commonType } from "../../store/type";
+import { commonType } from "../../store/type";
 import { useState } from "react";
 import { BudgetsModal } from "./BudgetsModal";
 import { Bar } from "../../components/bar";
 import { modalType } from "../../components/modal";
-import { RootState } from "../../store";
-import { selectAmountByLatestDate } from "../../selectors/transactionSelector";
+import { selectDataByLatestDate } from "../../store/selectors/transactionSelector";
+import { Donut } from "../../components/donut";
 
 
 export const Budgets = () => {
@@ -24,61 +24,9 @@ export const Budgets = () => {
         setIsOpen(false);
     }
 
-    //1. get redux data
-    const budgets = useSelector((state:RootState)=> state.postReducer.budgets);
-    const transactions = useSelector((state:RootState)=>state.postReducer.transactions);
+    const data = useSelector(selectDataByLatestDate);
 
-    //2. budgets category name (already exist)
-    const category = budgets.map((value)=>value.category);
-
-    //3. filtering transactions of budgets category
-    const budgetsCategory = transactions.filter((value)=>category.includes(value.category));
-   
-    //4. make groupded object data 
-    const categoryGroupedData = budgetsCategory.reduce((acc:StringKeyObject, value)=> {
-        acc[value.category] = acc[value.category] || [];
-        acc[value.category].push(value);
-        return acc;
-    }, {});
-
-    const latest = commonType.entries(categoryGroupedData).map(([key,value]:[string|number, {}[]])=> {
-            const info = budgets.filter(v=>v.category==key);
-            const latestSpent = value.reduce((curr:number,next:any)=> {
-                curr +=  (new Date(next.date).getMonth() == 7) ?  Math.abs(next.amount) : 0;
-                return curr;
-            }, 0);
-            const remaining = info[0].maximum - latestSpent;
-
-            return {
-                info: info,
-                latestSpent: latestSpent,
-                remaining: remaining,
-                values: value
-            }
-    });
-
-    console.log(useSelector(selectAmountByLatestDate));
-
-    const info = latest.reduce((p:{ total: number, spent: number, data: {value: number, maximum: number, color: string, name: string}[]}, n)=> {
-            return {
-                total: p.total + n.info[0].maximum,
-                spent: p.spent + n.latestSpent,
-                data:[   
-                    ...p.data,
-                    {
-                        value: n.latestSpent,
-                        maximum: n.info[0].maximum,
-                        color: n.info[0].theme,
-                        name: n.info[0].category
-                    }
-                ]
-            };
-    }, {total: 0, spent: 0, data: []});
-
-    const dispatch = useDispatch();
-
-   // const _data = useSelector(selectGroupedTransactionsByBudgetCategory);
-
+    console.log(data);
 
     return (
         <div className="bg-[#F8F4F0] w-screen">
@@ -94,19 +42,19 @@ export const Budgets = () => {
                         <Card link="">
                             <div className="">
                                 <div>
-                                    {/* <Donut info={info}></Donut> */}
+                                    <Donut></Donut>
                                 </div>
                                 <div className="font-bold">
                                     Spending Summary
                                 </div> 
                                 <div>
                                 {
-                                    budgets.map((info:any, index:number)=> (
-                                        <div key={index} className={"flex justify-between flex-row m-3 border-l-3 px-3"} style={{"borderLeftColor":`${info.color}`}}>
-                                            <span className="text-xs py-1">{info.name}</span>
+                                    data.map((value:any, index:number)=> (
+                                        <div key={index} className={"flex justify-between flex-row m-3 border-l-3 px-3"} style={{"borderLeftColor":`${value.info.theme}`}}>
+                                            <span className="text-xs py-1">{value.info.category}</span>
                                             <span className="">
-                                                <span className="font-bold text-md">${info.value}</span>
-                                                <span className="text-xs text-gray-400"> of ${info.maximum}.00</span>
+                                                <span className="font-bold text-md">${value.info.spent}</span>
+                                                <span className="text-xs text-gray-400"> of ${value.info.maximum}.00</span>
                                             </span>
                                         </div>
                                     ))
@@ -119,7 +67,7 @@ export const Budgets = () => {
                 <div className="col-span-3">
                     {
 
-                        latest.map((value:any, index:number)=> {
+                        data.map((value:any, index:number)=> {
                                 return (
                                     <div className="flex flex-col divide-y-3 p-3" key={index}>
                                         {/* FIXME */}
@@ -130,25 +78,25 @@ export const Budgets = () => {
                                             </div>
 
                                             <div className="flex flex-row items-center">
-                                                <div className={`w-3 h-3 rounded-full `} style={{ backgroundColor: value?.info[0].theme }}></div>
-                                                <span className="font-semibold pl-3">{value?.info[0].category}</span>
+                                                <div className={`w-3 h-3 rounded-full `} style={{ backgroundColor: value?.info.theme }}></div>
+                                                <span className="font-semibold pl-3">{value?.info.category}</span>
                                             </div>
                                             <div className="text-sm text-gray-500 my-3">
-                                                Maxinum of ${value?.info[0].maximum}.00
+                                                Maxinum of ${value?.info.maximum}.00
                                             </div>
                                             <div>
-                                                <Bar total={value?.info[0].maximum} spent={value?.latestSpent} color={value?.info[0].theme}></Bar>
+                                                <Bar total={value?.info.maximum} spent={value?.info.spent} color={value?.info.theme}></Bar>
                                             </div>
                                             <div className="grid grid-cols-2 text-xs m-4">
-                                                <div className="col-span-1 border-l-3 p-2" style={{"borderLeftColor": `${value.info[0].theme}`}}>
+                                                <div className="col-span-1 border-l-3 p-2" style={{"borderLeftColor": `${value.info.theme}`}}>
                                                     <div className="text-xs text-gray-500 py-1">Spent</div>
-                                                    <div className="font-bold test-sm">${value?.latestSpent}.00</div>
+                                                    <div className="font-bold test-sm">${value?.info.spent}.00</div>
                                                 </div>
                                                 <div className="col-span-1 border-l-3 p-2" style={{"borderLeftColor": "#F8F4F0"}}>
                                                     <div className="text-xs text-gray-500 py-1">Remaining</div>
                                                     <div className="font-bold text-sm">
                                                         ${
-                                                            Math.sign(value?.remaining) < 0 ? 0 : value?.remaining
+                                                            Math.sign(value?.info.remaining) < 0 ? 0 : value?.info.remaining
                                                         }.00
                                                     </div>
                                                 </div>
@@ -158,9 +106,9 @@ export const Budgets = () => {
                                                     <div className="flex flex-col divide-y-1 divide-gray-200">
                                                     
                                                     {
-                                                        value?.values.slice(0,3).map((value: any)=> {
+                                                        value?.values.slice(0,3).map((value: any, index:number)=> {
                                                             return (
-                                                                <>
+                                                                <div key={index}>
                                                                     <div className="flex justify-between text-xs py-3">
                                                                         <div className="flex">
                                                                             <figure className="h-8 w-8 m-2">
@@ -173,7 +121,7 @@ export const Budgets = () => {
                                                                             <div className="">{ commonType.setDate(new Date(value.date)) }</div>
                                                                         </div>
                                                                     </div>
-                                                                </>
+                                                                </div>
                                                             )
                                                         })
                                                     }

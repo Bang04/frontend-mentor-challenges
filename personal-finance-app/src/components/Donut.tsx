@@ -1,35 +1,12 @@
-export type donut = {
-  total: number,
-  spent: number,
-  data: {
-    color: string,
-    value: number
-  }[]
-};
+import { useSelector } from "react-redux";
+import { selectChartData, selectRoundingValues } from "../store/selectors/chartSelector";
 
-const rounding = (info: donut) => {
-  const _data = info.data;
 
-  // get raw point
-  const raw = _data.map((v,i)=> Math.round((v.value/info.total)*100));
-
-  // get raw total point
-  const rawTotal = raw.reduce((a,b)=> a+b);
-
-  const percent = raw.map((v,i)=> Math.round(v*100/rawTotal));
-
-  // 반올림 하는거 잘 분배하는 필요!
-  info.data.map((v,i)=> ({
-    ...v,
-    value: percent[i]
-  })); 
-
-  return info;
-};
-
-export const Donut = ({ info }: { info: donut}) => {
+export const Donut = () => {
     let offset = 0;
-    const test = rounding(info);
+
+    const chartData = useSelector(selectChartData);
+    const graphData = useSelector(selectRoundingValues);
 
     return (
         <div className="flex justify-center itmes-center">
@@ -41,12 +18,12 @@ export const Donut = ({ info }: { info: donut}) => {
                   cy="21"
                   r="15.9"
                   stroke="lightgray"
-                  stroke-width="5"
+                  strokeWidth="5"
                   fill="transparent"
                 />
                 {
-                  test.data?.map((v, i)=> {
-                    const dd = -offset;
+                  graphData?.map((v, i)=> {
+                    const moffset = -offset;
                     offset += v.value;
 
                     return (
@@ -56,11 +33,11 @@ export const Donut = ({ info }: { info: donut}) => {
                             cx="21"
                             cy="21"
                             r="15.9"
-                            stroke={v.color}
-                            stroke-width="5"
+                            stroke={v.theme}
+                            strokeWidth="5"
                             fill="transparent"
-                            stroke-dasharray={`${v.value} ${100-v.value}`}
-                            stroke-dashoffset={dd}
+                            strokeDasharray={`${v.value} ${100-v.value}`}
+                            strokeDashoffset={moffset}
                         />                        
                         </g>
                       </>
@@ -71,10 +48,10 @@ export const Donut = ({ info }: { info: donut}) => {
               </svg> 
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <p className="text-3xl font-bold m-2">
-                  ${info.spent}
+                  { chartData.sumSpent }
                 </p>
                 <p className="text-xs text-gray-400">
-                  of ${info.total} limit
+                  of { chartData.totalAmount } limit
                 </p>
               </div>
             </div>

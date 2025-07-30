@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Budget, initialDataState } from "./types";
-import { StringKeyObject } from "../type";
+import { initialDataState } from "./types";
 
 export interface donut {
     total: number;
@@ -18,18 +17,7 @@ const graph = createSlice({
     name: 'graph',
     initialState: initialDataState.budgets,
     reducers: {
-        category: (state, action) => {
-            state.map((value, index)=> value.category);
-        },
-        group: (state, action) => {
-            action.payload.reduce((acc:StringKeyObject, value:Budget)=> {
-                acc[value.category] = acc[value.category] || [];
-                acc[value.category].push(value);
-            }, {}); 
-        },
-        recent: (state, action) => {
-            const info = state.filter(((v:Budget,index)=> v.category==""));
-        }
+
 
 
     }

@@ -1,11 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Transaction, initialDataState } from "./types";
+import { Transaction } from "./types";
 
 
 const filterSlice = createSlice({
     name: 'filter',
-    initialState: {data: initialDataState.transactions, filteredData: [] as Transaction[], filterKeyword: {}},
+    initialState: {data: [] as Transaction[], filteredData: [] as Transaction[], filterKeyword: {}},
     reducers: {
+        setData: (state, action) => {
+            state.data = action.payload;
+            //return state;
+        },
+        getFilteredData: (state) => {
+            state.data = state.filteredData;
+        },
         getKeyword: (state:any) =>  {
             return state
         },
@@ -20,7 +27,7 @@ const filterSlice = createSlice({
             if(action.payload=="")
                 state.filteredData = state.data;
             else
-                state.filteredData = state.data.filter((value, index)=> value.name.indexOf(action.payload) > -1);
+                state.filteredData = state.filteredData.filter((value, index)=> value.name.indexOf(action.payload) > -1);
 
             return state;
         },
@@ -66,5 +73,5 @@ const filterSlice = createSlice({
     }
 });
 
-export const { getKeyword, setKeyword, setFilter, filteredByCategory, filteredByKeyword, setSortOption, sortByOptions } = filterSlice.actions;
+export const { setData, getFilteredData, getKeyword, setKeyword, setFilter, filteredByCategory, filteredByKeyword, setSortOption, sortByOptions } = filterSlice.actions;
 export default filterSlice.reducer;

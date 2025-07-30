@@ -87,7 +87,7 @@ const _budgets = () => {
         <Card title="Budgets" link="See Details">
         <div className="flex">
             <div className="w-[70%]">
-                {/* <Donut info={{}}></Donut> */}
+                <Donut></Donut>
             </div>
             <div className="">
                 {

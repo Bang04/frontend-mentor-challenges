@@ -6,16 +6,25 @@ import { Dropdown } from "../components/dropdown";
 import { CATEGORIES } from "../constants/categories";
 import { SORT_TEXT } from "../constants/sort";
 import { RootState } from "../store";
-import { filteredByCategory, filteredByKeyword, sortByOptions } from "../store/slices/filterSlice";
+import { filteredByCategory, filteredByKeyword, getFilteredData, setData, sortByOptions } from "../store/slices/filterSlice";
 
 export const Transactions = () => {
+    //나중에 서버에 청구할 데이터
     const data = useSelector((state:RootState)=> state.postReducer.transactions);
-  
+    const filteredData = useSelector((state:RootState)=>state.filterReducer.filteredData);
+    
     const [category, setCategory] = useState<string>("");
     const [keyword, setKeyword] = useState<string>("");
     const [sortBy, setSortBy] = useState<string>("");
 
+
     const dispatch = useDispatch();
+
+    useEffect(()=> {
+        if(data.length > 0){
+            dispatch(setData(data));
+        }
+    }, [data]);
 
     /* 검색 */
     useEffect((()=> {
@@ -72,7 +81,7 @@ export const Transactions = () => {
                                     <span className="col-span-1 ml-auto">Amount</span>
                                 </li>
                                 {
-                                    data.slice(((pageNum*countPerPage)-countPerPage), pageNum*countPerPage).map((value:any,_index:any)=> (
+                                    filteredData.slice(((pageNum*countPerPage)-countPerPage), pageNum*countPerPage).map((value:any,_index:any)=> (
                                         <li key={_index} className="grid grid-cols-10 border-b-1 border-[#B3B3B3] py-3">
                                             <span className="flex col-span-4">
                                                 <img src={value.avatar} className="h-12 w-12 rounded-full" />
