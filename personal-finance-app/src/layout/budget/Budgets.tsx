@@ -6,6 +6,7 @@ import { BudgetsModal } from "./BudgetsModal";
 import { Bar } from "../../components/bar";
 import { modalType } from "../../components/modal";
 import { RootState } from "../../store";
+import { selectAmountByLatestDate } from "../../selectors/transactionSelector";
 
 
 export const Budgets = () => {
@@ -56,6 +57,8 @@ export const Budgets = () => {
             }
     });
 
+    console.log(useSelector(selectAmountByLatestDate));
+
     const info = latest.reduce((p:{ total: number, spent: number, data: {value: number, maximum: number, color: string, name: string}[]}, n)=> {
             return {
                 total: p.total + n.info[0].maximum,
@@ -73,6 +76,9 @@ export const Budgets = () => {
     }, {total: 0, spent: 0, data: []});
 
     const dispatch = useDispatch();
+
+   // const _data = useSelector(selectGroupedTransactionsByBudgetCategory);
+
 
     return (
         <div className="bg-[#F8F4F0] w-screen">
@@ -95,7 +101,7 @@ export const Budgets = () => {
                                 </div> 
                                 <div>
                                 {
-                                    budgets.map((info:any,index)=> (
+                                    budgets.map((info:any, index:number)=> (
                                         <div key={index} className={"flex justify-between flex-row m-3 border-l-3 px-3"} style={{"borderLeftColor":`${info.color}`}}>
                                             <span className="text-xs py-1">{info.name}</span>
                                             <span className="">
@@ -113,7 +119,7 @@ export const Budgets = () => {
                 <div className="col-span-3">
                     {
 
-                        latest.map((value, index)=> {
+                        latest.map((value:any, index:number)=> {
                                 return (
                                     <div className="flex flex-col divide-y-3 p-3" key={index}>
                                         {/* FIXME */}
