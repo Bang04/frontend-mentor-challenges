@@ -62,9 +62,15 @@ const _transactions = () => {
                                         {value.name}
                                     </div>
                                 </div>
-                                <div className="flex flex-col">
-                                    <div>{value.amount}</div>
-                                    <div>
+                                <div className="flex flex-col"> 
+                                    <div className="font-bold text-right">
+                                        {
+                                            Math.sign(value.amount) < 1 
+                                                ? <span className="">{ "-$"+Math.abs(value.amount) }</span>
+                                                : <span className="text-green-700"> {"+$"+value.amount} </span>
+                                        }
+                                    </div>
+                                    <div className="my-1 text-gray-400">
                                         {
                                             new Date(value.date)
                                                 .toLocaleString("en-GB", 
@@ -85,20 +91,19 @@ const _transactions = () => {
 const _budgets = () => {
     return (
         <Card title="Budgets" link="See Details">
-        <div className="flex">
-            <div className="w-[70%]">
+        <div className="grid md:grid-cols-3 justify-center">
+            <div className="md:col-span-2 xs:row-span-2">
                 <Donut></Donut>
             </div>
-            <div className="">
+            <div className="grid grid-cols-2 lg:grid-cols-1 sm:grid-cols-1 gap-4">
                 {
                     budgets.map((value,index)=> (
-                        <div key={index} className={"flex flex-col m-3 border-l-3"}
-                        style={{"borderLeftColor":`${value.theme}`}}>
-                            <span className="text-xs">{value.category}</span>
-                            <span className="">${value.maximum}</span>
+                        <div key={index} className={"m-3 px-3 border-l-3"} style={{"borderLeftColor":`${value.theme}`}}>
+                            <div className="text-xs">{value.category}</div>
+                            <div className="font-bold">${value.maximum}</div>
                         </div>
                     ))
-                }
+                }     
             </div>
         </div>
     </Card>
@@ -133,9 +138,9 @@ const _recurringBills = () => {
 }
 
     return (
-        <div className="min-w-[90vw]">
-            <div className="mx-5 mt-5 font-bold text-2xl">OverView</div>
-            <div className="grid md:grid-cols-3">
+        <div className="grid w-screen lg:w-auto">
+            <div className="m-5 pt-5 font-bold text-3xl">OverView</div>
+            <div className="grid grid-cols-1 md:grid-cols-3">
                     {
                         balance.map((value:number, index:number)=> (
                             <div className="m-5">
@@ -149,25 +154,24 @@ const _recurringBills = () => {
                         ))
                     }
             </div>
-            <div className="flex grid grid-cols-5">
-                <div className="col-span-3">
-                    <div className="ml-5 mt-5">
+            <div className="grid grid-cols-1 lg:grid-cols-9 md:grid-cols-5">
+                <div className="lg:col-span-5 md:col-span-5">
+                    <div className="m-5">
                         {_pots()}
                     </div>
-                    <div className="ml-5 mt-5">
+                    <div className="m-5 ">
                         {_transactions()}
                     </div>
                 </div>
-                <div className="col-span-2">
-                    <div className="mt-5 mx-5">
+                <div className="lg:col-span-4 md:col-span-5">
+                    <div className="m-5">
                         {_budgets()}
                     </div>
-                    <div className="mt-5 mx-5">
+                    <div className="m-5">
                         {_recurringBills()}
                     </div>
                 </div>
             </div>
-          
         </div>
     )
 

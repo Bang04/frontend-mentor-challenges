@@ -26,12 +26,10 @@ export const Budgets = () => {
 
     const data = useSelector(selectDataByLatestDate);
 
-    console.log(data);
-
     return (
-        <div className="bg-[#F8F4F0] w-screen">
+        <div className="bg-[#F8F4F0]">
             <div className="flex justify-between m-10">
-                <div className="font-semibold text-xl">Budgets</div>
+                <div className="font-semibold text-4xl">Budgets</div>
                 <button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>handleModal("ADD")}>
                     + Add New Budgets
                 </button>

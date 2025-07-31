@@ -1,5 +1,6 @@
 import { PropsWithChildren } from "react";
 import dots from "/images/dots-three-thin.svg";
+import { Link } from "react-router";
 
 type card = {
     title?: string;
@@ -19,14 +20,16 @@ export const Card = (prop: card) => {
                 <div className="font-bold text-xl">{prop.title}</div>
                 {/* FIXME 
                 klsdjfa*/}
-                <div className="cursor-pointer">
-                    {
-                       typeof prop.link == "string" ? 
-                        <span className="text-xs text-gray-500"> {prop.link} </span>
-                            : 
-                        <img src={dots} width={20} height={20}></img>
-                    }
-                </div>
+                <Link to={"/"+prop.title?.toLowerCase()}>
+                    <div className="cursor-pointer">
+                        {
+                        typeof prop.link == "string" ? 
+                            <span className="text-xs text-gray-500"> {prop.link} </span>
+                                : 
+                            <img src={dots} width={20} height={20}></img>
+                        }
+                    </div>
+                </Link>
             </div>
             <div className="">
                 { prop.children } 

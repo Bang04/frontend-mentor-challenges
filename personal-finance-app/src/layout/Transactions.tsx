@@ -51,8 +51,9 @@ export const Transactions = () => {
     };
 
     return (
-        <div className="bg-[#F8F4F0] w-screen">
-            <div className="p-5">
+        <div className="bg-[#F8F4F0]">
+            <div className="w-full m-10">
+                <div className="font-semibold text-4xl my-5">Transactions</div>
                 <Card title="" link="">
                     <div className="">
                         <div className="flex justify-between">
@@ -72,7 +73,7 @@ export const Transactions = () => {
                                 </span>
                             </div>
                         </div>
-                        <div className="w-[80vw] my-5 text-xs">
+                        <div className="my-5 text-xs">
                             <ul>
                                 <li className="grid grid-cols-10 border-b-1 border-[#B3B3B3] pb-5">
                                     <span className="col-span-4">Recipient / Sender</span>

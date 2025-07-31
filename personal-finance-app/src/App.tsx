@@ -12,16 +12,21 @@ function App() {
 
   return (
     <ToastProvider>
-    <div className='flex flex-row w-screen bg-[#F8F4F0]'>
-      <SideBar></SideBar>
-      <Routes>
-        <Route path='/overview' element={<OverView />}></Route>
-        <Route path='/transactions' element={<Transactions />}></Route>
-        <Route path='/budgets' element={<Budgets />}></Route>
-        <Route path='/pots' element={<Pots />}></Route>
-        <Route path='/recurring-bills' element={<RecurringBills />}></Route>
-      </Routes>
-    </div>
+      <div className='flex flex-row bg-[#F8F4F0]'>
+        {/* 임시 */}
+        <div className='hidden fixed lg:block'> 
+          <SideBar></SideBar>
+        </div>
+        <div className='lg:ml-[16rem]'>
+          <Routes>
+            <Route path='/overview' element={<OverView />}></Route>
+            <Route path='/transactions' element={<Transactions />}></Route>
+            <Route path='/budgets' element={<Budgets />}></Route>
+            <Route path='/pots' element={<Pots />}></Route>
+            <Route path='/recurring-bills' element={<RecurringBills />}></Route>
+          </Routes>
+        </div>
+      </div>
      </ToastProvider>
   )
 }
