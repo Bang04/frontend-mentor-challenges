@@ -46,7 +46,7 @@ export const Pots = () => {
         const rect = (e.currentTarget).getBoundingClientRect(); 
         const X_OFFSET = 100; //100px 만큼 이동
         
-        context.handlerAddToast({
+        context.addToast({
           id : Date.now(), 
           itemId: itemId, 
           top: rect.bottom + window.scrollY, 
