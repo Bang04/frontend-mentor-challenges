@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
 import { Card } from "../../components/card"
@@ -6,25 +6,26 @@ import { PotAddModal } from "./modal/PotAddModal";
 import { PotEditModal } from "./modal/PotEditModal";
 import { PotDeleteModal } from "./modal/PotDeleteModal";
 import { PotAmountModal } from "./modal/PotAmountModal";
-
+import { RootState } from "../../store";
+import { Pot } from "../../store/slices/types";
+import { useToast } from "../../hooks/useToast";
 
 import dots from "/images/dots-three-thin.svg";
-import { RootState } from "../../store";
-import { ToastContext } from "../../components/toast/provider";
-import { Pot } from "../../store/slices/types";
+
 
 export const Pots = () => {
     
-    const context = useContext(ToastContext);
-   
+
     //let pots : Pot[] = useSelector((state:RootState)=> state.postReducer.pots);
     let pots : Pot[] = useSelector((state:RootState)=> state.postReducer.pots);
     const [ data , setData ] = useState<Pot[]>();
     const [ isOpen, setIsOpen ] = useState(false);
     const [ id , setId ] = useState<string>();
     const [ modalType , setModalType ] = useState("");
-   
+    const showToast = useToast();
 
+    useEffect(()=>{
+    },[]);
     useEffect(() =>{
         setData(pots);
     },[data,isOpen]);
@@ -46,13 +47,13 @@ export const Pots = () => {
         const rect = (e.currentTarget).getBoundingClientRect(); 
         const X_OFFSET = 100; //100px 만큼 이동
         
-        context.addToast({
-          id : Date.now(), 
-          itemId: itemId, 
-          top: rect.bottom + window.scrollY, 
-          left: rect.left + window.scrollX - X_OFFSET, 
-          handleEditOpen
-       } )
+        showToast.addToast({
+            id: Date.now(),
+            itemId:itemId,
+            top: rect.bottom + window.scrollY, 
+            left: rect.left + window.scrollX - X_OFFSET, 
+            handleEditOpen
+        });
     }
 
     //3.NewAdd, Edit Add, 4.Edit Withdraw
