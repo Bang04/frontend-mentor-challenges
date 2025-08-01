@@ -159,11 +159,13 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
 
 
     const onClickHandler = () => {
+         console.log("onClickHandler###");
          if (id === undefined) {
             setError("ID가 정의되지 않았습니다.");
         }
         if (validate()) {
            // dispatch(updatePot({ id, total: changeTotal }));
+          
             closeModal();
         }
        
