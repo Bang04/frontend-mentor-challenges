@@ -13,24 +13,27 @@ export const OverView = () => {
     const budgets = useSelector((state:RootState)=> state.postReducer.budgets);
     const bills = _data.transactions.filter((value)=>value.recurring);
 
+    const balance_txt = ["Current Balance", "Income", "Expenses"];
+
+    const bills_test = ["Paid Bills", "Total Upcoming", "Due Soon"];
 
 const _pots = () => {
     return (
         <Card title="Pots" link="See details">
-            <div className="flex justify-between">
-                    <div className="grid grid-cols-2 bg-[#F8F4F0] w-[25vw]">
-                        <div className="col-span-1 m-auto">
-                            <img src={pot}></img>
-                        </div>
-                        <div className="col-span-1 grid grid-rows-2">
-                            <div className="row-span-1 my-auto text-xs">Total Saved</div>
-                            <div className="row-span-1 my-auto text-4xl pb-5">{"$"+
-                                pots.reduce((prev,next)=> {
-                                    return prev += next.total
-                                }, 0)}
-                            </div>
+            <div className="flex justify-between gap-10 m-5">
+                <div className="flex justify-evenly bg-[#F8F4F0] w-[20vw] rounded-2xl">
+                    <div className="my-auto mx-5">
+                        <img src={pot}></img>
+                    </div>
+                    <div className="m-auto">
+                        <div className="row-span-1 text-sm mt-auto mb-2">Total Saved</div>
+                        <div className="row-span-1 text-4xl mb-auto">{"$"+
+                            pots.reduce((prev,next)=> {
+                                return prev += next.total
+                            }, 0)}
                         </div>
                     </div>
+                </div>
                 <div className="grid grid-cols-2 md:w-[20vw]">
                     {
                         pots.map((value,index)=> (
@@ -52,7 +55,7 @@ const _transactions = () => {
             <ul>
             {
                 transactions.map((value,_index)=> (
-                        <li key={_index} className="border-b-1 border-[#B3B3B3] my-5">
+                        <li key={_index} className="border-b-1 border-[#B3B3B3] my-9">
                             <div className="flex justify-between text-xs">
                                 <div className="flex">
                                     <figure className="h-8 w-8 m-2">
@@ -113,40 +116,36 @@ const _budgets = () => {
 const _recurringBills = () => {
     return (
         <Card title="Recurring Biils" link="See Details">
-        <ul>
-            <li>
-                <div className="flex justify-between">
-                    <span>Paid Bills</span>
-                    <span>$190.00</span>
-                </div>
-            </li>
-            <li>
-                <div className="flex justify-between">
-                    <span>Total Upcoming</span>
-                    <span>$194.98</span>
-                </div>
-            </li>
-            <li>
-                <div className="flex justify-between">
-                    <span>Due Soon</span>
-                    <span>$59.98</span>
-                </div>
-            </li>
-        </ul>
-    </Card>
+            <ul>
+                {
+                    bills_test.map((value,index)=> (
+                        <li className="my-5">
+                            <div className="border-l-3 border-orange-200 rounded">
+                                <Card backColor="#F8F4F0" padding={20} link={""}>
+                                    <div className="flex items-center justify-between">
+                                        <span>{value}</span>
+                                        <span>$190.00</span>
+                                    </div>
+                                </Card>
+                            </div>
+                        </li>
+                    ))
+                }
+            </ul>
+        </Card>
     )
 }
 
     return (
-        <div className="grid w-screen lg:w-auto">
+        <div className="grid w-screen lg:w-auto p-5">
             <div className="m-5 pt-5 font-bold text-3xl">OverView</div>
             <div className="grid grid-cols-1 md:grid-cols-3">
                     {
                         balance.map((value:number, index:number)=> (
-                            <div className="m-5">
-                                <Card key={index} link="">
-                                    <div className="">
-                                        <div className="text-xs mb-5">Current Balance</div>
+                            <div className="m-5"> 
+                                <Card key={index} link="" backColor={index == 0 ? "black" : "white"} fontColor={index == 0 ? "white" : "black"}>
+                                    <div >
+                                        <div className="text-xs mb-5">{balance_txt[index]}</div>
                                         <div className="text-4xl font-bold w-[100%]">${value}</div>
                                     </div>
                                 </Card>

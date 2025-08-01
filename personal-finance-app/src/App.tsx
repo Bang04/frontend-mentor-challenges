@@ -12,7 +12,7 @@ function App() {
 
   return (
     <ToastProvider>
-      <div className='flex flex-row bg-[#F8F4F0]'>
+      <div className='flex flex-row bg-[#F8F4F0]' style={{fontFamily: 'publicSans'}}>
         {/* 임시 */}
         <div className='hidden fixed lg:block'> 
           <SideBar></SideBar>

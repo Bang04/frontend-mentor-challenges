@@ -42,7 +42,7 @@ export const Transactions = () => {
     }, [sortBy]);
 
     const countPerPage = 10;
-    const totalCounts = Math.ceil(data.length/countPerPage);
+    const totalCounts = Math.ceil(filteredData.length/countPerPage);
 
     const [pageNum, setPageNum] = useState(1);
 

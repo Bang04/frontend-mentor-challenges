@@ -1,3 +1,10 @@
 .clip-half {
   clip-path: inset(0 0 0 50%);
 }
+
+@font-face {
+  font-family: "publicSans";
+  src: url("/src/assets/fonts/public-sans.bold.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
