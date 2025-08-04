@@ -117,23 +117,17 @@ export const Transactions = () => {
                         <div className="grid grid-cols-10">
                             <div className="col-span-1">
                                 <Button type='page' name='Prev'  disabled={pageNum==1}   handler={() =>setPage(pageNum-1)} ></Button>
-                                {/* <button type="button" disabled={pageNum==1} className="button px-5 py-1 rounded-sm border-1 cursor-pointer hover:bg-black hover:text-white hover:opacity-50" onClick={()=>setPage(pageNum-1)}>Prev</button> */}
-                            </div>
+                               </div>
                             <div className="col-span-8 place-content-center m-auto">
                                 {
                                     Array.from({length: totalCounts}, (_,i)=>i+1).map((value:number)=> (        
                                          <Button type='page' key={value} name={value} handler={()=>setPage(value)} ></Button>
-                                            // <button key={value} onClick={()=>setPage(value)} type="button" 
-                                            //         className={`hover:bg-black hover:text-white hover:opacity-50 cursor-pointer w-8 h-8 rounded-sm border-1 mx-1 ${pageNum == value ? "bg-black text-white":""}`}>
-                                            //         {value}
-                                            // </button>))
-                                    ))
+                                       ))
                                 }
                             </div>
                             <div className="col-span-1 ml-auto">
                                  <Button type='page' name='Next'  disabled={pageNum==totalCounts}  handler={()=>setPage(pageNum+1)} ></Button>
-                                {/* <button type="button" disabled={pageNum==totalCounts} className="button px-5 py-1 rounded-sm border-1 cursor-pointer hover:bg-black hover:text-white hover:opacity-50" onClick={()=>setPage(pageNum+1)}> Next</button> */}
-                            </div>
+                             </div>
                         </div>
                     </div>
                 </Card>
