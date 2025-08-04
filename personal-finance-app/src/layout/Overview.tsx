@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
-import { Card } from "../components/Card";
+import { Card } from "../components/card";
 import pot from "/images/icon-pot.svg";
-import { Donut } from "../components/Donut";
+import { Donut } from "../components/donut";
 import { RootState } from "../store";
 
 export const OverView = () => {
@@ -15,7 +15,7 @@ export const OverView = () => {
 
     const balance_txt = ["Current Balance", "Income", "Expenses"];
 
-    const bills_test = ["Paid Bills", "Total Upcoming", "Due Soon"];
+    const bills_txt = ["Paid Bills", "Total Upcoming", "Due Soon"];
 
 const _pots = () => {
     return (
@@ -118,7 +118,7 @@ const _recurringBills = () => {
         <Card title="Recurring Biils" link="See Details">
             <ul>
                 {
-                    bills_test.map((value,index)=> (
+                    bills_txt.map((value,index)=> (
                         <li className="my-5">
                             <div className="border-l-3 border-orange-200 rounded">
                                 <Card backColor="#F8F4F0" padding={20} link={""}>

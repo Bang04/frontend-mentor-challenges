@@ -6,7 +6,7 @@ import { Dropdown } from "../components/dropdown";
 import { CATEGORIES } from "../constants/categories";
 import { SORT_TEXT } from "../constants/sort";
 import { RootState } from "../store";
-import { Button } from "../components/Button";
+import { Button } from "../components/button";
 import { filteredByCategory, filteredByKeyword, getFilteredData, setData, sortByOptions } from "../store/slices/filterSlice";
 
 export const Transactions = () => {
