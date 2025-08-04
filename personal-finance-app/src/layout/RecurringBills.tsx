@@ -119,12 +119,12 @@ export const RecurringBills = () => {
                         <Card link="">
                             <div className="leading-8 text-2xl font-semibold sm:mb-5">Summary</div>
                             <div className="flex">
-                                <ul className="flex flex-col w-full">
+                                <ul className="flex flex-col w-full sm:gap-3 lg:gap-0">
                                     <li className="text-gray-400 leading-10 text-lg">Paid Bills</li>
-                                    <li className="text-gray-400 leading-10">Total Upcoming</li>
-                                    <li className="text-red-400 leading-10 ">Due Soon</li>
+                                    <li className="text-gray-400 leading-10  md:leading-5 text-lg">Total Upcoming</li>
+                                    <li className="text-red-400 leading-10 text-lg">Due Soon</li>
                                 </ul>
-                                <ul className="flex flex-col w-full text-right">
+                                <ul className="flex flex-col w-full text-right ">
                                     <li className="leading-10 text-lg font-semibold"> {PaidCount}(${PaidBills})</li>
                                     <li className="leading-10 text-lg font-semibold">{UpcomingCount}(${Upcoming})</li>
                                     <li className="leading-10 text-lg font-semibold text-red-500">{DueSoonCount}(${DueSoon})</li>
