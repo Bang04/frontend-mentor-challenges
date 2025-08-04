@@ -9,73 +9,16 @@ import paid from "/images/icon-bill-paid.svg";
 import { RootState } from "../store";
 import { setFilter } from "../store/slices/filterSlice";
 import { Card } from "../components/card";
-
+import { recurringBillsValue } from "../store/selectors/recurringBillsSelector";
 
 export const RecurringBills = () => {
     const dispatch = useDispatch();
     const transactions = useSelector((state: RootState) => state.postReducer.transactions);
     const searchKeyword = useSelector((state:any) => state.dataReducer);
+    const bills_data = useSelector(recurringBillsValue);
 
     const [keyword, setKeyword ] = useState(""); 
     const [sortBy , setSortBy ]  = useState(""); 
-
-    const [BillsTotal , setBillsTotal] = useState<number>(); 
-    const [PaidBills , setPaidBills] = useState<number>();     //지불 완료 total
-    const [PaidCount, setPaidCount] = useState<number>();      //지불 완료 Count
-    const [Upcoming , setUpcoming] = useState<number>();       //다가오는 청구서 금액
-    const [UpcomingCount, setUpcomingCount] = useState<number>();//다가오는 청구서 Count
-    const [DueSoon , setDueSoon] = useState<number>();          //곧 마감될 청구서 총 금액
-    const [DueSoonCount, setDueSoonCount] = useState<number>(); //곧 마감될 청구서 총 Count
-    
-    useEffect(()=> {
-        const filteredBills = (transactions ?? [])
-            .filter(
-                (item) =>
-                item.category === "Bills" &&
-                item.amount < 0
-            );
-        
-        //Total
-        let BillsTotal = filteredBills
-            .reduce((sum, item) =>  sum + Math.abs(item.amount), 0);
-            setBillsTotal(BillsTotal);
-      
-        //Paid , 이미결제 된 청구서 / 
-        let paidBillsArr = filteredBills
-            .filter((item) => item.recurring === false);
-
-        let paidBillsSum = paidBillsArr.reduce((sum, item) => sum + Math.abs(item.amount), 0);
-
-        setPaidBills(paidBillsSum);
-        setPaidCount(paidBillsArr.length);
-        
-
-
-        //Upcoming : true / 아직 결제되지 않은 청구서 합
-        let upcomingArr = filteredBills
-            .filter((item) => 
-                item.recurring === true &&
-                new Date(item.date) > new Date()); //오늘 이후
-        let upcomingSum = upcomingArr.reduce((sum, item) => sum + Math.abs(item.amount), 0);
-        setUpcoming(upcomingSum);
-        setUpcomingCount(upcomingArr.length);
-
-
-        //Due : 7일 이내 납부일 청구서 
-        const oneWeekLater = new Date();
-        oneWeekLater.setDate(new Date().getDate() + 7);
-
-        let dueArr = upcomingArr.filter(item => (
-            item.recurring === true &&
-            new Date(item.date) <= oneWeekLater
-        ));
-        let dueSum = dueArr.reduce((sum, item) => sum + Math.abs(item.amount), 0);
-        setDueSoon(dueSum);
-        setDueSoonCount(dueArr.length);
-
-    },[]);
-
-
 
     useEffect(()=> {
        dispatch(setFilter(keyword));
@@ -98,8 +41,6 @@ export const RecurringBills = () => {
         return day+'th';
     }
 
-
-
     return (
         <div className="flex p-6 mx-auto my-auto">
              <div className="flex flex-col min-w-xs md:w-3xl lg:w-5xl">
@@ -112,28 +53,24 @@ export const RecurringBills = () => {
                                 <img className="w-12" src={recurring}></img>
                                 <div className="flex flex-col pl-8 md:pl-0 md:pt-8">
                                     <span className="leading-10 text-base">Total Bills</span>
-                                    <span className="text-4xl font-bold">${BillsTotal}</span>
+                                    <span className="text-4xl font-bold">${bills_data.billsTotal}</span>
                                 </div>
                             </div>
                         </Card>
                         <Card link="">
                             <div className="leading-8 text-2xl font-semibold sm:mb-5">Summary</div>
-                            <div className="flex">
-                                <ul className="flex flex-col w-full sm:gap-3 lg:gap-0">
-                                    <li className="text-gray-400 leading-10 text-lg">Paid Bills</li>
-                                    <li className="text-gray-400 leading-10  md:leading-5 text-lg">Total Upcoming</li>
-                                    <li className="text-red-400 leading-10 text-lg">Due Soon</li>
-                                </ul>
-                                <ul className="flex flex-col w-full text-right ">
-                                    <li className="leading-10 text-lg font-semibold"> {PaidCount}(${PaidBills})</li>
-                                    <li className="leading-10 text-lg font-semibold">{UpcomingCount}(${Upcoming})</li>
-                                    <li className="leading-10 text-lg font-semibold text-red-500">{DueSoonCount}(${DueSoon})</li>
-                                </ul>
-                            </div>
+                            {
+                                bills_data.items.map((item)=> {
+                                    return (
+                                        <div className="flex flex-row justify-between">
+                                            <div className={`${item.color == 'black'? 'text-gray-400' : 'text-red-400'} leading-10`}>{item.name}</div>
+                                            <div className={`${item.color == 'black'? '' : 'text-red-500'} leading-10`}>{item.count}($ {item.money})</div>
+                                        </div>
+                                    )
+                                })
+                            }
                         </Card>
                     </div>
-                    
-                           
                     <Card link="">
                         <div className="flex ">
                             <div className="flex relative w-5/6  md:w-1/2">
