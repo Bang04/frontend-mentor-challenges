@@ -8,6 +8,7 @@ export type dropdown = {
 export const Dropdown = ({ onDropdownChanged, options  }:dropdown) => {
     const [state, setState] = useState<boolean>(false);
     const [selected, setSelected] = useState(options[0].value);
+    const [disabled, setDisabled] = useState(false);
 
     return (
         <div className="relative inline-block text-left mx-3">
@@ -21,8 +22,12 @@ export const Dropdown = ({ onDropdownChanged, options  }:dropdown) => {
                             setSelected(option.value);
                             setState(false); //close dropdown
                             onDropdownChanged(option.key);
-                        }}>
-                            { option.value }
+                        }}
+                        style={{
+                            color: disabled ? "gray" : "black"                                                           
+                        }}
+                        >
+                            { option.value } <span className={disabled ? "block": "hidden"}>Already Used</span>
                         </div>
                     ))
                 }

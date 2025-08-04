@@ -8,10 +8,10 @@ import { MODAL_TEXT } from "../../constants/modalText";
 
 export const BudgetsModal = ({ isOpen, closeModal, prop, type }: modal) => {
     if(!isOpen) return null;
-
-    const [category, setCategory] = useState(prop?.info[0].category ?? "");
-    const [color, setColor] = useState(prop?.info[0].theme ?? "");
-    const [maximum, setMaximum] = useState(prop?.info[0].maximum);
+    
+    const [category, setCategory] = useState(prop?.info.category ?? "");
+    const [color, setColor] = useState(prop?.info.theme ?? "");
+    const [maximum, setMaximum] = useState(prop?.info.maximum);
 
     const dispatch = useDispatch();
 
@@ -49,7 +49,7 @@ export const BudgetsModal = ({ isOpen, closeModal, prop, type }: modal) => {
             <div>
                 <div className="pb-3">
                     <label className="block text-sm font-medium text-gray-700">Budget Category</label>
-                    <Select name="categories" disabled="true" items={CATEGORIES} defaultValue={prop?.info[0].category} onSelectChanged={setCategory}></Select>
+                    <Select name="categories" disabled="true" items={CATEGORIES} defaultValue={prop?.info.category} onSelectChanged={setCategory}></Select>
                 </div>
                 <div className="pb-3">
 					<label className="block text-sm font-medium text-gray-700">Maximum Spend</label>
@@ -57,7 +57,7 @@ export const BudgetsModal = ({ isOpen, closeModal, prop, type }: modal) => {
                 </div>
                 <div className="pb-3">
                     <label className="text-sm font-sm text-gray-700">Color Tag</label>
-                    <Select items={COLOR} name="color" defaultValue={prop?.info[0].theme} onSelectChanged={setColor}></Select>
+                    <Select items={COLOR} name="color" defaultValue={prop?.info.theme} onSelectChanged={setColor}></Select>
                 </div>
             </div>
         )

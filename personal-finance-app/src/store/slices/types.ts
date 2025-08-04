@@ -43,13 +43,9 @@ export const initialDataState: {
     transactions: Transaction[], 
     budgets: Budget[], 
     pots: Pot[] ,
-    filterKeyword : String,
-    sortOption: string,
 } = {
     balance: data.balance,
     budgets: data.budgets,
     pots: data.pots,
     transactions: data.transactions,
-    filterKeyword: '',
-    sortOption: ''
 }

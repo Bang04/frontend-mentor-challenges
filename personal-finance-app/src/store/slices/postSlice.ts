@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 /* 임시로 assets밑에서 데이터 가져오는 클래스 */
 
 const data = createSlice({
-    name: 'dataReducer',
+    name: 'postReducer',
     initialState: initialDataState,
     reducers: {
         list: (state:any) => {
