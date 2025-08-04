@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
-import { Card } from "../components/card";
+import { Card } from "../components/Card";
 import pot from "/images/icon-pot.svg";
-import { Donut } from "../components/donut";
+import { Donut } from "../components/Donut";
 import { RootState } from "../store";
 
 export const OverView = () => {
