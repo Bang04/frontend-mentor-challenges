@@ -6,6 +6,7 @@ import { Dropdown } from "../components/dropdown";
 import { CATEGORIES } from "../constants/categories";
 import { SORT_TEXT } from "../constants/sort";
 import { RootState } from "../store";
+import { Button } from "../components/button";
 import { filteredByCategory, filteredByKeyword, getFilteredData, setData, sortByOptions } from "../store/slices/filterSlice";
 
 export const Transactions = () => {
@@ -115,20 +116,18 @@ export const Transactions = () => {
                         </div>
                         <div className="grid grid-cols-10">
                             <div className="col-span-1">
-                                <button type="button" disabled={pageNum==1} className="button px-5 py-1 rounded-sm border-1 cursor-pointer hover:bg-black hover:text-white hover:opacity-50" onClick={()=>setPage(pageNum-1)}>Prev</button>
-                            </div>
+                                <Button type='page' name='Prev'  disabled={pageNum==1}   handler={() =>setPage(pageNum-1)} ></Button>
+                               </div>
                             <div className="col-span-8 place-content-center m-auto">
                                 {
                                     Array.from({length: totalCounts}, (_,i)=>i+1).map((value:number)=> (        
-                                            <button key={value} onClick={()=>setPage(value)} type="button" 
-                                                    className={`hover:bg-black hover:text-white hover:opacity-50 cursor-pointer w-8 h-8 rounded-sm border-1 mx-1 ${pageNum == value ? "bg-black text-white":""}`}>
-                                                    {value}
-                                            </button>))
+                                         <Button type='page' key={value} name={value} handler={()=>setPage(value)} ></Button>
+                                       ))
                                 }
                             </div>
                             <div className="col-span-1 ml-auto">
-                                <button type="button" disabled={pageNum==totalCounts} className="button px-5 py-1 rounded-sm border-1 cursor-pointer hover:bg-black hover:text-white hover:opacity-50" onClick={()=>setPage(pageNum+1)}> Next</button>
-                            </div>
+                                 <Button type='page' name='Next'  disabled={pageNum==totalCounts}  handler={()=>setPage(pageNum+1)} ></Button>
+                             </div>
                         </div>
                     </div>
                 </Card>

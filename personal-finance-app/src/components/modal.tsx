@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import close from "/images/icon-close-modal.svg";
-import { Button } from "./Button";
+import { Button } from "./button";
 export type modalType = "ADD" | "EDIT" | "REMOVE";
 
 export type modal = {

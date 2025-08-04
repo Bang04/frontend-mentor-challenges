@@ -3,7 +3,7 @@ import { Card } from "../components/card";
 import pot from "/images/icon-pot.svg";
 import { Donut } from "../components/donut";
 import { RootState } from "../store";
-
+import { recurringBillsValue } from "../store/selectors/recurringBillsSelector";
 export const OverView = () => {
     const _data = useSelector((state:RootState)=> state.postReducer);
   
@@ -11,12 +11,10 @@ export const OverView = () => {
     const pots = _data.pots.slice(0, 4);
     const transactions = _data.transactions.slice(0,5);
     const budgets = useSelector((state:RootState)=> state.postReducer.budgets);
-    const bills = _data.transactions.filter((value)=>value.recurring);
 
     const balance_txt = ["Current Balance", "Income", "Expenses"];
-
-    const bills_test = ["Paid Bills", "Total Upcoming", "Due Soon"];
-
+    const bills_data = useSelector(recurringBillsValue);
+    
 const _pots = () => {
     return (
         <Card title="Pots" link="See details">
@@ -118,13 +116,13 @@ const _recurringBills = () => {
         <Card title="Recurring Biils" link="See Details">
             <ul>
                 {
-                    bills_test.map((value,index)=> (
+                    bills_data.items.map((value)=> (
                         <li className="my-5">
                             <div className="border-l-3 border-orange-200 rounded">
                                 <Card backColor="#F8F4F0" padding={20} link={""}>
                                     <div className="flex items-center justify-between">
-                                        <span>{value}</span>
-                                        <span>$190.00</span>
+                                        <span>{value.name}</span>
+                                        <span>${value.money}</span>
                                     </div>
                                 </Card>
                             </div>
