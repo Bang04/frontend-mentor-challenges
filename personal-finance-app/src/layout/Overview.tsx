@@ -20,7 +20,26 @@ export const OverView = () => {
 const _pots = () => {
     return (
         <Card title="Pots" link="See details">
-            <div className="flex justify-between gap-10 m-5">
+            <div className="grid md:grid-cols-3">
+                <div className="md:col-span-2 xs:row-span-2">
+                    <img src={pot}></img>
+
+                    <div className="">Total Saved</div>
+                    <div className="">
+                        {
+                            "$"+ pots.reduce((prev,next)=> {
+                                return prev += next.total
+                            }, 0)
+                        }
+                    </div>
+                
+                </div>
+                <div className="md:col-span-1">
+
+
+                </div>
+            </div>
+            {/* <div className="flex justify-between gap-10 m-5">
                 <div className="flex justify-evenly bg-[#F8F4F0] w-[20vw] rounded-2xl">
                     <div className="my-auto mx-5">
                         <img src={pot}></img>
@@ -44,7 +63,7 @@ const _pots = () => {
                         ))
                     }
                 </div>
-            </div>
+            </div> */}
         </Card>
     )
 }

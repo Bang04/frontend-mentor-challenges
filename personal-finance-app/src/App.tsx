@@ -14,7 +14,7 @@ function App() {
     <ToastProvider>
       <div className='flex flex-row bg-[#F8F4F0]' style={{fontFamily: 'publicSans'}}>
         {/* 임시 */}
-        <div className='hidden fixed lg:block'> 
+        <div className=''> 
           <SideBar></SideBar>
         </div>
         <div className='lg:ml-[16rem]'>
