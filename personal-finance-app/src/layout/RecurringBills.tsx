@@ -1,21 +1,24 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react";
 
+import { RootState } from "../store";
+import { setFilter } from "../store/slices/filterSlice";
+import { commonType } from "../store/type";
+import { recurringBillsValue } from "../store/selectors/recurringBillsSelector";
+
+import { Card } from "../components/card";
+
 import iconsort from "/images/icon-sort-mobile.svg";
 import recurring from "/images/icon-recurring-bills.svg";
 import  searchImg  from "/images/icon-search.svg"
 import due  from "/images/icon-bill-due.svg";
 import paid from "/images/icon-bill-paid.svg";
-import { RootState } from "../store";
-import { setFilter } from "../store/slices/filterSlice";
-import { Card } from "../components/card";
-import { recurringBillsValue } from "../store/selectors/recurringBillsSelector";
 
 export const RecurringBills = () => {
     const dispatch = useDispatch();
     const transactions = useSelector((state: RootState) => state.postReducer.transactions);
     const searchKeyword = useSelector((state:any) => state.dataReducer);
-    const bills_data = useSelector(recurringBillsValue);
+    const bills_total= useSelector(recurringBillsValue);
 
     const [keyword, setKeyword ] = useState(""); 
     const [sortBy , setSortBy ]  = useState(""); 
@@ -28,21 +31,8 @@ export const RecurringBills = () => {
        // dispatch(setSortData(sortBy));
     },[sortBy])
 
-    // 서수 접미사 붙이기 함수
-    function ordinal_suffix_of(d:any) {
-        const dateObj = new Date(d);
-        const day = dateObj.getDate();
-        let j = day % 10;
-        let k = day % 100;
-
-        if (j === 1 && k !== 11) return day + "st";
-        else if (j === 2 && k !== 12)return day + "nd";
-        else if (j === 3 && k !== 13)return day + "rd";
-        return day+'th';
-    }
-
     return (
-        <div className="flex p-6 mx-auto my-auto">
+        <div className="flex m-10">
              <div className="flex flex-col min-w-xs md:w-3xl lg:w-5xl">
                 <div className="flex mt-5 font-semibold text-4xl mb-8">Recurring Bills</div>
                 
@@ -53,18 +43,19 @@ export const RecurringBills = () => {
                                 <img className="w-12" src={recurring}></img>
                                 <div className="flex flex-col pl-8 md:pl-0 md:pt-8">
                                     <span className="leading-10 text-base">Total Bills</span>
-                                    <span className="text-4xl font-bold">${bills_data.billsTotal}</span>
+                                    <span className="text-4xl font-bold">${bills_total.billsTotal}</span>
                                 </div>
                             </div>
                         </Card>
                         <Card link="">
                             <div className="leading-8 text-2xl font-semibold sm:mb-5">Summary</div>
                             {
-                                bills_data.items.map((item)=> {
+                                bills_total.items.map((item, index)=> {
+                                    const isLast = bills_total.items.length-1;
                                     return (
                                         <div className="flex flex-row justify-between">
-                                            <div className={`${item.color == 'black'? 'text-gray-400' : 'text-red-400'} leading-10`}>{item.name}</div>
-                                            <div className={`${item.color == 'black'? '' : 'text-red-500'} leading-10`}>{item.count}($ {item.money})</div>
+                                            <div className={`${index === isLast ? 'text-red-400' : 'text-gray-400'} leading-10`}>{item.name}</div>
+                                            <div className={`${index === isLast ? 'text-red-500': ''} leading-10`}>{item.count}($ {item.money})</div>
                                         </div>
                                     )
                                 })
@@ -90,7 +81,7 @@ export const RecurringBills = () => {
                                 <select name="sort"
                                     id="toggleSelectBtn"  
                                     onChange={(e)=>{ setSortBy(e.target.value); }} 
-                                    className="hidden md:block text-gray-500 text-base rounded-md p-2 border-1 border-slate-300 overflow-hidden">
+                                    className="hidden md:block text-gray-500 text-base rounded-md p-2 border-1 border-slate-300 overflow-hidden cursor-pointer">
                                     <option value="Latest">Latest</option>
                                     <option value="Oldest">Oldest</option>
                                     <option value="AtoZ">A to Z</option>
@@ -113,19 +104,19 @@ export const RecurringBills = () => {
                             { transactions && transactions.length > 0 ? 
                                 transactions.map((transaction, index) => {
                                     const profileName = transaction.name.toLowerCase().replace(/\s+/g,'-').replace(/&/g, "and");
-                                    const profilePath = `/images/avatars/`+profileName+`.jpg`;
-                                    const ordinalSuffixDate = 'Monthly-'+ordinal_suffix_of(transaction.date);
+                                    const profile = `/images/avatars/`+profileName+`.jpg`;
+                                    const osfx = 'Monthly-'+commonType.formatOrdinal(transaction.date);
                                     const amount = Math.abs(transaction.amount).toLocaleString();
                                 
                                     return (
                                         <li key={index} className="flex flex-col w-full md:flex-row hover:bg-gray-50 cursor-pointer pt-5 pb-5">
                                             <div className="flex md:w-3/5 items-center gap-2 text-left">
-                                                <img src={profilePath}  className="w-[45px] h-[45px] rounded-full"/>
+                                                <img src={profile}  className="w-[45px] h-[45px] rounded-full"/>
                                                 <div className="text-xl font-semibold pl-2">{transaction.name}</div>
                                             </div>
                                             <div className="flex  md:w-2/5  justify-between md:justify-start">
                                                 <div className={`flex md:w-2/3  justify-start items-center gap-2 text-center ${transaction.recurring ? 'text-gray-500' : 'text-green-800'}`}>
-                                                    <div className=" whitespace-nowrap">{ordinalSuffixDate}</div>
+                                                    <div className=" whitespace-nowrap">{osfx}</div>
                                                     <img className=" w-4 h-4 shrink-0" src={transaction.recurring? due : paid} />
                                                 </div>
                                                 <div className={` flex md:w-1/3 justify-end text-xl font-semibold ${transaction.recurring ? 'text-red-400' : 'text-black'}`}>

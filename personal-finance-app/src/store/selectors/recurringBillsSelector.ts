@@ -24,7 +24,7 @@ export const recurringBillsValue = createSelector(
         //지불 완료 total / 지불 완료 Count
         const paidBills = filterBills.filter((item) => item.recurring === false);
         const paidBillsSum = paidBills.reduce((sum, item) => sum + Math.abs(item.amount), 0).toFixed(2);
-        const paidBillsCount = paidBills.length;
+        const paidCount = paidBills.length;
 
         
         //Upcoming : true / 아직 결제되지 않은 청구서 합
@@ -34,7 +34,7 @@ export const recurringBillsValue = createSelector(
                 item.recurring === true &&
                 new Date(item.date) > new Date()); //오늘 이후
         const upcomingSum = filterUpcomingBills.reduce((sum, item) => sum + Math.abs(item.amount), 0).toFixed(2);
-        const upcomingSumCount = filterUpcomingBills.length;
+        const upcomingCount = filterUpcomingBills.length;
 
         //Due : 7일 이내 납부일 청구서 
         //곧 마감될 청구서 총 금액 / 곧 마감될 청구서 총 Count
@@ -50,11 +50,11 @@ export const recurringBillsValue = createSelector(
 
         const items = bills_txt.map((name) => {
             if(name ==="Paid Bills"){
-                return {  name, money : paidBillsSum, count : paidBillsCount, color: 'black'}  
+                return {  name, money : paidBillsSum, count : paidCount, theme:"#277c78" }  
             }else if(name ==="Total Upcoming"){
-                return {  name, money : upcomingSum, count : upcomingSumCount, color: 'black'}  
+                return {  name, money : upcomingSum, count : upcomingCount, theme:"#f2cdac"}  
             }else{
-                return {  name, money : dueSum, count : dueSumCount, color : 'red'}  
+                return {  name, money : dueSum, count : dueSumCount, theme:"#82c9d7"}  
             }
         });
         return {    
