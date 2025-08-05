@@ -2,10 +2,12 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { TOAST_DELAY, removeToast } from "../../store/slices/toastSlice";
 
-export const ToastItem = ({toast} : any) => {
+export const ToastItem = ({toast } : any) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        
+        
         const timer = setTimeout(() => {
             dispatch(removeToast(toast.id));
         }, TOAST_DELAY); // 3초 후 자동 숨김

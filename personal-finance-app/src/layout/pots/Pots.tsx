@@ -37,7 +37,6 @@ export const Pots = () => {
 
     //Toast 호출
     const handlerToast = (e: React.MouseEvent<HTMLElement>, itemId: number, handleEditOpen: any) => {
-
         const rect = (e.currentTarget).getBoundingClientRect();
         const X_OFFSET = 100; //100px 만큼 이동
 
