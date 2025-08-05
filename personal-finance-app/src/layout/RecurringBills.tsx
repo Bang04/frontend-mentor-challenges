@@ -50,11 +50,12 @@ export const RecurringBills = () => {
                         <Card link="">
                             <div className="leading-8 text-2xl font-semibold sm:mb-5">Summary</div>
                             {
-                                bills_total.items.map((item)=> {
+                                bills_total.items.map((item, index)=> {
+                                    const isLast = bills_total.items.length-1;
                                     return (
                                         <div className="flex flex-row justify-between">
-                                            <div className={`${item.color == 'black'? 'text-gray-400' : 'text-red-400'} leading-10`}>{item.name}</div>
-                                            <div className={`${item.color == 'black'? '' : 'text-red-500'} leading-10`}>{item.count}($ {item.money})</div>
+                                            <div className={`${index === isLast ? 'text-red-400' : 'text-gray-400'} leading-10`}>{item.name}</div>
+                                            <div className={`${index === isLast ? 'text-red-500': ''} leading-10`}>{item.count}($ {item.money})</div>
                                         </div>
                                     )
                                 })
