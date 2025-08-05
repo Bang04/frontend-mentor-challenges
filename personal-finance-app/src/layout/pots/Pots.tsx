@@ -60,7 +60,7 @@ export const Pots = () => {
         <div className="flex flex-col w-[100%] p-10 my-auto">
             <div className="flex flex-row flex-nowrap justify-between items-center  min-w-xs mb-8">
                 <div className="flex mt-5 font-semibold text-4xl mb-8">Pots</div>
-                <button onClick={() => handleInsertModal("insert")} className="text-sm text-white  bg-black font-semibold py-4 px-4 rounded-lg">+Add New Pot</button>
+                <button onClick={() => handleInsertModal("insert")} className="text-sm text-white  bg-black font-semibold py-4 px-4 rounded-lg cursor-pointer">+Add New Pot</button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -76,7 +76,7 @@ export const Pots = () => {
                                             <span className="font-semibold pl-3">{item.name}</span>
                                         </div>
 
-                                        <div className="w-10" onClick={(e) => handlerToast(e, Number(item.id), handleEditOpen)} ><img src={dots} alt="" /></div>
+                                        <div className="w-10 cursor-pointer" onClick={(e) => handlerToast(e, Number(item.id), handleEditOpen)} ><img src={dots} alt="" /></div>
                                     </div>
                                     <div>
                                         <div className="flex justify-between mb-4">
@@ -97,8 +97,8 @@ export const Pots = () => {
                                             <span className="text-gray-500">Target of ${item.target}</span>
                                         </div>
                                         <div className="flex gap-[10px] justify-between  mb-3">
-                                            <button onClick={() => handleEditOpen("add", item.id)} className="p-3 text-sm bg-[#F8F4F0] font-semibold flex-1 rounded-lg">+Add Money</button>
-                                            <button onClick={() => handleEditOpen("withdraw", item.id)} className="p-3 text-sm bg-[#F8F4F0] font-semibold flex-1 rounded-lg">Withdraw</button>
+                                            <button onClick={() => handleEditOpen("add", item.id)} className="p-3 text-sm bg-[#F8F4F0] font-semibold flex-1 rounded-lg cursor-pointer ">+Add Money</button>
+                                            <button onClick={() => handleEditOpen("withdraw", item.id)} className="p-3 text-sm bg-[#F8F4F0] font-semibold flex-1 rounded-l cursor-pointer">Withdraw</button>
                                         </div>
                                     </div>
                                 </Card>

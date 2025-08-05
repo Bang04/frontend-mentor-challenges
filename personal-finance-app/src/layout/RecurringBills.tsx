@@ -81,7 +81,7 @@ export const RecurringBills = () => {
                                 <select name="sort"
                                     id="toggleSelectBtn"  
                                     onChange={(e)=>{ setSortBy(e.target.value); }} 
-                                    className="hidden md:block text-gray-500 text-base rounded-md p-2 border-1 border-slate-300 overflow-hidden">
+                                    className="hidden md:block text-gray-500 text-base rounded-md p-2 border-1 border-slate-300 overflow-hidden cursor-pointer">
                                     <option value="Latest">Latest</option>
                                     <option value="Oldest">Oldest</option>
                                     <option value="AtoZ">A to Z</option>
