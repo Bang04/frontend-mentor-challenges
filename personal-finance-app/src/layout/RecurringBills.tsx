@@ -1,16 +1,19 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react";
 
+import { RootState } from "../store";
+import { setFilter } from "../store/slices/filterSlice";
+import { commonType } from "../store/type";
+import { recurringBillsValue } from "../store/selectors/recurringBillsSelector";
+
+import { Card } from "../components/card";
+
 import iconsort from "/images/icon-sort-mobile.svg";
 import recurring from "/images/icon-recurring-bills.svg";
 import  searchImg  from "/images/icon-search.svg"
 import due  from "/images/icon-bill-due.svg";
 import paid from "/images/icon-bill-paid.svg";
-import { RootState } from "../store";
-import { setFilter } from "../store/slices/filterSlice";
-import { Card } from "../components/card";
-import { recurringBillsValue } from "../store/selectors/recurringBillsSelector";
-import  { commonType } from "../store/type";
+
 export const RecurringBills = () => {
     const dispatch = useDispatch();
     const transactions = useSelector((state: RootState) => state.postReducer.transactions);
@@ -29,7 +32,7 @@ export const RecurringBills = () => {
     },[sortBy])
 
     return (
-        <div className="flex p-6 mx-auto my-auto">
+        <div className="flex m-10">
              <div className="flex flex-col min-w-xs md:w-3xl lg:w-5xl">
                 <div className="flex mt-5 font-semibold text-4xl mb-8">Recurring Bills</div>
                 
