@@ -118,7 +118,7 @@ const _recurringBills = () => {
                 {
                     bills_data.items.map((value)=> (
                         <li className="my-5">
-                            <div className="border-l-3 border-orange-200 rounded">
+                            <div className={`border-l-3 border-["${value.line}"] rounded`}>
                                 <Card backColor="#F8F4F0" padding={20} link={""}>
                                     <div className="flex items-center justify-between">
                                         <span>{value.name}</span>

@@ -50,11 +50,11 @@ export const recurringBillsValue = createSelector(
 
         const items = bills_txt.map((name) => {
             if(name ==="Paid Bills"){
-                return {  name, money : paidBillsSum, count : paidBillsCount, color: 'black'}  
+                return {  name, money : paidBillsSum, count : paidBillsCount, color: 'black' , line:"#277c78" }  
             }else if(name ==="Total Upcoming"){
-                return {  name, money : upcomingSum, count : upcomingSumCount, color: 'black'}  
+                return {  name, money : upcomingSum, count : upcomingSumCount, color: 'black', line:"#f2cdac"}  
             }else{
-                return {  name, money : dueSum, count : dueSumCount, color : 'red'}  
+                return {  name, money : dueSum, count : dueSumCount, color : 'red', line:"#82c9d7"}  
             }
         });
         return {    
