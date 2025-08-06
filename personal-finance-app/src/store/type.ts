@@ -42,12 +42,25 @@ const filterTargetByBasedKey = <T>(base: any, target: any, key: string) => {
     }, []);
 }
 
+const formatOrdinal =  <T>(date : any) => {
+    const dateObj = new Date(date);
+    const day = dateObj.getDate();
+    let j = day % 10;
+    let k = day % 100;
+
+    if (j === 1 && k !== 11) return day + "st";
+    else if (j === 2 && k !== 12)return day + "nd";
+    else if (j === 3 && k !== 13)return day + "rd";
+    return day+'th';
+}
+
 
 export const commonType = {
     entries: entries,
     setDate: setDate,
     groupBy: groupBy,
-    filterByKey: filterByKey
+    filterByKey: filterByKey,
+    formatOrdinal :formatOrdinal
 }
 
 

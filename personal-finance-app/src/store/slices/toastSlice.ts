@@ -11,7 +11,13 @@ const toast = createSlice({
     initialState: toasts,
     reducers: {
         setToast: (state, action: PayloadAction<Toast>) => {
-            state.push(action.payload);
+            const targetIndex = state.findIndex(toast => toast.itemId == action.payload.itemId);
+            if(targetIndex !== -1){
+                state.splice(targetIndex, 1);//한 번 더 클릭했을때 toast 닫기
+            }else{
+                 state.push(action.payload);
+            }
+            
         },
         removeToast: (state, action: PayloadAction<number>) => {
             return state.filter(toast => toast.id !== action.payload);

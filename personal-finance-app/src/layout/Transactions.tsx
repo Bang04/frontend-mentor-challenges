@@ -6,10 +6,11 @@ import { Dropdown } from "../components/dropdown";
 import { CATEGORIES } from "../constants/categories";
 import { SORT_TEXT } from "../constants/sort";
 import { RootState } from "../store";
-import { filteredByCategory, filteredByKeyword, setData, sortByOptions } from "../store/slices/filterSlice";
 import filterIcon from "/images/icon-filter-mobile.svg";
 import sortIcon  from "/images/icon-sort-mobile.svg"
 import { commonType } from "../store/type";
+import { filteredByCategory, filteredByKeyword, getFilteredData, setData, sortByOptions } from "../store/slices/filterSlice";
+import { Button } from "../components/Button";
 
 export const Transactions = () => {
     //나중에 서버에 청구할 데이터
@@ -45,7 +46,7 @@ export const Transactions = () => {
     }, [sortBy]);
 
     const countPerPage = 10;
-    const totalCounts = Math.ceil(filteredData.length/countPerPage);
+    const totalCounts = Array.from({length: Math.ceil(filteredData.length/countPerPage)}).map((_,i)=> i+1);
 
     const [pageNum, setPageNum] = useState(1);
 
@@ -136,7 +137,7 @@ export const Transactions = () => {
                             </div>
                             <div className="col-span-4 place-content-center m-auto">
                                 {
-                                    [1,2,'...',5].map((value:any)=> (        
+                                    totalCounts.map((value:any)=> (        
                                         <button key={value} onClick={()=>setPage(value)} type="button" 
                                                 className={`hover:bg-black hover:text-white hover:opacity-50 cursor-pointer w-8 h-8 rounded-sm border-1 mx-1 ${pageNum == value ? "bg-black text-white":""}`}>
                                                 {value}
@@ -144,15 +145,25 @@ export const Transactions = () => {
                                 }
                             </div>
                             <div className="col-span-1 ml-auto">
-                                <button type="button" disabled={pageNum==totalCounts} className="button px-5 py-1 rounded-sm border-1 cursor-pointer hover:bg-black hover:text-white hover:opacity-50" onClick={()=>setPage(pageNum+1)}> 
+                                <button type="button" disabled={pageNum==totalCounts.length} className="button px-5 py-1 rounded-sm border-1 cursor-pointer hover:bg-black hover:text-white hover:opacity-50" onClick={()=>setPage(pageNum+1)}> 
                                     <span className="hidden sm:block">Next❱</span>
                                     <span className="sm:hidden">❱</span>
                                 </button>
                             </div>
+                            </div>
+                                {/* <Button type='page' name='Prev'  disabled={pageNum==1}   handler={() =>setPage(pageNum-1)} ></Button>
+                            <div className="col-span-8 place-content-center m-auto">
+                                {
+                                    Array.from({length: totalCounts}, (_,i)=>i+1).map((value:number)=> (        
+                                         <Button type='page' key={value} name={value} handler={()=>setPage(value)} ></Button>
+                                       ))
+                                }
+                            </div>
+                            <div className="col-span-1 ml-auto">
+                                 <Button type='page' name='Next'  disabled={pageNum==totalCounts}  handler={()=>setPage(pageNum+1)} ></Button>
+                             </div> */}
                         </div>
-                    </div>
                 </Card>
-
             </div>
         </div>
     )
