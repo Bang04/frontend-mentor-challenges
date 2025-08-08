@@ -1,35 +1,46 @@
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 import { RootState } from "../store";
-import { setFilter } from "../store/slices/filterSlice";
+import { setData, filteredByKeyword, sortByOptions } from "../store/slices/filterSlice";
 import { commonType } from "../store/type";
 import { recurringBillsValue } from "../store/selectors/recurringBillsSelector";
 
 import { Card } from "../components/card";
+import { Dropdown } from "../components/dropdown";
+import { SORT_TEXT } from "../constants/sort";
 
-import iconsort from "/images/icon-sort-mobile.svg";
+import sort from "/images/icon-sort-mobile.svg";
 import recurring from "/images/icon-recurring-bills.svg";
-import  searchImg  from "/images/icon-search.svg"
+import  search  from "/images/icon-search.svg"
 import due  from "/images/icon-bill-due.svg";
 import paid from "/images/icon-bill-paid.svg";
 
 export const RecurringBills = () => {
-    const dispatch = useDispatch();
-    const transactions = useSelector((state: RootState) => state.postReducer.transactions);
-    const searchKeyword = useSelector((state:any) => state.dataReducer);
+    //const searchKeyword = useSelector((state:any) => state.dataReducer);
     const bills_total= useSelector(recurringBillsValue);
 
-    const [keyword, setKeyword ] = useState(""); 
-    const [sortBy , setSortBy ]  = useState(""); 
+    const data = useSelector((state: RootState) => state.postReducer.transactions);
+    const filteredData = useSelector((state:RootState)=>state.filterReducer.filteredData);
+    const [keyword, setKeyword] = useState<string>("");
+    const [sortBy, setSortBy] = useState<string>("");
+    const dispatch = useDispatch();
+    
+    useEffect(()=> {
+        //setIsRender(true);
+        if(data.length > 0){
+            dispatch(setData(data));
+        }
+    }, [data]);
 
     useEffect(()=> {
-       dispatch(setFilter(keyword));
+       dispatch(filteredByKeyword(keyword));
     },[keyword]);
    
     useEffect(() => {
-       // dispatch(setSortData(sortBy));
+        dispatch(sortByOptions(sortBy));
     },[sortBy])
+
 
     return (
         <div className="flex m-10">
@@ -63,34 +74,20 @@ export const RecurringBills = () => {
                         </Card>
                     </div>
                     <Card link="">
-                        <div className="flex ">
-                            <div className="flex relative w-5/6  md:w-1/2">
-                                <input type="text" 
-                                    onChange={(e)=>{setKeyword(e.target.value)}}
-                                    className="w-full rounded-md p-2 border-1 placeholder:text-slate-300 overflow-hidden" 
-                                    placeholder={"Search bills"}
-                                >
+                        <div className="flex justify-between">
+                             <div className="relative">
+                                <input type="text" onChange={(e:ChangeEvent<HTMLInputElement>)=> setKeyword(e.target.value)} className="rounded-md py-2 px-10 border-1 placeholder:text-black border-black-300 overflow-hidden text-sm" placeholder={"Search Bills"}>
                                 </input>
-                                <img src={searchImg} className="absolute top-[34%] right-[4%] bg-white"></img>
+                                <img src={search} className="absolute top-[30%] right-[10%] bg-white"></img>
                             </div>
-                            <div className="flex w-1/6  md:w-1/2 justify-end">
+                            <div>
                                 <button id="toggleMobileBtn" className="block md:hidden">
-                                    <img className="w-6"  src={iconsort} onClick={()=>{}}/>
+                                    <img src={sort} onClick={()=>{}}/>
                                 </button>
-                                <span className="flex  hidden md:flex md:items-center md:mr-3 text-gray-500 text-sm ">Sort by</span>
-                                <select name="sort"
-                                    id="toggleSelectBtn"  
-                                    onChange={(e)=>{ setSortBy(e.target.value); }} 
-                                    className="hidden md:block text-gray-500 text-base rounded-md p-2 border-1 border-slate-300 overflow-hidden cursor-pointer">
-                                    <option value="Latest">Latest</option>
-                                    <option value="Oldest">Oldest</option>
-                                    <option value="AtoZ">A to Z</option>
-                                    <option value="ZtoA">Z to A</option>
-                                    <option value="Highest">Highest</option>
-                                    <option value="Lowest">Lowest</option>
-                                </select>
-                            </div>
-                            <div className="block md:hidden">
+                                <span className="hidden md:block">
+                                    <span className="text-sm text-gray-500">Sort by</span>
+                                    <Dropdown onDropdownChanged={setSortBy} options={SORT_TEXT}></Dropdown>
+                                </span>
                             </div>
                         </div>
                         
@@ -101,8 +98,8 @@ export const RecurringBills = () => {
                                 <div className="w-1/5 text-right pt-3 pb-3 ">Amount</div>
                             </div>     
                             <ul  className="divide-y  rounded-b-lg border-b-indigo-100">
-                            { transactions && transactions.length > 0 ? 
-                                transactions.map((transaction, index) => {
+                            { data && data.length > 0 ? 
+                                filteredData.map((transaction, index) => {
                                     const profileName = transaction.name.toLowerCase().replace(/\s+/g,'-').replace(/&/g, "and");
                                     const profile = `/images/avatars/`+profileName+`.jpg`;
                                     const osfx = 'Monthly-'+commonType.formatOrdinal(transaction.date);
@@ -125,9 +122,9 @@ export const RecurringBills = () => {
                                             </div>                            
                                         </li>
                                     )
-                                }
-                                )
-                                :  <li>No results found</li>
+                                })
+                                :  
+                                <li>No results found</li>
                             }
                             </ul>
                         </div>  
