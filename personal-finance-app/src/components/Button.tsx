@@ -8,9 +8,11 @@ type button = {
     bg_color?: string,       //버튼 배경색
     text_color?: string,     //버튼 글자색
     name: string | number   //버튼명 or value 사용
+    px?: number,
+    py?: number
 }
 
-export const Button = ({ type, handler, closeModal, disabled, pageNum, bg_color, text_color, name }: button) => {
+export const Button = ({ type, handler, closeModal, disabled, pageNum, bg_color, text_color, name, px, py }: button) => {
 
     switch (type) {
         case "modal":
@@ -18,14 +20,14 @@ export const Button = ({ type, handler, closeModal, disabled, pageNum, bg_color,
             onClick={() => handler? handler() : closeModal}> {name} </button>;
 
         case "page":
-            return <button type="button" disabled={disabled} className="button px-5 py-1 rounded-sm border-1 cursor-pointer hover:bg-black hover:text-white hover:opacity-50"
-                onClick={handler}>{name}</button>;
+            return <button type="button" disabled={disabled} className={`button px-${px} py-${py} rounded-sm border-1 cursor-pointer hover:bg-black hover:text-white hover:opacity-50`}
+                onClick={handler} >{name}</button>;
 
         case "pnum":
             return <button key={name} type="button" className={`hover:bg-black hover:text-white hover:opacity-50 cursor-pointer w-8 h-8 rounded-sm border-1 mx-1 ${pageNum == name ? "bg-black text-white" : ""}`}
                 onClick={handler}> {name} </button>;
         default:
-            return <button type="button" className="py-4 px-4  text-sm text-white font-semibold  bg-black rounded-lg"
+            return <button type="button" className="py-4 px-4  text-sm text-white font-semibold  bg-black rounded-lg cursor-pointer"
                 onClick={() => handler} >{name}</button>;
     }
 }

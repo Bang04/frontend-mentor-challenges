@@ -7,14 +7,17 @@ import { Bar } from "../../components/bar";
 import { modalType } from "../../components/modal";
 import { selectDataByLatestDate } from "../../store/selectors/transactionSelector";
 import { Donut } from "../../components/donut";
+import { useToast } from "../../hooks/useToast";
+import dots from "/images/dots-three-thin.svg";
 
 
 export const Budgets = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [modalType, setModalType] = useState<modalType>("ADD");
+    const [modalType, setModalType] = useState<modalType>("add");
     const [selectedData, setSelectedData] = useState({});
+    const showToast = useToast();
 
-    const handleModal = (type: modalType, value?: any) => {
+    const handleEditOpen = (type: modalType, value?: any) => {
         setSelectedData(value);
         setModalType(type);
         setIsOpen(true);
@@ -24,13 +27,28 @@ export const Budgets = () => {
         setIsOpen(false);
     }
 
+    const handlerToast = (e: React.MouseEvent<HTMLElement>, itemId: number, handleEditOpen: any) => {
+        const rect = (e.currentTarget).getBoundingClientRect();
+        const X_OFFSET = 100; //100px 만큼 이동
+
+        console.log(e, itemId, handleEditOpen)
+
+        showToast.addToast({
+            id: Date.now(),
+            itemId: itemId,
+            top: rect.bottom + window.scrollY,
+            left: rect.left + window.scrollX - X_OFFSET,
+            handleEditOpen
+        });
+    }
+
     const data = useSelector(selectDataByLatestDate);
 
     return (
         <div className="bg-[#F8F4F0]">
             <div className="flex justify-between m-10">
                 <div className="font-semibold text-4xl">Budgets</div>
-                <button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>handleModal("ADD")}>
+                <button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>handleEditOpen("add")}>
                     + Add New Budgets
                 </button>
             </div>
@@ -68,16 +86,13 @@ export const Budgets = () => {
                         data.map((value:any, index:number)=> {
                                 return (
                                     <div className="flex flex-col divide-y-3 p-3" key={index}>
-                                        {/* FIXME */}
-                                        <Card link={0}>
-                                            <div className="text-xs text-right">
-                                                <div className="" onClick={()=> handleModal("EDIT", value)}>임시 EDIT</div>
-                                                <div className="" onClick={()=> handleModal("REMOVE", value)}>임시 DELETE</div>
-                                            </div>
-
+                                        <Card>
                                             <div className="flex flex-row items-center">
                                                 <div className={`w-3 h-3 rounded-full `} style={{ backgroundColor: value?.info.theme }}></div>
                                                 <span className="font-semibold pl-3">{value?.info.category}</span>
+                                                <div className="text-xs ml-auto">
+                                                    <div className="w-10 cursor-pointer" onClick={(e) => handlerToast(e, value, handleEditOpen)} ><img src={dots} alt="" /></div>
+                                                </div>
                                             </div>
                                             <div className="text-sm text-gray-500 my-3">
                                                 Maxinum of ${value?.info.maximum}.00

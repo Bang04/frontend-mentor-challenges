@@ -8,6 +8,8 @@ import { MODAL_TEXT } from "../../constants/modalText";
 
 export const BudgetsModal = ({ isOpen, closeModal, prop, type }: modal) => {
     if(!isOpen) return null;
+
+    console.log(isOpen, prop, type)
     
     const [category, setCategory] = useState(prop?.info.category ?? "");
     const [color, setColor] = useState(prop?.info.theme ?? "");
@@ -38,10 +40,10 @@ export const BudgetsModal = ({ isOpen, closeModal, prop, type }: modal) => {
 	};
 
     const buttons = [
-        {name: "Add Budget",    type: "ADD",    color: {background: 'bg-black', text: 'text-white'}},
-        {name: "Edit Budget",   type: "EDIT",   color: {background: 'bg-black', text: 'text-white'}},
-        {name: "Yes, Confirm Deletion", type: "REMOVE", color: {background: 'bg-red-500', text: 'text-white'}},
-        {name: "No, Go Back",   type: "REMOVE", color: {background: 'bg-white', text: 'text-gray-500'}}
+        {name: "Add Budget",    type: "add",    color: {background: 'bg-black', text: 'text-white'}},
+        {name: "Edit Budget",   type: "edit",   color: {background: 'bg-black', text: 'text-white'}},
+        {name: "Yes, Confirm Deletion", type: "remove", color: {background: 'bg-red-500', text: 'text-white'}},
+        {name: "No, Go Back",   type: "remove", color: {background: 'bg-white', text: 'text-gray-500'}}
     ];
 
    const customEdit = () => {
@@ -69,14 +71,14 @@ export const BudgetsModal = ({ isOpen, closeModal, prop, type }: modal) => {
         <>
             <Modal isOpen={isOpen} 
                    closeModal={closeModal} 
-                   title={MODAL_TEXT["budgets"][type]["title"]} 
-                   description={MODAL_TEXT["budgets"][type]["description"]}
+                   title={MODAL_TEXT["budgets"]?.[type]["title"]} 
+                   description={MODAL_TEXT["budgets"]?.[type]["description"]}
                    buttons={buttons}
                    edit={editBudget}
                    type={type}
                 >
                     {
-                        type != 'REMOVE' ?
+                        type != 'remove' ?
 
                             customEdit() : <></>
                     }

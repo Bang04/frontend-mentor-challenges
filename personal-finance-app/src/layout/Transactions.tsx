@@ -9,8 +9,9 @@ import { RootState } from "../store";
 import filterIcon from "/images/icon-filter-mobile.svg";
 import sortIcon  from "/images/icon-sort-mobile.svg"
 import { commonType } from "../store/type";
-import { filteredByCategory, filteredByKeyword, getFilteredData, setData, sortByOptions } from "../store/slices/filterSlice";
-import { Button } from "../components/Button";
+import { filteredByCategory, filteredByKeyword, getFilteredData, setData, setFilter, sortByOptions } from "../store/slices/filterSlice";
+import { Paging } from "../components/paging";
+import { Modal, modalType } from "../components/modal";
 
 export const Transactions = () => {
     //나중에 서버에 청구할 데이터
@@ -21,6 +22,12 @@ export const Transactions = () => {
     const [keyword, setKeyword] = useState<string>("");
     const [sortBy, setSortBy] = useState<string>("");
 
+    //mobile version of dropdown
+    const [type, setType] = useState("");
+
+    const closeModal = () => {
+        setType("");
+    }
 
     const dispatch = useDispatch();
 
@@ -56,10 +63,9 @@ export const Transactions = () => {
 
     return (
         <div className="bg-[#F8F4F0]">
-            <div className="lg:w-full sm:w-screen m-10">
+            <div className="lg:w-[69rem] sm:w-screen m-10">
                 <div className="font-semibold text-4xl my-5">Transactions</div>
                 <Card title="" link="">
-                    <div className="">
                         <div className="flex justify-between">
                             <div className="relative">
                                 <input type="text" onChange={(e:ChangeEvent<HTMLInputElement>)=> setKeyword(e.target.value)} className="rounded-md py-2 sm:px-10 border-1 placeholder:text-gray border-gray-400 overflow-hidden text-sm" placeholder={"Search transaction"}>
@@ -67,22 +73,37 @@ export const Transactions = () => {
                                 <img src={search} className="absolute top-[30%] right-[10%] bg-white"></img>
                             </div>
                             <div className="hidden sm:block">
-                                <span>
-                                    <span className="text-sm text-gray-500">Sort by</span>
-                                    <Dropdown onDropdownChanged={setSortBy} options={SORT_TEXT}></Dropdown>
-                                </span>
-                                <span>
-                                    <span className="text-sm text-gray-500">Category</span>
-                                    <Dropdown onDropdownChanged={(value:string)=>setCategory(value)} options={CATEGORIES}></Dropdown>
-                                </span>
+                                <div className="flex">
+                                    <div className="flex items-center gap-1 px-3">
+                                        <div className="text-sm text-gray-500 whitespace-nowrap">Sort by</div>
+                                        <Dropdown onDropdownChanged={setSortBy} options={SORT_TEXT} props="w-full px-3 py-2" ></Dropdown>
+                                     </div>
+                                    <div className="flex items-center gap-1">
+                                        <span className="text-sm text-gray-500 w-25">Category</span>
+                                        <Dropdown onDropdownChanged={(value:string)=>setCategory(value)} options={CATEGORIES} props="w-full px-3 py-2"></Dropdown>
+                                    </div>
+                                </div>
+
                             </div>
-                            <div className="flex gap-5 sm:gap-10 items-center sm:hidden">
-                                <span>
-                                    <img src={sortIcon} className="w-5"/>
-                                </span>
-                                <span>
-                                    <img src={filterIcon} className="w-5"/>
-                                </span>
+                            <div className="sm:hidden flex gap-3 items-center z-10">
+                                <div>
+                                    <img src={sortIcon} className="w-5 cursor-pointer" onClick={()=>setType("sort")}/>
+                                </div>
+                                <div>
+                                    <img src={filterIcon} className="w-5 cursor-pointer z-10" onClick={()=>setType("category")}/>
+                                </div>
+                                <Modal isOpen={type === "sort"} type={"none"} closeModal={closeModal}>
+                                    <Dropdown showOnlyOptions={true}  onDropdownChanged={(value)=>{
+                                        setSortBy(value);
+                                        closeModal();
+                                    }} options={SORT_TEXT} props="w-full px-3 py-2" ></Dropdown>
+                                </Modal>
+                                <Modal isOpen={type === "category"} type={"none"} closeModal={closeModal}>
+                                    <Dropdown showOnlyOptions={true} onDropdownChanged={(value:string)=>{
+                                        setCategory(value);
+                                        closeModal();
+                                    }} options={CATEGORIES} props="w-full px-3 py-2"></Dropdown>
+                                </Modal>
                             </div>
                         </div>
                         <div className="my-5 text-xs">
@@ -128,41 +149,7 @@ export const Transactions = () => {
                                 }
                             </ul>
                         </div>
-                        <div className="grid grid-cols-6">
-                            <div className="col-span-1">
-                                <button type="button" disabled={pageNum==1} className="button px-5 py-1 rounded-sm border-1 cursor-pointer hover:bg-black hover:text-white hover:opacity-50" onClick={()=>setPage(pageNum-1)}>
-                                    <span className="hidden sm:block">❰Prev</span>
-                                    <span className="sm:hidden">❰</span>
-                                </button>
-                            </div>
-                            <div className="col-span-4 place-content-center m-auto">
-                                {
-                                    totalCounts.map((value:any)=> (        
-                                        <button key={value} onClick={()=>setPage(value)} type="button" 
-                                                className={`hover:bg-black hover:text-white hover:opacity-50 cursor-pointer w-8 h-8 rounded-sm border-1 mx-1 ${pageNum == value ? "bg-black text-white":""}`}>
-                                                {value}
-                                        </button>))
-                                }
-                            </div>
-                            <div className="col-span-1 ml-auto">
-                                <button type="button" disabled={pageNum==totalCounts.length} className="button px-5 py-1 rounded-sm border-1 cursor-pointer hover:bg-black hover:text-white hover:opacity-50" onClick={()=>setPage(pageNum+1)}> 
-                                    <span className="hidden sm:block">Next❱</span>
-                                    <span className="sm:hidden">❱</span>
-                                </button>
-                            </div>
-                            </div>
-                                {/* <Button type='page' name='Prev'  disabled={pageNum==1}   handler={() =>setPage(pageNum-1)} ></Button>
-                            <div className="col-span-8 place-content-center m-auto">
-                                {
-                                    Array.from({length: totalCounts}, (_,i)=>i+1).map((value:number)=> (        
-                                         <Button type='page' key={value} name={value} handler={()=>setPage(value)} ></Button>
-                                       ))
-                                }
-                            </div>
-                            <div className="col-span-1 ml-auto">
-                                 <Button type='page' name='Next'  disabled={pageNum==totalCounts}  handler={()=>setPage(pageNum+1)} ></Button>
-                             </div> */}
-                        </div>
+                        <Paging current={pageNum} total={totalCounts} setPage={setPage}></Paging>
                 </Card>
             </div>
         </div>

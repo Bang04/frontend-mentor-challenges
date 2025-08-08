@@ -35,7 +35,7 @@ export const Card = (prop: card) => {
                         typeof prop.link == "string" ? 
                             <span className="text-xs text-gray-500"> {prop.link} </span>
                                 : 
-                            <img src={dots} width={20} height={20}></img>
+                            <></>
                         }
                     </div>
                 </Link>

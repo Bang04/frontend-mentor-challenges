@@ -115,9 +115,9 @@ export const Pots = () => {
                 switch (modalType) {
                     case "insert":
                         return <PotAddModal closeModal={closeModal} />;
-                    case "edit":
+                    case "edti":
                         return <PotEditModal closeModal={closeModal} id={id} />;
-                    case "delete":
+                    case "remove":
                         return <PotDeleteModal closeModal={closeModal} handleEditOpen={handleEditOpen} id={id} />;
                     case "add":
                         return <PotAmountModal closeModal={closeModal} modalType={modalType} id={id} />;

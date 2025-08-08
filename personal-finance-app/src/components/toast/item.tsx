@@ -22,7 +22,7 @@ export const ToastItem = ({toast } : any) => {
             style={{ top: toast.top , left: toast.left }}>
             <div className="flex flex-col">
                <button onClick={() => toast.handleEditOpen("edit", toast.itemId)}  className="py-3 px-6 cursor-pointer">Edit Pot</button>
-				<button onClick={() => toast.handleEditOpen("delete", toast.itemId)} className="py-3 px-6 text-red-600 cursor-pointer" >Delete Pot</button>
+				<button onClick={() => toast.handleEditOpen("remove", toast.itemId)} className="py-3 px-6 text-red-600 cursor-pointer" >Delete Pot</button>
             </div>
         </div>
     )
