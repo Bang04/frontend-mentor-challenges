@@ -7,7 +7,6 @@ export type modal = {
 	type: modalType
 	isOpen: boolean
 	closeModal: () => void
-	edit?: ()=>void
 	title?: string
 	description?: string
 	buttons?: { name: string, type: string, handler?: () => void, color: { text: string, background: string } }[]
@@ -33,7 +32,7 @@ export const Modal = ({ type, isOpen, closeModal, title, description, buttons, c
 							<div className="flex justify-between pb-5">
 								<span className="text-2xl self-center font-semibold">{title}</span>
 								<button
-									onClick={(e: any) => closeModal()}
+									onClick={() => closeModal()}
 									className="p-2 rounded hover:bg-gray-100">
 									<img src={close} />
 								</button>

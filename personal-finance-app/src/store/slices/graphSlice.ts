@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { initialDataState } from "./types";
 
 export interface donut {
     total: number;
@@ -15,7 +14,7 @@ export interface donut {
 
 const graph = createSlice({
     name: 'graph',
-    initialState: initialDataState.budgets,
+    initialState: [],
     reducers: {
 
 

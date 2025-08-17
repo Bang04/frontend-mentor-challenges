@@ -1,5 +1,3 @@
- import data from '../../assets/data.json';
-
 export interface Balance {
     current: number;
     income: number;
@@ -35,17 +33,4 @@ export interface Toast{
     top : number| undefined;   //postion X
     left : number| undefined;  //position Y
     handleEditOpen : (() => void )| undefined;
-}
-
-  //임시!!!
-export const initialDataState: { 
-    balance: Balance, 
-    transactions: Transaction[], 
-    budgets: Budget[], 
-    pots: Pot[] ,
-} = {
-    balance: data.balance,
-    budgets: data.budgets,
-    pots: data.pots,
-    transactions: data.transactions,
 }

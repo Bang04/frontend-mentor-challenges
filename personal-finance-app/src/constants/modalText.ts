@@ -13,6 +13,9 @@ export const MODAL_TEXT: modalText<modalType, string> = {
               "remove": {
                         "title": "Delete",
                         "description": "Are you sure you want to delete this budget? This action cannot be reversed, and all the data inside it will be removed forever."
+              },
+              "none": {
+                
               }
     }
 }

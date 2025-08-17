@@ -2,13 +2,12 @@ import React from "react";
 
 import { useDispatch } from "react-redux";
 import { Modal } from "../../../components/modal";
-import { removePot } from "../../../store/_index";
 // TODO: Modal 공통 모듈로 리팩토링 하기 
 export const PotDeleteModal = ({ closeModal, id }: any) => {
 
 	const dispatch = useDispatch();
 	const onClickHandler = () => {
-		dispatch(removePot(id));
+		//dispatch(removePot(id));
 		closeModal();
 	}
 
@@ -18,7 +17,7 @@ export const PotDeleteModal = ({ closeModal, id }: any) => {
 	
 	return (
 		<Modal 
-			type={"REMOVE"} 
+			type={"remove"} 
 			isOpen={true} 
 			closeModal={closeModal}
 			title = "Delets 'Savings'?"

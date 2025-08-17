@@ -16,7 +16,7 @@ const setDate = <T extends Date>(date: T) => {
 }
 
 const groupBy = <T>(array: T[], keyOf: (key: T)=>string): Record<string, T[]> => {
-    return array.reduce((acc, item)=> {
+    return array?.reduce((acc, item)=> {
         const _key = keyOf(item);
         (acc[_key] ||= []).push(item);
         return acc;
@@ -30,7 +30,7 @@ const filterByKey = (base: any, target: { [x: string]: any; }, key: any) => {
     }, {});
 }
 
-const filterTargetByBasedKey = <T>(base: any, target: any, key: string) => {
+const filterTargetByBasedKey = (base: any, target: any, key: string) => {
     return Object.keys(target).filter((key: string)=> key in base).reduce((acc:any,key:string)=> {
         acc.push(
             {
@@ -42,7 +42,7 @@ const filterTargetByBasedKey = <T>(base: any, target: any, key: string) => {
     }, []);
 }
 
-const formatOrdinal =  <T>(date : any) => {
+const formatOrdinal =  (date : any) => {
     const dateObj = new Date(date);
     const day = dateObj.getDate();
     let j = day % 10;
@@ -60,7 +60,8 @@ export const commonType = {
     setDate: setDate,
     groupBy: groupBy,
     filterByKey: filterByKey,
-    formatOrdinal :formatOrdinal
+    formatOrdinal :formatOrdinal,
+    filterTargetByBasedKey: filterTargetByBasedKey
 }
 
 

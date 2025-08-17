@@ -20,10 +20,11 @@ export const RecurringBills = () => {
     //const searchKeyword = useSelector((state:any) => state.dataReducer);
     const bills_total= useSelector(recurringBillsValue);
 
-    const data = useSelector((state: RootState) => state.postReducer.transactions);
+    const data = useSelector((state: RootState) => state.postReducer.data.transactions);
     const filteredData = useSelector((state:RootState)=>state.filterReducer.filteredData);
     const [keyword, setKeyword] = useState<string>("");
     const [sortBy, setSortBy] = useState<string>("");
+
     const dispatch = useDispatch();
     
     useEffect(()=> {
@@ -54,14 +55,14 @@ export const RecurringBills = () => {
                                 <img className="w-12" src={recurring}></img>
                                 <div className="flex flex-col pl-8 md:pl-0 md:pt-8">
                                     <span className="leading-10 text-base">Total Bills</span>
-                                    <span className="text-4xl font-bold">${bills_total.billsTotal}</span>
+                                    <span className="text-4xl font-bold">${bills_total?.billsTotal}</span>
                                 </div>
                             </div>
                         </Card>
                         <Card link="">
                             <div className="leading-8 text-2xl font-semibold sm:mb-5">Summary</div>
                             {
-                                bills_total.items.map((item, index)=> {
+                                bills_total?.items.map((item, index)=> {
                                     const isLast = bills_total.items.length-1;
                                     return (
                                         <div className="flex flex-row justify-between">

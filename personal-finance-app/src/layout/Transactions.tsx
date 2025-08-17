@@ -9,13 +9,13 @@ import { RootState } from "../store";
 import filterIcon from "/images/icon-filter-mobile.svg";
 import sortIcon  from "/images/icon-sort-mobile.svg"
 import { commonType } from "../store/type";
-import { filteredByCategory, filteredByKeyword, getFilteredData, setData, setFilter, sortByOptions } from "../store/slices/filterSlice";
+import { filteredByCategory, filteredByKeyword, setData, sortByOptions } from "../store/slices/filterSlice";
 import { Paging } from "../components/paging";
-import { Modal, modalType } from "../components/modal";
+import { Modal } from "../components/modal";
 
 export const Transactions = () => {
     //나중에 서버에 청구할 데이터
-    const data = useSelector((state:RootState)=> state.postReducer.transactions);
+    const data = useSelector((state:RootState)=> state.postReducer.data.transactions);
     const filteredData = useSelector((state:RootState)=>state.filterReducer.filteredData);
     
     const [category, setCategory] = useState<string>("");

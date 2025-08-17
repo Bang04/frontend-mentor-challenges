@@ -1,5 +1,4 @@
 import { PropsWithChildren } from "react";
-import dots from "/images/dots-three-thin.svg";
 import { Link } from "react-router";
 
 type card = {

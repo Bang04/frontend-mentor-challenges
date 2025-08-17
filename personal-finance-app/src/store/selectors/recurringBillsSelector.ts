@@ -1,17 +1,20 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { RootState } from "..";
 import { Transaction } from "../slices/types";
-
-    const transactions = (state: RootState) => state.postReducer.transactions;
-    const bills_txt = ["Paid Bills", "Total Upcoming", "Due Soon"];
+ 
+const transactions = (state: RootState) => state.postReducer.data.transactions;
+const bills_txt = ["Paid Bills", "Total Upcoming", "Due Soon"];
 
 
 export const recurringBillsValue = createSelector(
     [transactions],
     (transactions : Transaction[] )=> { 
-       
+        
+        if(transactions === undefined || Object.keys(transactions).length == 0)
+            return;
+
         const filterBills = transactions
-            .filter(
+            ?.filter(
                 (item :any) =>
                 item.category === "Bills" &&
                 item.amount < 0

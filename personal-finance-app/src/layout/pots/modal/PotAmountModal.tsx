@@ -34,7 +34,7 @@ interface PotAmountModalProps {
 // 저금/출금하기 기능
 export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProps) => {
    
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
     const pot = useSelector((state: RootState) =>
         state.postReducer.pots.find((pot: Pot) => pot.id === id) 
     );
@@ -174,7 +174,7 @@ export const PotAmountModal = ({ closeModal, modalType , id}: PotAmountModalProp
 return (
 
     <Modal 
-        type={"EDIT"} 
+        type={"edit"} 
         isOpen={true} 
         closeModal={closeModal}
         title = 'New Amount'

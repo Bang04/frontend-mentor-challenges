@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:relaxed": "tsc -p tsconfig.relaxed.json && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

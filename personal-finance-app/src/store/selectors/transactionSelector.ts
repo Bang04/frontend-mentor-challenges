@@ -3,36 +3,49 @@ import { RootState } from "..";
 import { Budget, Transaction } from "../slices/types";
 import { commonType } from "../type";
 
-const transactions = (state: RootState) => state.postReducer.transactions;
-const budgets = (state: RootState) => state.postReducer.budgets;
+const transactions = (state: RootState) => state.postReducer.data.transactions;
+const budgets = (state: RootState) => state.postReducer.data.budgets;
 
 
 const selectGroupedTransactions = createSelector(
     [transactions],
-    (transaction:Transaction[]) =>(
-        commonType.groupBy(transaction, item=>item.category)    
-    )
+    (transactions:Transaction[]) =>{
+        if(transactions == undefined)
+            return;
+        
+        return commonType.groupBy(transactions, item=>item.category)    
+    }
 );
 
 
 const selectGroupedBudget = createSelector(
     [budgets],
-    (budget: Budget[])=>(
-         commonType.groupBy(budget, item=>item.category)
-    )
+    (budget: Budget[])=>{
+        if(budget == undefined)
+            return;
+
+        return commonType.groupBy(budget, item=>item.category)
+    }
 );
 
 const selectFilterTransaction = createSelector(
     [selectGroupedTransactions, selectGroupedBudget],
-    (budget, transactions) => (
-        commonType.filterByKey(budget, transactions,"category")
-    )
+    (budget, transactions) => {
+        if(budget == undefined || transactions == undefined)
+            return;
+
+        return commonType.filterByKey(budget, transactions,"category");
+    }
 );
 
 
 export const selectDataByLatestDate = createSelector(
     [selectGroupedBudget, selectFilterTransaction],
     (budget, transaction)=> {
+        if(budget == undefined || transaction == undefined)
+            return;
+
+        console.log(transaction, budget);
 
         return commonType.entries(transaction).map((data)=> {
             const [category, values] = data;

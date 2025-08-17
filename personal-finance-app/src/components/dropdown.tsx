@@ -13,7 +13,7 @@ export const Dropdown = ({ onDropdownChanged, options, props, selected, showOnly
     const [_selected, setSelected] = useState(selected ?? options[0].value);
 
     const _options = () => (
-        options?.map((option:any,index:number)=> (
+        options?.map((option:any,_index:number)=> (
             <div className={`py-2 ${ option.disabled ? "":"cursor-pointer"} flex justify-between`} onClick={()=>{
                 if(option.disabled)
                     return;

@@ -17,8 +17,10 @@ export type donut = {
 export const selectChartData = createSelector(
     [selectDataByLatestDate],
     (data)=> {
+        if(data == undefined || data.length == 0)
+            return;
 
-        return data.reduce((acc:donut, curr:any)=> {
+        return data?.reduce((acc:donut, curr:any)=> {
             return {
                 totalAmount: acc.totalAmount + curr.info.maximum,
                 sumSpent: acc.sumSpent + curr.info.spent,
@@ -36,20 +38,23 @@ export const selectChartData = createSelector(
 export const selectRoundingValues = createSelector(
     [selectChartData],
     (values)=> {
+        if(values == undefined || Object.keys(values).length === 0)
+            return;
+
         const data = values.data;
 
         // get raw point
         const raw = data.map((v,i)=> Math.round((v.spent/v.maximum)*100));
     
         // get raw total point
-        const rawTotal = raw.reduce((a,b)=> a+b);
+        const rawTotal = raw.reduce((a,b)=> a+b) ?? 1;
     
-        const percent = raw.map((v,i)=> Math.round(v*100/rawTotal));
+        const percent = raw?.map((v,i)=> Math.round(v*100/rawTotal));
     
         // 반올림 하는거 잘 분배하는 필요!
-        const graphData = data.map((v,i)=> ({
+        const graphData = data?.map((v,i)=> ({
             ...v,
-            value: percent[i]
+            value: percent?.[i]
         })); 
 
         return graphData;

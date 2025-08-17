@@ -31,7 +31,7 @@ export const Budgets = () => {
         const rect = (e.currentTarget).getBoundingClientRect();
         const X_OFFSET = 100; //100px 만큼 이동
 
-        console.log(e, itemId, handleEditOpen)
+        //console.log(e, itemId, handleEditOpen)
 
         showToast.addToast({
             id: Date.now(),
@@ -48,7 +48,7 @@ export const Budgets = () => {
         <div className="bg-[#F8F4F0]">
             <div className="flex justify-between m-10">
                 <div className="font-semibold text-4xl">Budgets</div>
-                <button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>handleEditOpen("add")}>
+                <button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded z-10" onClick={()=>handleEditOpen("add")}>
                     + Add New Budgets
                 </button>
             </div>
@@ -65,7 +65,7 @@ export const Budgets = () => {
                                 </div> 
                                 <div>
                                 {
-                                    data.map((value:any, index:number)=> (
+                                    data?.map((value:any, index:number)=> (
                                         <div key={index} className={"flex justify-between flex-row m-3 border-l-3 px-3"} style={{"borderLeftColor":`${value.info.theme}`}}>
                                             <span className="text-xs py-1">{value.info.category}</span>
                                             <span className="">
@@ -83,7 +83,7 @@ export const Budgets = () => {
                 <div className="col-span-3">
                     {
 
-                        data.map((value:any, index:number)=> {
+                        data?.map((value:any, index:number)=> {
                                 return (
                                     <div className="flex flex-col divide-y-3 p-3" key={index}>
                                         <Card>

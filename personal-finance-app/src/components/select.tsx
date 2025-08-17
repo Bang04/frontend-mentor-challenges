@@ -9,7 +9,7 @@ export type select = {
     onSelectChanged: (item: string)=>void
 }
 
-export const Select = ({ items, name, defaultValue, onSelectChanged }: any) => {
+export const Select = ({ items, _name, defaultValue, onSelectChanged }: any) => {
     const [selected, setSelected] = useState(defaultValue);
 
     const handleSelected = (value: string) => {

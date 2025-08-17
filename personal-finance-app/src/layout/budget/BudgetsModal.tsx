@@ -1,15 +1,14 @@
-import { useDispatch } from "react-redux";
 import { Modal, modal } from "../../components/modal";
 import { Select } from "../../components/select";
 import { CATEGORIES } from "../../constants/categories";
 import { COLOR } from "../../constants/color";
 import { useState } from "react";
 import { MODAL_TEXT } from "../../constants/modalText";
+import { useDispatch } from "react-redux";
+import { add, modify } from "../../store/slices/postSlice";
 
 export const BudgetsModal = ({ isOpen, closeModal, prop, type }: modal) => {
     if(!isOpen) return null;
-
-    console.log(isOpen, prop, type)
     
     const [category, setCategory] = useState(prop?.info.category ?? "");
     const [color, setColor] = useState(prop?.info.theme ?? "");
@@ -21,27 +20,35 @@ export const BudgetsModal = ({ isOpen, closeModal, prop, type }: modal) => {
         setMaximum(item);
     }
 
-    //FIXME 나중에 서버 붙이고 나서 id생성되면 수정
-    const editBudget = () => {
-        // if(type != "REMOVE"){
-        //     dispatch(edit({
-        //         "category": category,
-        //         "maximum": maximum*1, //number
-        //         "theme": color
-        //     }));
-        // }else {
-        //     dispatch(remove({
-        //         "category": category,
-        //         "maximum": maximum*1,
-        //         "theme": color
-        //     }));
-        // }
-        
+    const addBudget = () => {
+        dispatch(add({
+            path: "budgets",
+            value: {
+                "category": category,
+                "theme": color,
+                "maximum": maximum*1
+            }
+        }));
+
+        closeModal();
 	};
 
+    const editBudget = () => {
+        dispatch(modify({
+            path: "budgets",
+            value: {
+                "category": category,
+                "theme": color,
+                "maximum": maximum*1
+            }
+        }));
+
+        closeModal();
+    }
+
     const buttons = [
-        {name: "Add Budget",    type: "add",    color: {background: 'bg-black', text: 'text-white'}},
-        {name: "Edit Budget",   type: "edit",   color: {background: 'bg-black', text: 'text-white'}},
+        {name: "Add Budget",    type: "add",    color: {background: 'bg-black', text: 'text-white'}, handler: addBudget},
+        {name: "Edit Budget",   type: "edit",   color: {background: 'bg-black', text: 'text-white'}, handler: editBudget},
         {name: "Yes, Confirm Deletion", type: "remove", color: {background: 'bg-red-500', text: 'text-white'}},
         {name: "No, Go Back",   type: "remove", color: {background: 'bg-white', text: 'text-gray-500'}}
     ];
@@ -74,7 +81,6 @@ export const BudgetsModal = ({ isOpen, closeModal, prop, type }: modal) => {
                    title={MODAL_TEXT["budgets"]?.[type]["title"]} 
                    description={MODAL_TEXT["budgets"]?.[type]["description"]}
                    buttons={buttons}
-                   edit={editBudget}
                    type={type}
                 >
                     {

@@ -27,7 +27,7 @@ export 	const colorOptions = [
 // TODO: Modal 공통 모듈로 리팩토링 하기 
 export const PotEditModal = ({ closeModal, id }: any) => {
 	
-	const dispatch = useDispatch();
+	//const dispatch = useDispatch();
 	console.log(typeof id);
 	const pot = useSelector((state: RootState) =>
 		state.postReducer.pots.find((pot: Pot) => pot.id === id+"")
@@ -74,7 +74,7 @@ export const PotEditModal = ({ closeModal, id }: any) => {
 
 	return (
 		 <Modal 
-				type={"EDIT"} 
+				type={"edit"} 
 				isOpen={true} 
 				closeModal={closeModal}
 				title = 'Edit Pot'

@@ -27,7 +27,6 @@ export const Donut = () => {
                     offset += v.value;
 
                     return (
-                      <>
                         <g key={i}>
                           <circle
                             cx="21"
@@ -40,7 +39,6 @@ export const Donut = () => {
                             strokeDashoffset={moffset}
                         />                        
                         </g>
-                      </>
                     )
                   })
                 }
@@ -48,10 +46,10 @@ export const Donut = () => {
               </svg> 
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <p className="text-3xl font-bold m-2">
-                  { chartData.sumSpent }
+                  { chartData?.sumSpent }
                 </p>
                 <p className="text-xs text-gray-400">
-                  of { chartData.totalAmount } limit
+                  of { chartData?.totalAmount } limit
                 </p>
               </div>
             </div>

@@ -37,8 +37,8 @@ export const SideBar = () => {
                         <img src={minimize ? logoS : logoL} />
                     </div>
                     {
-                        menu.map((value, _index)=> (
-                            <Link to={"/"+value.name.toString().toLowerCase().replace(" ", "-")}>
+                        menu.map((value, index)=> (
+                            <Link key={index} to={"/"+value.name.toString().toLowerCase().replace(" ", "-")}>
                                 <div className="group flex gap-3 py-5 px-6 text-gray-400 hover:bg-white hover:text-black font-bold" >
                                     <value.icon className="fill-gray-400 group-hover:fill-[#277C78]"></value.icon>
                                     <div style={{"display": minimize ? "none" : "block"}}>
@@ -58,8 +58,8 @@ export const SideBar = () => {
             <div className="lg:hidden flex h-screen">
                 <div className="mt-auto bg-black rounded-r-xs w-screen flex items-center justify-center">
                     {
-                        menu.map((value, _index)=> (
-                            <Link to={"/"+value.name.toString().toLowerCase().replace(" ", "-")}>
+                        menu.map((value, index)=> (
+                            <Link key={index} to={"/"+value.name.toString().toLowerCase().replace(" ", "-")}>
                                 <div className="group px-5 py-2 gap-1 text-gray-400 hover:bg-white hover:rounded-t-xl hover:text-black font-bold text-xs flex flex-col" >
                                     <value.icon className="fill-gray-400 group-hover:fill-[#277C78] m-auto"></value.icon>
                                     <div className="hidden sm:block">

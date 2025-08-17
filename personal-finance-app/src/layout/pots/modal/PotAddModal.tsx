@@ -1,9 +1,9 @@
 import React , { useEffect, useState } from "react";
 
-import { useDispatch } from "react-redux";
+//import { useDispatch } from "react-redux";
 import { Modal } from "../../../components/modal";
 import { validateInputs , validateField } from "./PotValidators";
-import { add } from "../../../store/slices/postSlice";
+//import { add } from "../../../store/slices/postSlice";
 
 export const PotAddModal = ({ closeModal }: any) => {
 
@@ -13,7 +13,7 @@ export const PotAddModal = ({ closeModal }: any) => {
 
 	const [errors, setErrors] = useState("");
 
-	const dispatch = useDispatch();
+	//const dispatch = useDispatch();
 
 	const onSavePotClick = () => {
 		const error = validateInputs(name,target);
@@ -40,7 +40,7 @@ export const PotAddModal = ({ closeModal }: any) => {
 
 	return (
 		<Modal 
-			type={"ADD"} 
+			type={"add"} 
 			isOpen={true} 
 			closeModal={closeModal}
 			title = 'Add New Pot'
