@@ -7,8 +7,10 @@ import { commonType } from "../store/type";
 import { recurringBillsValue } from "../store/selectors/recurringBillsSelector";
 
 import { Card } from "../components/card";
+import { Modal, modalType } from "../components/modal";
 import { Dropdown } from "../components/dropdown";
 import { SORT_TEXT } from "../constants/sort";
+import { Transaction } from "../store/slices/types";
 
 import sort from "/images/icon-sort-mobile.svg";
 import recurring from "/images/icon-recurring-bills.svg";
@@ -16,21 +18,68 @@ import  search  from "/images/icon-search.svg"
 import due  from "/images/icon-bill-due.svg";
 import paid from "/images/icon-bill-paid.svg";
 
-export const RecurringBills = () => {
-    //const searchKeyword = useSelector((state:any) => state.dataReducer);
-    const bills_total= useSelector(recurringBillsValue);
 
+export const RecurringBills = () => {
+    const bills_total= useSelector(recurringBillsValue);
     const data = useSelector((state: RootState) => state.postReducer.transactions);
     const filteredData = useSelector((state:RootState)=>state.filterReducer.filteredData);
+    
+    const pageSize = 10;
     const [keyword, setKeyword] = useState<string>("");
     const [sortBy, setSortBy] = useState<string>("");
+    const [pageNum, setPageNum ] = useState(0);
+    const [pageParams, setPageParams] = useState<number[]>([]); //중복 페이지 추가 방지 
+    const [renderData, setRenderData ] = useState<Transaction[] >([]);
+    const totalPages = Math.ceil(filteredData.length == 0 ? data.length/pageSize :filteredData.length/pageSize);
+    const [type, setType] = useState(""); //mobile version of dropdown
+
+    const closeModal = () => {
+        setType("");
+    }
+
+    const handlerLoadMore = () => {
+         if(pageParams.includes(pageNum) || pageNum > totalPages )return;
+            setPageNum(prev => {
+                const nextPage = prev + 1;
+                let result =  filteredData.length == 0 ? data : filteredData;
+                const start = (nextPage*pageSize)-pageSize;
+                const end = (nextPage*pageSize);
+                result = result.slice(start, end);
+                setRenderData((prev) => [...prev, ...result]);
+                setPageParams((prev) => prev.includes(nextPage)?  prev : [...prev, nextPage ]);
+                return nextPage;
+            });
+    }
+
+    const handelrLoadDelay = () => {
+        setTimeout(()=> {
+            handlerLoadMore();    
+        }, 500);
+    }
+
     const dispatch = useDispatch();
-    
-    useEffect(()=> {
-        //setIsRender(true);
-        if(data.length > 0){
-            dispatch(setData(data));
+     useEffect(()=> {
+        const target = document.querySelector('#bottmDiv') as Element;
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                handelrLoadDelay();
+            }
+        });
+
+        observer.observe(target);
+        return() => {
+            observer.disconnect();
         }
+    },[data, filteredData]);
+
+    useEffect(() => {
+        setPageNum(1);
+        setRenderData(filteredData.slice(0, pageSize));
+       
+    }, [filteredData]);
+
+    useEffect(()=> {
+        if(data.length > 0) dispatch(setData(data));
     }, [data]);
 
     useEffect(()=> {
@@ -76,18 +125,24 @@ export const RecurringBills = () => {
                     <Card link="">
                         <div className="flex justify-between">
                              <div className="relative">
-                                <input type="text" onChange={(e:ChangeEvent<HTMLInputElement>)=> setKeyword(e.target.value)} className="rounded-md py-2 px-10 border-1 placeholder:text-black border-black-300 overflow-hidden text-sm" placeholder={"Search Bills"}>
+                                <input type="text" onChange={(e:ChangeEvent<HTMLInputElement>)=> setKeyword(e.target.value)} className="rounded-md py-2 px-8 border-1 placeholder:text-black border-black-300 overflow-hidden text-sm" placeholder={"Search Bills"}>
                                 </input>
                                 <img src={search} className="absolute top-[30%] right-[10%] bg-white"></img>
                             </div>
-                            <div>
-                                <button id="toggleMobileBtn" className="block md:hidden">
-                                    <img src={sort} onClick={()=>{}}/>
-                                </button>
-                                <span className="hidden md:block">
+                            <div className="flex items-center">
+                                <div className="felx block  md:hidden" >
+                                    <img src={sort} className="w-5 cursor-pointer " onClick={()=>setType("sort")}/>
+                                </div>
+                                <Modal  isOpen={type === "sort"} type={"none"} closeModal={closeModal}>
+                                     <Dropdown showOnlyOptions={true}  onDropdownChanged={(transaction)=>{
+                                        setSortBy(transaction);
+                                        closeModal();
+                                    }} options={SORT_TEXT} props="w-full px-3 py-2" ></Dropdown>
+                                </Modal>
+                                <div className="hidden md:block">
                                     <span className="text-sm text-gray-500">Sort by</span>
                                     <Dropdown onDropdownChanged={setSortBy} options={SORT_TEXT}></Dropdown>
-                                </span>
+                                </div>
                             </div>
                         </div>
                         
@@ -98,8 +153,8 @@ export const RecurringBills = () => {
                                 <div className="w-1/5 text-right pt-3 pb-3 ">Amount</div>
                             </div>     
                             <ul  className="divide-y  rounded-b-lg border-b-indigo-100">
-                            { data && data.length > 0 ? 
-                                filteredData.map((transaction, index) => {
+                            { renderData && renderData.length > 0 ? 
+                                renderData.map((transaction, index) => {
                                     const profileName = transaction.name.toLowerCase().replace(/\s+/g,'-').replace(/&/g, "and");
                                     const profile = `/images/avatars/`+profileName+`.jpg`;
                                     const osfx = 'Monthly-'+commonType.formatOrdinal(transaction.date);
@@ -128,6 +183,7 @@ export const RecurringBills = () => {
                             }
                             </ul>
                         </div>  
+                        <div id="bottmDiv" className="h-1"></div>
                     </Card>
                 </div>
              </div>
