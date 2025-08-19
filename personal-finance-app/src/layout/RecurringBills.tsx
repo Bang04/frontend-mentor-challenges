@@ -72,6 +72,7 @@ export const RecurringBills = () => {
         }
     },[data, filteredData]);
 
+
     useEffect(() => {
         setPageNum(1);
         setRenderData(filteredData.slice(0, pageSize));
@@ -88,6 +89,7 @@ export const RecurringBills = () => {
    
     useEffect(() => {
         dispatch(sortByOptions(sortBy));
+        console.log("@@@sortBy : "+sortBy);
     },[sortBy])
 
 
@@ -124,26 +126,29 @@ export const RecurringBills = () => {
                     </div>
                     <Card link="">
                         <div className="flex justify-between">
-                             <div className="relative">
-                                <input type="text" onChange={(e:ChangeEvent<HTMLInputElement>)=> setKeyword(e.target.value)} className="rounded-md py-2 px-8 border-1 placeholder:text-black border-black-300 overflow-hidden text-sm" placeholder={"Search Bills"}>
+                             <div className="basis-60 md:basis-1/2 relative">
+                                <input type="text" onChange={(e:ChangeEvent<HTMLInputElement>)=> setKeyword(e.target.value)} className="w-full rounded-md py-2 px-4 border-1 placeholder:text-black border-black-300 overflow-hidden text-sm" placeholder={"Search Bills"}>
                                 </input>
-                                <img src={search} className="absolute top-[30%] right-[10%] bg-white"></img>
+                                <img src={search} className="absolute top-[30%] right-[5%] bg-white"></img>
                             </div>
-                            <div className="flex items-center">
-                                <div className="felx block  md:hidden" >
-                                    <img src={sort} className="w-5 cursor-pointer " onClick={()=>setType("sort")}/>
+
+                            <div className="hidden md:block">
+                                <div className="flex">
+                                    <div className="flex items-center gap-1 px-3">
+                                        <div className="text-sm text-gray-500 whitespace-nowrap">Sort by</div>
+                                        <Dropdown onDropdownChanged={setSortBy} options={SORT_TEXT} props="w-full px-3 py-2" ></Dropdown>
+                                        </div>
                                 </div>
+                            </div>
+                            <div className="flex md:hidden" >
+                                <img src={sort} className="w-5 cursor-pointer " onClick={()=>setType("sort")}/>
+                            </div>
                                 <Modal  isOpen={type === "sort"} type={"none"} closeModal={closeModal}>
-                                     <Dropdown showOnlyOptions={true}  onDropdownChanged={(transaction)=>{
-                                        setSortBy(transaction);
-                                        closeModal();
-                                    }} options={SORT_TEXT} props="w-full px-3 py-2" ></Dropdown>
-                                </Modal>
-                                <div className="hidden md:block">
-                                    <span className="text-sm text-gray-500">Sort by</span>
-                                    <Dropdown onDropdownChanged={setSortBy} options={SORT_TEXT}></Dropdown>
-                                </div>
-                            </div>
+                                    <Dropdown showOnlyOptions={true}  onDropdownChanged={(transaction)=>{
+                                    setSortBy(transaction);
+                                    closeModal();
+                                }} options={SORT_TEXT} props="w-full px-3 py-2" ></Dropdown>
+                            </Modal>
                         </div>
                         
                         <div className="w-full mx-auto pt-3">
@@ -164,7 +169,7 @@ export const RecurringBills = () => {
                                         <li key={index} className="flex flex-col w-full md:flex-row hover:bg-gray-50 cursor-pointer pt-5 pb-5">
                                             <div className="flex md:w-3/5 items-center gap-2 text-left">
                                                 <img src={profile}  className="w-[45px] h-[45px] rounded-full"/>
-                                                <div className="text-xl font-semibold pl-2">{transaction.name}</div>
+                                                <div className="text-lg font-semibold pl-2">{transaction.name}</div>
                                             </div>
                                             <div className="flex  md:w-2/5  justify-between md:justify-start">
                                                 <div className={`flex md:w-2/3  justify-start items-center gap-2 text-center ${transaction.recurring ? 'text-gray-500' : 'text-green-800'}`}>
