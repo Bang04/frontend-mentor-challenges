@@ -17,11 +17,13 @@ import recurring from "/images/icon-recurring-bills.svg";
 import  search  from "/images/icon-search.svg"
 import due  from "/images/icon-bill-due.svg";
 import paid from "/images/icon-bill-paid.svg";
+import { selectByPath } from "../store/selectors/postSelector";
 
 
 export const RecurringBills = () => {
     const bills_total= useSelector(recurringBillsValue);
-    const data = useSelector((state: RootState) => state.postReducer.data.transactions);
+    //const data = useSelector((state: RootState) => state.postReducer.data.transactions);
+    const data = useSelector(selectByPath("transactions"))
     const filteredData = useSelector((state:RootState)=>state.filterReducer.filteredData);
     
     const pageSize = 10;
@@ -45,7 +47,7 @@ export const RecurringBills = () => {
                 const start = (nextPage*pageSize)-pageSize;
                 const end = (nextPage*pageSize);
                 result = result.slice(start, end);
-                setRenderData((prev) => [...prev, ...result]);
+                setRenderData((prev:any) => [...prev, ...result]);
                 setPageParams((prev) => prev.includes(nextPage)?  prev : [...prev, nextPage ]);
                 return nextPage;
             });

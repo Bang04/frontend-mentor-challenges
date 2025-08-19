@@ -8,32 +8,13 @@ import { Pots } from './layout/pots/Pots'
 import { RecurringBills } from './layout/RecurringBills'
 import { ToastProvider } from "./components/toast/provider";
 
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getDatabase } from "firebase/database";
-import { firebaseConfig } from './store/firebase/config'
-import { initData } from './store/firebase/firebase'
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-
-// Initialize Firebase
-export const app = initializeApp(firebaseConfig);
-export const rtdb = getDatabase(app);
-// const analytics = getAnalytics(app);
-
-
 function App() {
-  initData();
     
   return (
     <ToastProvider>
       <div className='flex flex-row bg-[#F8F4F0]' style={{fontFamily: 'publicSans'}}>
         {/* 임시 */}
-        <div className=''> 
-          <SideBar></SideBar>
-        </div>
+        <SideBar></SideBar>
         <div className='lg:ml-[16rem]'>
           <Routes>
             <Route path='/' element={<OverView />}></Route>

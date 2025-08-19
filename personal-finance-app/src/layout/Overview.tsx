@@ -1,32 +1,39 @@
 import { Card } from "../components/card";
 import pot from "/images/icon-pot.svg";
 import { Donut } from "../components/donut";
-import { RootState, useAppDispatch, useAppSelector } from "../store";
+import { useAppDispatch, useAppSelector } from "../store";
 import { recurringBillsValue } from "../store/selectors/recurringBillsSelector";
-import { list } from "../store/slices/postSlice";
-import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useEffect, useMemo, useState } from "react";
-import { commonType } from "../store/type";
-import { getApiOneTime } from "../store/firebase/firebase";
+import { Key, useEffect } from "react";
+import { subscribe, unSubscribe } from "../store/firebase/subscribe";
+import { useSelector } from "react-redux";
+import { selectAll } from "../store/selectors/postSelector";
+
 export const OverView = () => {
 
-        // useEffect(()=> {
-        //     getApiOneTime("/")
-        //     .then((data)=> {
-        //         dispatch(list(data));
-        //     }).catch((err)=> {
-        //         console.log(err);
-        //         dispatch(list({}));
-        //     });
-        // }, []);
-    
         const dispatch = useAppDispatch();
+        const data = useSelector(selectAll());  
 
-        const post = useAppSelector((state:RootState)=> state.postReducer);
-        const data = post.data as any;       
+        //const sPath = useMemo(()=> "data", ["data"]);
 
-        const balance_txt = ["Current Balance", "Income", "Expenses"];
-        const bills_data = useAppSelector(recurringBillsValue);            
+        useEffect(()=> {
+            dispatch(subscribe("transactions"));
+            dispatch(subscribe("budgets"));
+            dispatch(subscribe("balance"));
+            dispatch(subscribe("pots"));
+            
+            return () => { 
+                dispatch(unSubscribe("transactions"));
+                dispatch(unSubscribe("budgets"));
+                dispatch(unSubscribe("balance"));
+                dispatch(unSubscribe("pots"));
+
+            }
+        }, [dispatch]);
         
+        
+        const balance_txt = ["Current Balance", "Income", "Expenses"];
+        const bills_data = useAppSelector(recurringBillsValue);   
+                        
         const _pots = () => {
             const total = data.pots.reduce((prev:number, next:{total: number})=> {
                 return prev += next.total
@@ -57,7 +64,7 @@ export const OverView = () => {
                         </div>
                         <div className="grid grid-cols-2 md:w-[20vw]">
                             {
-                                data?.pots.map((value: any,index: Key | null | undefined)=> (
+                                data?.pots?.map((value: any,index: Key | null | undefined)=> (
                                     <div key={index} className={`flex flex-col m-2 border-l-3`} style={{"borderLeftColor":`${value.theme}`}}>
                                         <span className="text-xs ml-2">{value.name}</span>
                                         <span className="ml-2">${value.total}</span>
@@ -75,7 +82,7 @@ export const OverView = () => {
             <Card title="Transactions" link="View All">
                 <ul>
                 {
-                    data?.transactions.slice(0,5).map((value: any,_index: any | null | undefined)=> (
+                    data?.transactions?.slice(0,5).map((value: any,_index: any | null | undefined)=> (
                             <li key={_index} className="border-b-1 border-[#B3B3B3] my-9">
                                 <div className="flex justify-between text-xs">
                                     <div className="flex">
@@ -121,7 +128,7 @@ export const OverView = () => {
                 </div>
                 <div className="grid grid-cols-2 lg:grid-cols-1 sm:grid-cols-1 gap-4">
                     {
-                        data?.budgets.map((value: any,index: number)=> (
+                        data?.budgets?.map((value: any,index: number)=> (
                             <div key={index} className={"m-3 px-3 border-l-3"} style={{"borderLeftColor":`${value.theme}`}}>
                                 <div className="text-xs">{value.category}</div>
                                 <div className="font-bold">${value.maximum}</div>
@@ -162,7 +169,7 @@ export const OverView = () => {
                 <div className="m-5 pt-5 font-bold text-3xl">OverView</div>
                 <div className="grid grid-cols-1 md:grid-cols-3">
                     {
-                            data.balance != undefined ?
+                            data?.balance != undefined ?
                                 balance_txt.map((value: any, index: number)=> (
                                     <div className="m-5"> 
                                         <Card key={index} link="" backColor={index == 0 ? "black" : "white"} fontColor={index == 0 ? "white" : "black"}>
@@ -180,18 +187,18 @@ export const OverView = () => {
                     <div className="lg:col-span-5 md:col-span-5">
                         <div className="m-5">
                             {
-                                data.pots != undefined ?
+                                data?.pots != undefined ?
                                     _pots()
                                     :
-                                    <></>
+                                    <div>로딩중...</div>
                             }
                         </div>
                         <div className="m-5 ">
                             {
-                                data.transactions != undefined ?
+                                data?.transactions != undefined ?
                                     _transactions()
                                     :
-                                    <></>
+                                    <div>로딩중...</div>
                             }
                         </div>
                     </div>
@@ -201,7 +208,7 @@ export const OverView = () => {
                                 data?.budgets != undefined || data?.transactions != undefined ?
                                 _budgets() 
                                 : 
-                                <></>
+                                <div>로딩중...</div>
                             }
                         </div>
                         <div className="m-5">
@@ -209,7 +216,7 @@ export const OverView = () => {
                                 data?.transactions != undefined ?
                                 _recurringBills()
                                 :
-                                <></>
+                                <div>로딩중...</div>
                             }
                         </div>
                     </div>

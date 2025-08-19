@@ -1,53 +1,35 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { Unsubscribe } from 'firebase/database';
+import { dbState } from '../firebase/subscribe';
+import { hasAllValue } from '../../components/validator/objects';
 
-type row = Record<string, any>;
 
-type data = {
-    path: string;
-    value: row[];
-    status: "idle" | "loading" | "ready" | "error";
-    error?: string;
-};
-
-type table = Record<string, data[]>
-
-const initialState: table = {
-    transactions: [],
-    budgets: [],
-    pots: [],
-    balance: []
+const initialState: dbState = {
+    byPath: {},
+    listeners: {},
+    error: null,
+    loading: {}
 }
-
-const verify = (state: table | any, path: string) => {
-    if(!state.data[path])
-        state.data[path] = [];
-    
-    return state.data[path];
-};
-
 export const post = createSlice({
     name: 'postReducer',
-    initialState: {
-        data: initialState,
-        loading: false,
-    },
+    initialState: initialState,
     reducers: {
-        list: (state:any, action: PayloadAction<any>) => {
-            state.data = action.payload;
+        fetch: (state, action: PayloadAction<any>) => {
+            state.byPath[action.payload.path] = action.payload.value;
         },
-        add: (state: any, action: PayloadAction<data>) => {
-            verify(state, action.payload.path);
-            state.data[action.payload.path].push(action.payload.value);
-        },     
-        modify: (state:any, action) => {
-
+        error: (state: any, action: any) => {
+            state.error = action.payload;
         },
-        remove: (state:any, action:any) => {
-
-        }
+        listener: (state:any, action: PayloadAction<{path: string; unSubscribe: Unsubscribe|null }>) => {
+            state.listeners[action.payload.path] = action.payload;
+        },
+        // loading: (state, action) => {
+        //     console.log("test");
+        //     state.loading[action.payload.path] = hasAllValue(state.byPath, Object.keys(state.byPath));
+        // }
     }
 });
 
 
-export const { add, modify, remove, list } = post.actions; 
+export const { fetch, error, listener } = post.actions; 
 export default post.reducer;

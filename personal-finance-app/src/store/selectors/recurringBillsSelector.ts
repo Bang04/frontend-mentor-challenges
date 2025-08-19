@@ -1,10 +1,9 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { RootState } from "..";
 import { Transaction } from "../slices/types";
+import { dbState } from "../firebase/subscribe";
  
-const transactions = (state: RootState) => state.postReducer.data.transactions;
+const transactions = (state: {postReducer: dbState}) => state.postReducer.byPath["transactions"]
 const bills_txt = ["Paid Bills", "Total Upcoming", "Due Soon"];
-
 
 export const recurringBillsValue = createSelector(
     [transactions],

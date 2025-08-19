@@ -55,8 +55,9 @@ export const SideBar = () => {
                     </div>
                 </aside>
             </div>
-            <div className="lg:hidden flex h-screen">
-                <div className="mt-auto bg-black rounded-r-xs w-screen flex items-center justify-center">
+            
+            <div className="lg:hidden">
+                <div className="fixed bottom-0 left-0 w-screen bg-gray-800 flex items-center justify-center">
                     {
                         menu.map((value, index)=> (
                             <Link key={index} to={"/"+value.name.toString().toLowerCase().replace(" ", "-")}>

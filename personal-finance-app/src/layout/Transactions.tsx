@@ -12,10 +12,11 @@ import { commonType } from "../store/type";
 import { filteredByCategory, filteredByKeyword, setData, sortByOptions } from "../store/slices/filterSlice";
 import { Paging } from "../components/paging";
 import { Modal } from "../components/modal";
+import { selectByPath } from "../store/selectors/postSelector";
 
 export const Transactions = () => {
     //나중에 서버에 청구할 데이터
-    const data = useSelector((state:RootState)=> state.postReducer.data.transactions);
+    const data = useSelector(selectByPath("transactions"));
     const filteredData = useSelector((state:RootState)=>state.filterReducer.filteredData);
     
     const [category, setCategory] = useState<string>("");

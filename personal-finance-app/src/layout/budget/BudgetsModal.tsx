@@ -5,7 +5,6 @@ import { COLOR } from "../../constants/color";
 import { useState } from "react";
 import { MODAL_TEXT } from "../../constants/modalText";
 import { useDispatch } from "react-redux";
-import { add, modify } from "../../store/slices/postSlice";
 
 export const BudgetsModal = ({ isOpen, closeModal, prop, type }: modal) => {
     if(!isOpen) return null;
@@ -21,27 +20,27 @@ export const BudgetsModal = ({ isOpen, closeModal, prop, type }: modal) => {
     }
 
     const addBudget = () => {
-        dispatch(add({
-            path: "budgets",
-            value: {
-                "category": category,
-                "theme": color,
-                "maximum": maximum*1
-            }
-        }));
+        // dispatch(add({
+        //     path: "budgets",
+        //     value: {
+        //         "category": category,
+        //         "theme": color,
+        //         "maximum": maximum*1
+        //     }
+        // }));
 
         closeModal();
 	};
 
     const editBudget = () => {
-        dispatch(modify({
-            path: "budgets",
-            value: {
-                "category": category,
-                "theme": color,
-                "maximum": maximum*1
-            }
-        }));
+        // dispatch(modify({
+        //     path: "budgets",
+        //     value: {
+        //         "category": category,
+        //         "theme": color,
+        //         "maximum": maximum*1
+        //     }
+        // }));
 
         closeModal();
     }

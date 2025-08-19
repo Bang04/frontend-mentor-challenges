@@ -12,7 +12,8 @@ export const store = configureStore({
         toastReducer: toast
 
 
-    }
+    },
+    middleware: (getDefault) => getDefault({ serializableCheck: false })
 });
 
 export type RootState = ReturnType<typeof store.getState>;

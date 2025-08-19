@@ -2,14 +2,19 @@ import { createSelector } from "@reduxjs/toolkit";
 import { RootState } from "..";
 import { Budget, Transaction } from "../slices/types";
 import { commonType } from "../type";
+import { dbState } from "../firebase/subscribe";
 
-const transactions = (state: RootState) => state.postReducer.data.transactions;
-const budgets = (state: RootState) => state.postReducer.data.budgets;
+//const transactions = (state: RootState) => state.postReducer.transactions;
+//const budgets = (state: RootState) => state.postReducer.budgets;
+
+const transactions = (state: {postReducer: dbState}) => state.postReducer.byPath["transactions"];
+const budgets = (state: {postReducer: dbState}) => state.postReducer.byPath["budgets"];
 
 
 const selectGroupedTransactions = createSelector(
     [transactions],
     (transactions:Transaction[]) =>{
+        console.log(transactions);
         if(transactions == undefined)
             return;
         
@@ -42,6 +47,7 @@ const selectFilterTransaction = createSelector(
 export const selectDataByLatestDate = createSelector(
     [selectGroupedBudget, selectFilterTransaction],
     (budget, transaction)=> {
+        console.log(budget, transaction);
         if(budget == undefined || transaction == undefined)
             return;
 

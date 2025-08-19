@@ -1,7 +1,7 @@
-import { get, getDatabase, ref, remove, serverTimestamp, set } from "firebase/database";
-import { rtdb } from "../../App";
+import { get, ref, remove, serverTimestamp, set } from "firebase/database";
 import { useAppDispatch } from "..";
-import { list } from "../slices/postSlice";
+import { fetch } from "../slices/postSlice";
+import { rtdb } from "./config";
 
 
 
@@ -31,10 +31,10 @@ export const initData = () => {
 
     getApiOneTime("/")
     .then((data)=> {
-        dispatch(list(data));
+        dispatch(fetch(data));
     }).catch((err)=> {
         console.log(err);
-        dispatch(list({}));
+        dispatch(fetch({}));
     });
 
     console.log("=====init=====")

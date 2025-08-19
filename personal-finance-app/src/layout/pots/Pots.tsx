@@ -6,15 +6,16 @@ import { PotAddModal } from "./modal/PotAddModal";
 import { PotEditModal } from "./modal/PotEditModal";
 import { PotDeleteModal } from "./modal/PotDeleteModal";
 import { PotAmountModal } from "./modal/PotAmountModal";
-import { RootState } from "../../store";
 import { Pot } from "../../store/slices/types";
 import { useToast } from "../../hooks/useToast";
 
 import dots from "/images/dots-three-thin.svg";
+import { selectByPath } from "../../store/selectors/postSelector";
 
 
 export const Pots = () => {
-    let pots: Pot[] = useSelector((state: RootState) => state.postReducer.data.pots);
+    //let pots: Pot[] = useSelector((state: RootState) => state.postReducer.data.pots);
+    const pots: Pot[] = useSelector(selectByPath("pots"));
     const [data, setData] = useState<Pot[]>();
     const [isOpen, setIsOpen] = useState(false);
     const [id, setId] = useState<string>();
