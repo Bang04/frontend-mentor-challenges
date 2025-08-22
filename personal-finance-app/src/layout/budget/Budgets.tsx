@@ -11,7 +11,7 @@ import { useToast } from "../../hooks/useToast";
 import dots from "/images/dots-three-thin.svg";
 
 
-export const Budgets = () => {
+const Budgets = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [modalType, setModalType] = useState<modalType>("add");
     const [selectedData, setSelectedData] = useState({});
@@ -154,3 +154,5 @@ export const Budgets = () => {
         </div>
     )
 }
+
+export default Budgets;

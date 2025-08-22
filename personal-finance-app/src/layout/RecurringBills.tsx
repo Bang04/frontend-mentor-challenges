@@ -20,7 +20,7 @@ import paid from "/images/icon-bill-paid.svg";
 import { selectByPath } from "../store/selectors/postSelector";
 
 
-export const RecurringBills = () => {
+const RecurringBills = () => {
     const bills_total= useSelector(recurringBillsValue);
     //const data = useSelector((state: RootState) => state.postReducer.data.transactions);
     const data = useSelector(selectByPath("transactions"))
@@ -192,3 +192,5 @@ export const RecurringBills = () => {
         </div>
     )
 }
+
+export default RecurringBills;

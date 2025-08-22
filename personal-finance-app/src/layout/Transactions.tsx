@@ -14,7 +14,7 @@ import { Paging } from "../components/paging";
 import { Modal } from "../components/modal";
 import { selectByPath } from "../store/selectors/postSelector";
 
-export const Transactions = () => {
+const Transactions = () => {
     //나중에 서버에 청구할 데이터
     const data = useSelector(selectByPath("transactions"));
     const filteredData = useSelector((state:RootState)=>state.filterReducer.filteredData);
@@ -156,3 +156,5 @@ export const Transactions = () => {
         </div>
     )
 }
+
+export default Transactions;

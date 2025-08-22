@@ -1,14 +1,17 @@
 import { Route, Routes } from 'react-router'
 import './App.css'
 import { SideBar } from './layout/SideBar'
-import { OverView } from './layout/Overview'
-import { Transactions } from './layout/Transactions'
-import { Budgets } from './layout/budget/Budgets'
-import { Pots } from './layout/pots/Pots'
-import { RecurringBills } from './layout/RecurringBills'
 import { ToastProvider } from "./components/toast/provider";
+import { Suspense, lazy } from 'react'
+
+const Overview = lazy(()=> import('./layout/Overview'));
+const Transactions = lazy(()=> import('./layout/Transactions'));
+const Budgets = lazy(()=> import('./layout/budget/Budgets'));
+const Pots = lazy(()=> import('./layout/pots/Pots'));
+const RecurringBills = lazy(()=> import('./layout/RecurringBills'));
 
 function App() {
+
     
   return (
     <ToastProvider>
@@ -16,14 +19,16 @@ function App() {
         {/* 임시 */}
         <SideBar></SideBar>
         <div className='lg:ml-[16rem]'>
-          <Routes>
-            <Route path='/' element={<OverView />}></Route>
-            <Route path='/overview' element={<OverView />}></Route>
-            <Route path='/transactions' element={<Transactions />}></Route>
-            <Route path='/budgets' element={<Budgets />}></Route>
-            <Route path='/pots' element={<Pots />}></Route>
-            <Route path='/recurring-bills' element={<RecurringBills />}></Route>
-          </Routes>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Routes>
+              <Route path='/' element={<Overview />}></Route>
+              <Route path='/overview' element={<Overview />}></Route>
+              <Route path='/transactions' element={<Transactions />}></Route>
+              <Route path='/budgets' element={<Budgets />}></Route>
+              <Route path='/pots' element={<Pots />}></Route>
+              <Route path='/recurring-bills' element={<RecurringBills />}></Route>
+            </Routes>
+          </Suspense>
         </div>
       </div>
      </ToastProvider>

@@ -13,7 +13,7 @@ import dots from "/images/dots-three-thin.svg";
 import { selectByPath } from "../../store/selectors/postSelector";
 
 
-export const Pots = () => {
+const Pots = () => {
     //let pots: Pot[] = useSelector((state: RootState) => state.postReducer.data.pots);
     const pots: Pot[] = useSelector(selectByPath("pots"));
     const [data, setData] = useState<Pot[]>();
@@ -131,3 +131,5 @@ export const Pots = () => {
         </div>
     );
 };
+
+export default Pots;

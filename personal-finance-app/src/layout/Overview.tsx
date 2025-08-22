@@ -8,7 +8,7 @@ import { subscribe, unSubscribe } from "../store/firebase/subscribe";
 import { useSelector } from "react-redux";
 import { selectAll } from "../store/selectors/postSelector";
 
-export const OverView = () => {
+const OverView = () => {
 
         const dispatch = useAppDispatch();
         const data = useSelector(selectAll());  
@@ -225,3 +225,5 @@ export const OverView = () => {
         )
 
  };
+
+ export default OverView;
