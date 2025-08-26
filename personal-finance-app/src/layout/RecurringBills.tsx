@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 
 import { RootState } from "../store";
 import { setData, filteredByKeyword, sortByOptions } from "../store/slices/filterSlice";
-import { commonType } from "../store/type";
+import { commonType } from "../store/common";
 import { recurringBillsValue } from "../store/selectors/recurringBillsSelector";
 
 import { Card } from "../components/card";

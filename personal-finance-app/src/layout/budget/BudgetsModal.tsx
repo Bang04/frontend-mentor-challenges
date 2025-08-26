@@ -4,7 +4,8 @@ import { CATEGORIES } from "../../constants/categories";
 import { COLOR } from "../../constants/color";
 import { useState } from "react";
 import { MODAL_TEXT } from "../../constants/modalText";
-import { useDispatch } from "react-redux";
+import { pushData, removeData, updateData } from "../../store/firebase/subscribe";
+import { useAppDispatch } from "../../store";
 
 export const BudgetsModal = ({ isOpen, closeModal, prop, type }: modal) => {
     if(!isOpen) return null;
@@ -13,34 +14,42 @@ export const BudgetsModal = ({ isOpen, closeModal, prop, type }: modal) => {
     const [color, setColor] = useState(prop?.info.theme ?? "");
     const [maximum, setMaximum] = useState(prop?.info.maximum);
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const getMaximum = (item: any)=> {
         setMaximum(item);
     }
 
     const addBudget = () => {
-        // dispatch(add({
-        //     path: "budgets",
-        //     value: {
-        //         "category": category,
-        //         "theme": color,
-        //         "maximum": maximum*1
-        //     }
-        // }));
+        dispatch(pushData({ 
+            "path": "budgets",
+            "value": {
+                category: category,
+                theme: color,
+                maximum: maximum*1
+            }
+        }));
 
         closeModal();
 	};
 
     const editBudget = () => {
-        // dispatch(modify({
-        //     path: "budgets",
-        //     value: {
-        //         "category": category,
-        //         "theme": color,
-        //         "maximum": maximum*1
-        //     }
-        // }));
+        dispatch(updateData({
+            path: "budgets/"+prop.info.id,
+            partial: {
+                "category": category,
+                "theme": color,
+                "maximum": maximum*1
+            }
+        }));
+
+        closeModal();
+    }
+
+    const deleteBudget = () => {
+        dispatch(removeData({
+            path: "budgets/"+prop.info.id
+        }));
 
         closeModal();
     }
@@ -48,8 +57,8 @@ export const BudgetsModal = ({ isOpen, closeModal, prop, type }: modal) => {
     const buttons = [
         {name: "Add Budget",    type: "add",    color: {background: 'bg-black', text: 'text-white'}, handler: addBudget},
         {name: "Edit Budget",   type: "edit",   color: {background: 'bg-black', text: 'text-white'}, handler: editBudget},
-        {name: "Yes, Confirm Deletion", type: "remove", color: {background: 'bg-red-500', text: 'text-white'}},
-        {name: "No, Go Back",   type: "remove", color: {background: 'bg-white', text: 'text-gray-500'}}
+        {name: "Yes, Confirm Deletion", type: "remove", color: {background: 'bg-red-500', text: 'text-white'}, handler: deleteBudget},
+        {name: "No, Go Back",   type: "remove", color: {background: 'bg-white', text: 'text-gray-500'}, handler: closeModal}
     ];
 
    const customEdit = () => {

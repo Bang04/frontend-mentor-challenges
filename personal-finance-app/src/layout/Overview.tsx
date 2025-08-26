@@ -7,13 +7,12 @@ import { Key, useEffect } from "react";
 import { subscribe, unSubscribe } from "../store/firebase/subscribe";
 import { useSelector } from "react-redux";
 import { selectAll } from "../store/selectors/postSelector";
+import { BALANCE } from "../constants/balance";
 
 const OverView = () => {
 
         const dispatch = useAppDispatch();
         const data = useSelector(selectAll());  
-
-        //const sPath = useMemo(()=> "data", ["data"]);
 
         useEffect(()=> {
             dispatch(subscribe("transactions"));
@@ -29,10 +28,11 @@ const OverView = () => {
 
             }
         }, [dispatch]);
+
         
-        
-        const balance_txt = ["Current Balance", "Income", "Expenses"];
         const bills_data = useAppSelector(recurringBillsValue);   
+
+        console.log(data);
                         
         const _pots = () => {
             const total = data.pots.reduce((prev:number, next:{total: number})=> {
@@ -40,24 +40,15 @@ const OverView = () => {
             }, 0);
 
             return (
-                <Card title="Pots" link="See details">
-                    {/* <div className="grid md:grid-cols-3">
-                        <div className="md:col-span-2 xs:row-span-2">
-                            <img src={pot}/>
-                            <div className="">Total Saved</div>
-                            <div className="">
-                                { total }
-                            </div>
-                        </div>                        
-                    </div> */}
+                <Card title="Pots" link="See details"> 
                     <div className="flex justify-between gap-10 m-5">
-                        <div className="flex justify-evenly bg-[#F8F4F0] w-[20vw] rounded-2xl">
-                            <div className="my-auto mx-5">
-                                <img src={pot}></img>
+                        <div className="flex bg-[#F8F4F0] w-[40vw] rounded-2xl">
+                            <div className="my-auto ml-10">
+                                <img src={pot} className="w-10"></img>
                             </div>
                             <div className="m-auto">
-                                <div className="row-span-1 text-sm mt-auto mb-2">Total Saved</div>
-                                <div className="row-span-1 text-4xl mb-auto">
+                                <div className="text-sm mb-2 text-gray-500">Total Saved</div>
+                                <div className="text-4xl mb-2 font-bold">
                                     {"$"+ total }
                                 </div>
                             </div>
@@ -169,18 +160,16 @@ const OverView = () => {
                 <div className="m-5 pt-5 font-bold text-3xl">OverView</div>
                 <div className="grid grid-cols-1 md:grid-cols-3">
                     {
-                            data?.balance != undefined ?
-                                balance_txt.map((value: any, index: number)=> (
-                                    <div className="m-5"> 
-                                        <Card key={index} link="" backColor={index == 0 ? "black" : "white"} fontColor={index == 0 ? "white" : "black"}>
-                                            <div >
-                                                <div className="text-xs mb-5">{value}</div>
-                                                <div className="text-4xl font-bold w-[100%]">${data?.balance.current}</div>
-                                            </div>
-                                        </Card>
-                                    </div>
-                                )) :
-                            <div>로딩중...</div>
+                            BALANCE.map((obj,index)=> (
+                                <div className="m-5"> 
+                                    <Card key={index} link="" backColor={index == 0 ? "black" : "white"} fontColor={index == 0 ? "white" : "black"}>
+                                        <div >
+                                            <div className="text-xs mb-5">{obj.value}</div>
+                                            <div className="text-4xl font-bold w-[100%]">${data?.balance?.[obj.key]}</div>
+                                        </div>
+                                    </Card>
+                                </div>
+                            ))
                     } 
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-9 md:grid-cols-5">

@@ -1,8 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Unsubscribe } from 'firebase/database';
 import { dbState } from '../firebase/subscribe';
-import { hasAllValue } from '../../components/validator/objects';
-
 
 const initialState: dbState = {
     byPath: {},
@@ -22,11 +20,7 @@ export const post = createSlice({
         },
         listener: (state:any, action: PayloadAction<{path: string; unSubscribe: Unsubscribe|null }>) => {
             state.listeners[action.payload.path] = action.payload;
-        },
-        // loading: (state, action) => {
-        //     console.log("test");
-        //     state.loading[action.payload.path] = hasAllValue(state.byPath, Object.keys(state.byPath));
-        // }
+        }
     }
 });
 

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Card } from "../../components/card"
-import { commonType } from "../../store/type";
+import { commonType } from "../../store/common";
 import { useState } from "react";
 import { BudgetsModal } from "./BudgetsModal";
 import { Bar } from "../../components/bar";
@@ -30,8 +30,6 @@ const Budgets = () => {
     const handlerToast = (e: React.MouseEvent<HTMLElement>, itemId: number, handleEditOpen: any) => {
         const rect = (e.currentTarget).getBoundingClientRect();
         const X_OFFSET = 100; //100px 만큼 이동
-
-        //console.log(e, itemId, handleEditOpen)
 
         showToast.addToast({
             id: Date.now(),

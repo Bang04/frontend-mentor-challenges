@@ -51,6 +51,7 @@ export const Modal = ({ type, isOpen, closeModal, title, description, buttons, c
 											text_color={button.color.text}
 											closeModal={closeModal}
 											handler={button.handler}
+											key={_index}
 										></Button>
 									: <></>
 			

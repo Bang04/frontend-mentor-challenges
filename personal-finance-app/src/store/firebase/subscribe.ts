@@ -3,6 +3,7 @@ import { Unsubscribe, off, onValue, push, ref, remove, update } from "firebase/d
 import { rtdb } from "./config";
 import { post } from "../slices/postSlice";
 import { set } from "firebase/database";
+import { commonType } from "../common";
 
 export type dbState = {
     byPath: Record<string, any>;
@@ -25,10 +26,11 @@ export const subscribe =createAsyncThunk<
     const unSubscribe = onValue(
         _ref,
         (snap) => {
+
             dispatch(
                 post.actions.fetch({
                     path, 
-                    value: snap.exists() ? snap.val() : null,
+                    value: snap.exists() ? commonType.DepthtoArrays(snap.val()) : null,
                 })
             );
         },
@@ -40,8 +42,6 @@ export const subscribe =createAsyncThunk<
 
 
     dispatch(post.actions.listener({ path, unSubscribe }));
-
-
 
     return { path };
 });
