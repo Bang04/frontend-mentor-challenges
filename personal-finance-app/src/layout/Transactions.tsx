@@ -1,23 +1,34 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Card } from "../components/card"
 import { ChangeEvent, useEffect, useState } from "react";
 import  search  from "/images/icon-search.svg"
 import { Dropdown } from "../components/dropdown";
 import { CATEGORIES } from "../constants/categories";
 import { SORT_TEXT } from "../constants/sort";
-import { RootState } from "../store";
+import { RootState, useAppDispatch } from "../store";
 import filterIcon from "/images/icon-filter-mobile.svg";
 import sortIcon  from "/images/icon-sort-mobile.svg"
-import { commonType } from "../store/type";
+import { commonType } from "../store/common";
 import { filteredByCategory, filteredByKeyword, setData, sortByOptions } from "../store/slices/filterSlice";
 import { Paging } from "../components/paging";
 import { Modal } from "../components/modal";
 import { selectByPath } from "../store/selectors/postSelector";
+import { subscribe } from "../store/firebase/subscribe";
 
 const Transactions = () => {
-    //나중에 서버에 청구할 데이터
     const data = useSelector(selectByPath("transactions"));
+    const dispatch = useAppDispatch();
+
     const filteredData = useSelector((state:RootState)=>state.filterReducer.filteredData);
+
+    useEffect(()=> {
+        if(!data){
+            dispatch(subscribe("transactions"));
+        } else if(data?.length > 0){
+            dispatch(setData(data));
+        }
+    }, [data]);
+
     
     const [category, setCategory] = useState<string>("");
     const [keyword, setKeyword] = useState<string>("");
@@ -29,14 +40,6 @@ const Transactions = () => {
     const closeModal = () => {
         setType("");
     }
-
-    const dispatch = useDispatch();
-
-    useEffect(()=> {
-        if(data.length > 0){
-            dispatch(setData(data));
-        }
-    }, [data]);
 
     /* 검색 */
     useEffect((()=> {
@@ -115,7 +118,10 @@ const Transactions = () => {
                                     <span className="col-span-2">Transaction Date</span>
                                     <span className="col-span-1 ml-auto">Amount</span>
                                 </li>
-                                {
+                                {   
+                                     filteredData.length == 0 ?
+                                        <div>로딩중...</div>
+                                        :
                                     filteredData.slice(((pageNum*countPerPage)-countPerPage), pageNum*countPerPage).map((value:any,_index:any)=> (
                                         <li key={_index} className="grid grid-cols-10 border-b-1 border-[#B3B3B3] py-3">
                                             <span className="flex sm:col-span-4 col-span-5">

@@ -1,6 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { Budget, Transaction } from "../slices/types";
-import { commonType } from "../type";
+import { commonType } from "../common";
 import { dbState } from "../firebase/subscribe";
 
 
@@ -11,7 +11,6 @@ const budgets = (state: {postReducer: dbState}) => state.postReducer.byPath["bud
 const selectGroupedTransactions = createSelector(
     [transactions],
     (transactions:Transaction[]) =>{
-        //console.log(transactions);
         if(transactions == undefined)
             return;
         
@@ -25,6 +24,8 @@ const selectGroupedBudget = createSelector(
     (budget: Budget[])=>{
         if(budget == undefined)
             return;
+
+        console.log(budget);
 
         return commonType.groupBy(budget, item=>item.category)
     }

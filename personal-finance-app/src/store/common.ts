@@ -1,3 +1,5 @@
+import { isObject } from "../components/validator/objects";
+
 export type StringKeyObject = {
     [index: string]: {}[]
 }
@@ -5,6 +7,13 @@ export type StringKeyObject = {
 
 const entries = <T extends object>(obj: T) => {
     return Object.entries(obj) as [keyof T, T[keyof T]][];
+}
+
+const DepthtoArrays = <T extends object>(obj: T) => {
+    if(Object.values(obj).every(k=> !isObject(k)))
+        return obj;
+
+    return Object.entries(obj).map(([key,value])=>  ({ id: key, ...value }));
 }
 
 const setDate = <T extends Date>(date: T) => {
@@ -54,14 +63,14 @@ const formatOrdinal =  (date : any) => {
     return day+'th';
 }
 
-
 export const commonType = {
     entries: entries,
     setDate: setDate,
     groupBy: groupBy,
     filterByKey: filterByKey,
     formatOrdinal :formatOrdinal,
-    filterTargetByBasedKey: filterTargetByBasedKey
+    filterTargetByBasedKey: filterTargetByBasedKey,
+    DepthtoArrays: DepthtoArrays
 }
 
 

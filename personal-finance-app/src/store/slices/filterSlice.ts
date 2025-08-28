@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Transaction } from "./types";
-import { act } from "react";
 
 
 const filterSlice = createSlice({
@@ -9,6 +8,7 @@ const filterSlice = createSlice({
     reducers: {
         setData: (state, action) => {
             state.data = action.payload;
+            state.filteredData = action.payload;
             //return state;
         },
         getFilteredData: (state) => {
@@ -44,7 +44,7 @@ const filterSlice = createSlice({
             state.filterKeyword = action.payload;
         },
         sortByOptions : (state, action) => {
-             const sortData = state.filteredData.length === 0
+             const sortData = state.filteredData?.length === 0
             ? [...state.data]
             : [...state.filteredData];
 
