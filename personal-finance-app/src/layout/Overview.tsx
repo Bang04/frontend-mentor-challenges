@@ -1,4 +1,5 @@
 import { Card } from "../components/card";
+import { Loading } from "../components/Loading";
 import pot from "/images/icon-pot.svg";
 import { Donut } from "../components/donut";
 import { useAppDispatch, useAppSelector } from "../store";
@@ -7,7 +8,6 @@ import { Key, useEffect } from "react";
 import { subscribe, unSubscribe } from "../store/firebase/subscribe";
 import { useSelector } from "react-redux";
 import { selectAll } from "../store/selectors/postSelector";
-
 const OverView = () => {
 
         const dispatch = useAppDispatch();
@@ -180,7 +180,7 @@ const OverView = () => {
                                         </Card>
                                     </div>
                                 )) :
-                            <div>로딩중...</div>
+                                <Loading />
                     } 
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-9 md:grid-cols-5">
@@ -190,7 +190,7 @@ const OverView = () => {
                                 data?.pots != undefined ?
                                     _pots()
                                     :
-                                    <div>로딩중...</div>
+                                     <Loading />
                             }
                         </div>
                         <div className="m-5 ">
@@ -198,7 +198,8 @@ const OverView = () => {
                                 data?.transactions != undefined ?
                                     _transactions()
                                     :
-                                    <div>로딩중...</div>
+                                      <Loading />
+                                    
                             }
                         </div>
                     </div>
@@ -207,8 +208,9 @@ const OverView = () => {
                             {
                                 data?.budgets != undefined || data?.transactions != undefined ?
                                 _budgets() 
-                                : 
-                                <div>로딩중...</div>
+                                :   
+                                <Loading />
+                                // <div>로딩중...3</div>
                             }
                         </div>
                         <div className="m-5">
@@ -216,7 +218,8 @@ const OverView = () => {
                                 data?.transactions != undefined ?
                                 _recurringBills()
                                 :
-                                <div>로딩중...</div>
+                                  <Loading />
+                                // <div>로딩중...4</div>
                             }
                         </div>
                     </div>
