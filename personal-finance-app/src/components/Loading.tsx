@@ -1,7 +1,6 @@
 "use client"
 import { motion, Variants } from "motion/react"
-
-export const  Loading = () => {
+export const Loading = () => {
     const dotVariants: Variants = {
         jump: {
             y: -30,
@@ -18,35 +17,13 @@ export const  Loading = () => {
         <motion.div
             animate="jump"
             transition={{ staggerChildren: -0.2, staggerDirection: -1 }}
-            className="container"
+            className="flex justify-center items-center w-dvw h-screen gap-3"
+            style={{ willChange : 'transform' }}
         >
-            <motion.div className="dot" variants={dotVariants} />
-            <motion.div className="dot" variants={dotVariants} />
-            <motion.div className="dot" variants={dotVariants} />
-            <StyleSheet />
+            <motion.div className="dot size-6 rounded-full bg-black" variants={dotVariants} />
+            <motion.div className="dot size-6 rounded-full bg-black" variants={dotVariants} />
+            <motion.div className="dot size-6 rounded-full bg-black" variants={dotVariants} />
         </motion.div>
-    )
-}
 
-function StyleSheet() {
-    return (
-        <style>
-            {`
-            .container {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 10px;
-            }
-
-            .dot {
-                width: 20px;
-                height: 20px;
-                border-radius: 50%;
-                background-color: rgb(98, 96, 112);
-                will-change: transform;
-            }
-            `}
-        </style>
     )
 }
