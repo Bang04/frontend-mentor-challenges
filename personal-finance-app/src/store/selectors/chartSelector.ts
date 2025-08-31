@@ -42,14 +42,8 @@ export const selectRoundingValues = createSelector(
             return;
 
         const data = values.data;
-
-        // get raw point
-        const raw = data.map((v,i)=> Math.round((v.spent/v.maximum)*100));
     
-        // get raw total point
-        const rawTotal = raw.reduce((a,b)=> a+b) ?? 1;
-    
-        const percent = raw?.map((v,i)=> Math.round(v*100/rawTotal));
+        const percent = data.map((v,i)=>Math.round((v.maximum/values.totalAmount)*100) );
     
         // 반올림 하는거 잘 분배하는 필요!
         const graphData = data?.map((v,i)=> ({

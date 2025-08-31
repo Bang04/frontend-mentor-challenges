@@ -63,6 +63,10 @@ const formatOrdinal =  (date : any) => {
     return day+'th';
 }
 
+const formatDecimal = (value: string, decimal: number) => {
+    return Number(value).toFixed(decimal);
+}
+
 export const commonType = {
     entries: entries,
     setDate: setDate,
@@ -70,7 +74,8 @@ export const commonType = {
     filterByKey: filterByKey,
     formatOrdinal :formatOrdinal,
     filterTargetByBasedKey: filterTargetByBasedKey,
-    DepthtoArrays: DepthtoArrays
+    DepthtoArrays: DepthtoArrays,
+    formatDecimal: formatDecimal
 }
 
 

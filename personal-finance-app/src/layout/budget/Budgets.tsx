@@ -5,7 +5,7 @@ import { useState } from "react";
 import { BudgetsModal } from "./BudgetsModal";
 import { Bar } from "../../components/bar";
 import { modalType } from "../../components/modal";
-import { selectDataByLatestDate } from "../../store/selectors/transactionSelector";
+import { selectDataByLatestDate, selectedTheme } from "../../store/selectors/transactionSelector";
 import { Donut } from "../../components/donut";
 import { useToast } from "../../hooks/useToast";
 import dots from "/images/dots-three-thin.svg";
@@ -56,7 +56,13 @@ const Budgets = () => {
                         <Card link="">
                             <div className="">
                                 <div>
-                                    <Donut></Donut>
+                                    <Donut
+                                        chartSize={260}
+                                        outerThickness={30}
+                                        innerThickness={20}
+                                        startAngle={-90}
+                                        opacity={0.4}>
+                                    </Donut>
                                 </div>
                                 <div className="font-bold">
                                     Spending Summary
