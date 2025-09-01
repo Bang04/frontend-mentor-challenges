@@ -6,6 +6,8 @@ import { useState } from "react";
 import { MODAL_TEXT } from "../../constants/modalText";
 import { pushData, removeData, updateData } from "../../store/firebase/subscribe";
 import { useAppDispatch } from "../../store";
+import { useSelector } from "react-redux";
+import { selectedTheme } from "../../store/selectors/transactionSelector";
 
 export const BudgetsModal = ({ isOpen, closeModal, prop, type }: modal) => {
     if(!isOpen) return null;
@@ -13,6 +15,19 @@ export const BudgetsModal = ({ isOpen, closeModal, prop, type }: modal) => {
     const [category, setCategory] = useState(prop?.info.category ?? "");
     const [color, setColor] = useState(prop?.info.theme ?? "");
     const [maximum, setMaximum] = useState(prop?.info.maximum);
+
+    const customColor:string[] = useSelector(selectedTheme);
+
+    const _color = COLOR.map((v)=>{
+        if(customColor.includes(v.key)){
+            v.disabled = true;
+        };
+        return v;
+    }).sort((a,b)=>Number(b.disabled)-Number(a.disabled));
+
+    
+    const selectedIndex = _color.findIndex((v)=>v.disabled==false);
+
 
     const dispatch = useAppDispatch();
 
@@ -74,7 +89,7 @@ export const BudgetsModal = ({ isOpen, closeModal, prop, type }: modal) => {
                 </div>
                 <div className="pb-3">
                     <label className="text-sm font-sm text-gray-700">Color Tag</label>
-                    <Select items={COLOR} name="color" defaultValue={prop?.info.theme} onSelectChanged={setColor}></Select>
+                    <Select items={_color} name="color" defaultValue={_color[selectedIndex]?.value} onSelectChanged={setColor}></Select>
                 </div>
             </div>
         )

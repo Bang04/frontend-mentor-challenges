@@ -8,6 +8,14 @@ const transactions = (state: {postReducer: dbState}) => state.postReducer.byPath
 const budgets = (state: {postReducer: dbState}) => state.postReducer.byPath["budgets"];
 
 
+export const selectedTheme = createSelector(
+    [budgets],
+    (data)=> (
+        data.map((v: { theme: any; })=>v.theme)
+    )
+)
+
+
 const selectGroupedTransactions = createSelector(
     [transactions],
     (transactions:Transaction[]) =>{
@@ -24,9 +32,7 @@ const selectGroupedBudget = createSelector(
     (budget: Budget[])=>{
         if(budget == undefined)
             return;
-
-        console.log(budget);
-
+        
         return commonType.groupBy(budget, item=>item.category)
     }
 );
@@ -45,11 +51,8 @@ const selectFilterTransaction = createSelector(
 export const selectDataByLatestDate = createSelector(
     [selectGroupedBudget, selectFilterTransaction],
     (budget, transaction)=> {
-        //console.log(budget, transaction);
         if(budget == undefined || transaction == undefined)
             return;
-
-        //console.log(transaction, budget);
 
         return commonType.entries(transaction).map((data)=> {
             const [category, values] = data;

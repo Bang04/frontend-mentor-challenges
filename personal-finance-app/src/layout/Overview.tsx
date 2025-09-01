@@ -9,64 +9,88 @@ import { subscribe, unSubscribe } from "../store/firebase/subscribe";
 import { useSelector } from "react-redux";
 import { selectAll } from "../store/selectors/postSelector";
 import { BALANCE } from "../constants/balance";
+import { commonType } from "../store/common";
 
 const OverView = () => {
 
-    const dispatch = useAppDispatch();
-    const data = useSelector(selectAll());
+        const dispatch = useAppDispatch();
+        const data = useSelector(selectAll());  
 
-    useEffect(() => {
-        dispatch(subscribe("transactions"));
-        dispatch(subscribe("budgets"));
-        dispatch(subscribe("balance"));
-        dispatch(subscribe("pots"));
+        useEffect(()=> {
+            dispatch(subscribe("transactions"));
+            dispatch(subscribe("budgets"));
+            dispatch(subscribe("balance"));
+            dispatch(subscribe("pots"));
+            
+            return () => { 
+                dispatch(unSubscribe("transactions"));
+                dispatch(unSubscribe("budgets"));
+                dispatch(unSubscribe("balance"));
+                dispatch(unSubscribe("pots"));
 
-        return () => {
-            dispatch(unSubscribe("transactions"));
-            dispatch(unSubscribe("budgets"));
-            dispatch(unSubscribe("balance"));
-            dispatch(unSubscribe("pots"));
+            }
+        }, [dispatch]);
 
-        }
-    }, [dispatch]);
+        
+        const bills_data = useAppSelector(recurringBillsValue);   
+                        
+        const _pots = () => {
+            const total = data.pots.reduce((prev:number, next:{total: number})=> {
+                return prev += next.total
+            }, 0);
 
-
-    const bills_data = useAppSelector(recurringBillsValue);
-
-    console.log(data);
-
-    const _pots = () => {
-        const total = data.pots.reduce((prev: number, next: { total: number }) => {
-            return prev += next.total
-        }, 0);
-
-        return (
-            <Card title="Pots" link="See details">
-                <div className="flex justify-between gap-10 m-5">
-                    <div className="flex bg-[#F8F4F0] w-[40vw] rounded-2xl">
-                        <div className="my-auto ml-10">
-                            <img src={pot} className="w-10"></img>
+            return (
+                <Card title="Pots" link="See details"> 
+                    <div className="grid sm:grid-cols-5 gap-10">
+                        <div className="sm:col-span-2">
+                            <div className="grid grid-cols-3 p-8 bg-[#F8F4F0] rounded-2xl">
+                                <div className="col-span-1">
+                                    <img src={pot} className="w-10"></img>
+                                </div>
+                                <div className="col-span-2">
+                                    <div className="text-sm text-gray-500">Total Saved</div>
+                                    <div className="text-4xl font-bold">${total}</div>
+                                </div>
+                            </div>
                         </div>
-                        <div className="m-auto">
-                            <div className="text-sm mb-2 text-gray-500">Total Saved</div>
-                            <div className="text-4xl mb-2 font-bold">
-                                {"$" + total}
+                        <div className="sm:col-span-3">
+                            <div className="grid grid-cols-2">
+                                {
+                                    data?.pots?.map((value: any,index: Key | null | undefined)=> (
+                                        <div key={index} className={`flex flex-col m-2 pl-3 border-l-5`} style={{"borderLeftColor":`${value.theme}`}}>
+                                            <span className="text-sm ml-2 text-gray-500">{value.name}</span>
+                                            <span className="ml-2 font-bold">${value.total}</span>
+                                        </div>
+                                    ))
+                                }
                             </div>
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 md:w-[20vw]">
-                        {
-                            data?.pots?.map((value: any, index: Key | null | undefined) => (
-                                <div key={index} className={`flex flex-col m-2 border-l-3`} style={{ "borderLeftColor": `${value.theme}` }}>
-                                    <span className="text-xs ml-2">{value.name}</span>
-                                    <span className="ml-2">${value.total}</span>
+                    {/* <div className="flex justify-evenly gap-10 m-5">
+                        <div className="flex bg-[#F8F4F0] w-[40vw] rounded-2xl">
+                            <div className="my-auto ml-10">
+                                <img src={pot} className="w-10"></img>
+                            </div>
+                            <div className="m-auto">
+                                <div className="text-sm mb-2 text-gray-500">Total Saved</div>
+                                <div className="text-4xl mb-2 font-bold">
+                                    {"$"+ total }
                                 </div>
-                            ))
-                        }
-                    </div>
-                </div>
-            </Card>
-        );
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-2">
+                            {
+                                data?.pots?.map((value: any,index: Key | null | undefined)=> (
+                                    <div key={index} className={`flex flex-col m-2 border-l-3`} style={{"borderLeftColor":`${value.theme}`}}>
+                                        <span className="text-xs ml-2">{value.name}</span>
+                                        <span className="ml-2">${value.total}</span>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div> */}
+                </Card>
+            );
     }
 
     const _transactions = () => {
@@ -114,20 +138,25 @@ const OverView = () => {
     const _budgets = () => {
         return (
             <Card title="Budgets" link="See Details">
-                <div className="grid md:grid-cols-3 justify-center">
-                    <div className="md:col-span-2 xs:row-span-2">
-                        <Donut></Donut>
-                    </div>
-                    <div className="grid grid-cols-2 lg:grid-cols-1 sm:grid-cols-1 gap-4">
-                        {
-                            data?.budgets?.map((value: any, index: number) => (
-                                <div key={index} className={"m-3 px-3 border-l-3"} style={{ "borderLeftColor": `${value.theme}` }}>
-                                    <div className="text-xs">{value.category}</div>
-                                    <div className="font-bold">${value.maximum}</div>
-                                </div>
-                            ))
-                        }
-                    </div>
+              <div className="grid md:grid-cols-3 justify-center">
+                <div className="md:col-span-2 xs:row-span-2">
+                    <Donut
+                        chartSize={260}
+                        outerThickness={30}
+                        innerThickness={20}
+                        startAngle={-90}
+                        opacity={0.4}>
+                    </Donut>
+                </div>
+                <div className="grid grid-cols-2 lg:grid-cols-1 sm:grid-cols-1 gap-4">
+                    {
+                        data?.budgets?.map((value: any,index: number)=> (
+                            <div key={index} className={"m-3 px-3 border-l-3"} style={{"borderLeftColor":`${value.theme}`}}>
+                                <div className="text-xs">{value.category}</div>
+                                <div className="font-bold">${value.maximum}</div>
+                            </div>
+                        ))
+                    }     
                 </div>
             </Card>
         )
@@ -144,7 +173,7 @@ const OverView = () => {
                                     <Card backColor="#F8F4F0" padding={20} link={""}>
                                         <div className="flex items-center justify-between">
                                             <span>{value.name}</span>
-                                            <span>${value.money}</span>
+                                            <span>${ commonType.formatDecimal(value.money, 2) }</span>
                                         </div>
                                     </Card>
                                 </div>
@@ -167,17 +196,17 @@ const OverView = () => {
                 <div className="m-5 pt-5 font-bold text-3xl">OverView</div>
                 <div className="grid grid-cols-1 md:grid-cols-3">
                     {
-                        BALANCE.map((obj, index) => (
-                            <div className="m-5">
-                                <Card key={index} link="" backColor={index == 0 ? "black" : "white"} fontColor={index == 0 ? "white" : "black"}>
-                                    <div >
-                                        <div className="text-xs mb-5">{obj.value}</div>
-                                        <div className="text-4xl font-bold w-[100%]">${data?.balance?.[obj.key]}</div>
-                                    </div>
-                                </Card>
-                            </div>
-                        ))
-                    }
+                            BALANCE.map((obj,index)=> (
+                                <div className="m-5"> 
+                                    <Card key={index} link="" backColor={index == 0 ? "black" : "white"} fontColor={index == 0 ? "white" : "black"}>
+                                        <div >
+                                            <div className="text-xs mb-5">{ obj.value }</div>
+                                            <div className="text-4xl font-bold w-[100%]">${ commonType.formatDecimal(data?.balance?.[obj.key], 2) }</div>
+                                        </div>
+                                    </Card>
+                                </div>
+                            ))
+                    } 
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-9 md:grid-cols-5">
                     <div className="lg:col-span-5 md:col-span-5">

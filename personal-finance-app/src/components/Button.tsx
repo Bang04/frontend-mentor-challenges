@@ -13,8 +13,6 @@ type button = {
 }
 
 export const Button = ({ type, handler, closeModal, disabled, pageNum, bg_color, text_color, name, px, py }: button) => {
-    console.log(handler);
-
     switch (type) {
         case "modal":
             return <button type="button" className={bg_color + " py-3 px-4 my-1 text-xs w-full z-100  font-normal rounded-md cursor-pointer focus:outline-none " + text_color} 
