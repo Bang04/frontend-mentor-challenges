@@ -1,4 +1,5 @@
 import { Card } from "../components/card";
+import { Loading } from "../components/Loading";
 import pot from "/images/icon-pot.svg";
 import { Donut } from "../components/donut";
 import { useAppDispatch, useAppSelector } from "../store";
@@ -96,8 +97,8 @@ const OverView = () => {
         return (
             <Card title="Transactions" link="View All">
                 <ul>
-                {
-                    data?.transactions?.slice(0,5).map((value: any,_index: any | null | undefined)=> (
+                    {
+                        data?.transactions?.slice(0, 5).map((value: any, _index: any | null | undefined) => (
                             <li key={_index} className="border-b-1 border-[#B3B3B3] my-9">
                                 <div className="flex justify-between text-xs">
                                     <div className="flex">
@@ -108,26 +109,26 @@ const OverView = () => {
                                             {value.name}
                                         </div>
                                     </div>
-                                    <div className="flex flex-col"> 
+                                    <div className="flex flex-col">
                                         <div className="font-bold text-right">
                                             {
-                                                Math.sign(value.amount) < 1 
-                                                    ? <span className="">{ "-$"+Math.abs(value.amount) }</span>
-                                                    : <span className="text-green-700"> {"+$"+value.amount} </span>
+                                                Math.sign(value.amount) < 1
+                                                    ? <span className="">{"-$" + Math.abs(value.amount)}</span>
+                                                    : <span className="text-green-700"> {"+$" + value.amount} </span>
                                             }
                                         </div>
                                         <div className="my-1 text-gray-400">
                                             {
                                                 new Date(value.date)
-                                                    .toLocaleString("en-GB", 
-                                                    {day:"numeric", month:"short", year:"numeric"})
-                                            
+                                                    .toLocaleString("en-GB",
+                                                        { day: "numeric", month: "short", year: "numeric" })
+
                                             }
                                         </div>
                                     </div>
                                 </div>
                             </li>
-                        ))                                
+                        ))
                     }
                 </ul>
             </Card>
@@ -137,7 +138,7 @@ const OverView = () => {
     const _budgets = () => {
         return (
             <Card title="Budgets" link="See Details">
-            <div className="grid md:grid-cols-3 justify-center">
+              <div className="grid md:grid-cols-3 justify-center">
                 <div className="md:col-span-2 xs:row-span-2">
                     <Donut
                         chartSize={260}
@@ -157,8 +158,7 @@ const OverView = () => {
                         ))
                     }     
                 </div>
-            </div>
-        </Card>
+            </Card>
         )
     }
 
@@ -167,9 +167,9 @@ const OverView = () => {
             <Card title="Recurring Biils" link="See Details">
                 <ul>
                     {
-                        bills_data?.items.map((value, index)=> (
+                        bills_data?.items.map((value, index) => (
                             <li className="my-5" key={index}>
-                                <div className="border-l-3  rounded" style={{"borderLeftColor":`${value.theme}`}}>
+                                <div className="border-l-3  rounded" style={{ "borderLeftColor": `${value.theme}` }}>
                                     <Card backColor="#F8F4F0" padding={20} link={""}>
                                         <div className="flex items-center justify-between">
                                             <span>{value.name}</span>
@@ -185,7 +185,13 @@ const OverView = () => {
         )
     }
 
-        return (
+    const isLoading = [data?.pots, data?.transactions, data?.budgets].some((d) => d == undefined);
+
+
+    return (
+        isLoading ?
+            <Loading />
+            :
             <div className="grid w-screen lg:w-auto p-5">
                 <div className="m-5 pt-5 font-bold text-3xl">OverView</div>
                 <div className="grid grid-cols-1 md:grid-cols-3">
@@ -206,43 +212,31 @@ const OverView = () => {
                     <div className="lg:col-span-5 md:col-span-5">
                         <div className="m-5">
                             {
-                                data?.pots != undefined ?
-                                    _pots()
-                                    :
-                                    <div>로딩중...</div>
+                                _pots()
                             }
                         </div>
                         <div className="m-5 ">
                             {
-                                data?.transactions != undefined ?
-                                    _transactions()
-                                    :
-                                    <div>로딩중...</div>
+                                _transactions()
                             }
                         </div>
                     </div>
                     <div className="lg:col-span-4 md:col-span-5">
                         <div className="m-5">
                             {
-                                data?.budgets != undefined || data?.transactions != undefined ?
-                                _budgets() 
-                                : 
-                                <div>로딩중...</div>
+                                _budgets()
                             }
                         </div>
                         <div className="m-5">
                             {
-                                data?.transactions != undefined ?
-                                _recurringBills()
-                                :
-                                <div>로딩중...</div>
+                                _budgets()
                             }
                         </div>
                     </div>
                 </div>
-            </div>            
-        )
+            </div>
+    )
 
- };
+};
 
- export default OverView;
+export default OverView;
