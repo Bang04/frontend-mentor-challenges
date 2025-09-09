@@ -1,8 +1,7 @@
 import { PropsWithChildren } from "react";
 import close from "/images/icon-close-modal.svg";
 import { Button } from "./Button";
-export type modalType = "add" | "edit" | "remove" | "none";
-
+export type modalType = "add" | "edit" | "remove" | "none" | "deposit" | "withdraw";
 export type modal = {
 	type: modalType
 	isOpen: boolean
