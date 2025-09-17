@@ -18,7 +18,7 @@ import  search  from "/images/icon-search.svg"
 import due  from "/images/icon-bill-due.svg";
 import paid from "/images/icon-bill-paid.svg";
 import { selectByPath } from "../store/selectors/postSelector";
-
+import { LoadingCircle } from "../components/LoadingCircle";
 
 const RecurringBills = () => {
     const bills_total= useSelector(recurringBillsValue);
@@ -34,42 +34,46 @@ const RecurringBills = () => {
     const [renderData, setRenderData ] = useState<Transaction[] >([]);
     const totalPages = Math.ceil(filteredData.length == 0 ? data.length/pageSize :filteredData.length/pageSize);
     const [type, setType] = useState(""); //mobile version of dropdown
+    const [loading , setLoading ] = useState(false);
+    const dispatch = useDispatch();
 
     const closeModal = () => {
         setType("");
     }
 
-    const handlerLoadMore = () => {
-         if(pageParams.includes(pageNum) || pageNum > totalPages )return;
-            setPageNum(prev => {
-                const nextPage = prev + 1;
-                let result =  filteredData.length == 0 ? data : filteredData;
-                const start = (nextPage*pageSize)-pageSize;
-                const end = (nextPage*pageSize);
-                result = result.slice(start, end);
-                setRenderData((prev:any) => [...prev, ...result]);
-                setPageParams((prev) => prev.includes(nextPage)?  prev : [...prev, nextPage ]);
-                return nextPage;
-            });
+    const fetchData = async() => {
+        setLoading(true);
+        //무한스크롤 테스트용 : 데이터 부족으로 즉시 로드되는 문제를 방지하기 위해 500ms 딜레이 적용
+        await new Promise((res) => setTimeout(res, 500));   
+        //중복 페이지이거나 마지막 페이지보다 크면 예외 처리
+        if(pageParams.includes(pageNum) || pageNum > totalPages )return;
+        setPageNum(prev => {
+            const nextPage = prev + 1;
+            let result =  filteredData.length == 0 ? data : filteredData;
+            const start = (nextPage*pageSize)-pageSize;
+            const end = (nextPage*pageSize);
+            result = result.slice(start, end);
+            setRenderData((prev:any) => [...prev, ...result]);
+            setPageParams((prev) => prev.includes(nextPage)?  prev : [...prev, nextPage ]);
+            return nextPage;
+        });
+         setLoading(false);
     }
 
-    const handelrLoadDelay = () => {
-        setTimeout(()=> {
-            handlerLoadMore();    
-        }, 500);
-    }
 
-    const dispatch = useDispatch();
      useEffect(()=> {
-        const target = document.querySelector('#bottmDiv') as Element;
+        const target = document.querySelector('#bottmDiv') as Element; 
         const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                handelrLoadDelay();
+            // !loading == true 라면 로딩이 가능한 상태 의미
+            // target요소가 뷰포트 안에 들어오면 실행
+            if (entries[0].isIntersecting && !loading) {
+                fetchData();
             }
         });
 
         observer.observe(target);
         return() => {
+            setLoading(false);
             observer.disconnect();
         }
     },[data, filteredData]);
@@ -91,7 +95,6 @@ const RecurringBills = () => {
    
     useEffect(() => {
         dispatch(sortByOptions(sortBy));
-        console.log("@@@sortBy : "+sortBy);
     },[sortBy])
 
 
@@ -189,7 +192,8 @@ const RecurringBills = () => {
                                 <li>No results found</li>
                             }
                             </ul>
-                        </div>  
+                        </div> 
+                         {loading &&  <LoadingCircle />} 
                         <div id="bottmDiv" className="h-1"></div>
                     </Card>
                 </div>
