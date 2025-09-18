@@ -194,18 +194,18 @@ export const PotsModal = ({ isOpen, closeModal, prop, type }: modal) => {
             <div>
                 <div className="flex justify-between">
                     <span className="text-xs text-gray-500">New Amount</span>
-                    <span className="text-3xl font-semibold">${changeTotal.toFixed(2)}</span>
+                    <span className="text-3xl font-semibold ">${changeTotal.toFixed(2)}</span>
                 </div>
                 {type == "deposit" ? (// 저금추가
                     <>
                         {/* 그래프 */}
-                        <div className="flex w-full h-3 bg-gray-100">
-                            <div className='h-3 bg-black' style={{ width: `${currentPct}%` }}></div>  {/* 기존 그래프 */}
-                            <div className='h-3 bg-green-800 overflow-x-hidden' style={{ width: `${changePct}%` }}> </div> {/* 변동 그래프 */}
+                        <div className="flex w-full h-3 bg-gray-100 gap-0.5">
+                            <div className='h-3 bg-black rounded-s-lg' style={{ width: `${currentPct}%` }}></div>  {/* 기존 그래프 */}
+                            <div className='h-3 bg-green-800 overflow-x-hidden rounded-r-lg' style={{ width: `${changePct}%` }}> </div> {/* 변동 그래프 */}
                         </div>
                         {/* 기존 target 퍼센트, +,-퍼센트 */}
                         <div className="flex justify-between">
-                            <span className="text-xs text-green-800">{diffPct.toFixed(2)} %</span>
+                            <span className="text-xs text-green-800 ">{diffPct.toFixed(2)} %</span>
                             <span className="text-xs gray-100">Target of ${prop?.target}</span>
                         </div>
                     </>
@@ -214,14 +214,14 @@ export const PotsModal = ({ isOpen, closeModal, prop, type }: modal) => {
                     <>
                         <div>
                             {/* 그래프 */}
-                            <div className="flex w-full h-3 bg-gray-100">
-                                <div className='h-3 bg-black' style={{ width: `${diffPct}%` }}></div>{/* 기존 그래프 */}
-                                <div className=' h-3  bg-red-600 overflow-x-hidden' style={{ width: `${changePct}%` }}></div>{/* 변동 그래프 */}
+                            <div className="flex w-full h-3 bg-gray-100 gap-0.5">
+                                <div className='h-3 bg-black rounded-s-lg' style={{ width: `${diffPct}%` }}></div>{/* 기존 그래프 */}
+                                <div className=' h-3  bg-red-600 overflow-x-hidden rounded-r-lg' style={{ width: `${changePct}%` }}></div>{/* 변동 그래프 */}
                             </div>
                         </div>
                         {/* 기존 target 퍼센트, +,-퍼센트 */}
                         <div className="flex justify-between">
-                            <span className="text-xs text-red-600">{diffPct.toFixed(2)} %</span>
+                            <span className="text-xs text-red-600 rounded-s-lg">{diffPct.toFixed(2)} %</span>
                             <span className="text-xs gray-100">Target of ${prop?.target}</span>
                         </div>
                     </>
