@@ -18,18 +18,28 @@ export const validateInputs = (name: any, target: any) => {
 } 
 
 export const validateField = (name: any, value: any) => {
-      if(name === "name" ){
-            if( value.trim() === "") {
-               return "제목을 입력해주세요.";
-            }else if(value.length > 30){
-                return "30자 미만으로 입력해주세요.";
-            }
-      }
+    if(name === "name" ){
+        if( value.trim() === "") {
+            return "제목을 입력해주세요.";
+        }else if(value.length > 30){
+            return "30자 미만으로 입력해주세요.";
+        }
+    }
     if(name === "target"){
         if( !value){
             return "숫자만 입력해주세요";
         }else if(value < 0 || value > 2000){
-             return"목표액은 0 이상 2000 이하로 입력해주세요2";
+             return"최대 목표액은 Target 이하로 입력해주세요";
+        }else if(!validateNumber(value)){
+             return"숫자만 입력 가능합니다";
+        }
+    }
+
+    if(name === "total"){
+        if( !value){
+            return "숫자만 입력해주세요";
+        }else if(value < 0 || value > 2000){
+             return"목표액은 0 이상 2000 이하로 입력해주세요";
         }else if(!validateNumber(value)){
              return"숫자만 입력 가능합니다";
         }
