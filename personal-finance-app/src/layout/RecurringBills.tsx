@@ -100,8 +100,7 @@ const RecurringBills = () => {
 
 
     return (
-        <div className="flex m-10">
-            <div className="flex flex-col min-w-xs md:w-3xl lg:w-5xl">
+         <div className="flex flex-col w-[100%] p-10 my-auto">
                 <div className="flex mt-5 font-semibold text-4xl mb-8">Recurring Bills</div>
 
                 <div className="flex flex-col lg:flex-row  gap-5 md:gap-0 lg:gap-5">
@@ -199,7 +198,6 @@ const RecurringBills = () => {
                     </Card>
                 </div>
             </div>
-        </div>
     )
 }
 
