@@ -92,7 +92,7 @@ export const PotsModal = ({ isOpen, closeModal, prop, type }: modal) => {
     ];
 
     useEffect(() => {
-        const state = calculateProgress({ target: prop.target, total: prop.total, type, inputValue })
+        const state = calculateProgress({ target: prop?.target, total: prop?.total, type, inputValue })
         setDiffPct(state.diffPct);
         setChangePct(state.changeTotalPct);
         setChangeTotal(state.changeTotal);
@@ -133,7 +133,7 @@ export const PotsModal = ({ isOpen, closeModal, prop, type }: modal) => {
                     <span className="text-3xl font-semibold ">${changeTotal.toFixed(2)}</span>
                 </div>
 
-                <ProgressBar type={type} target={prop.target} changePct={changePct} diffPct={diffPct} displayPct={displayPct} />
+                <ProgressBar type={type} target={prop?.target} changePct={changePct} diffPct={diffPct} displayPct={displayPct} />
 
                 <div className="pb-3">
                     <label className="block text-sm font-medium text-gray-700">{MODAL_TEXT["pots"]?.[type]["input"]}</label>
