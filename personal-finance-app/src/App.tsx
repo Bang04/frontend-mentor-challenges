@@ -16,7 +16,7 @@ function App() {
       <div className='flex flex-row bg-[#F8F4F0]' style={{fontFamily: 'publicSans'}}>
         {/* 임시 */}
         <SideBar></SideBar>
-        <div className='lg:ml-[16rem]'>
+        <div className='flex w-full lg:ml-[16rem]'>
           <Suspense fallback={<Loading />}>
             <Routes>
               <Route path='/' element={<Overview />}></Route>
