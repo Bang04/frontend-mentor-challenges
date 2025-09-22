@@ -21,6 +21,5 @@ export const calculateProgress = ({ target, total, type, inputValue }: any) => {
     } else if(type == "edit"){
         changeTotal = total;
     } 
-    console.log("calculate type  : "+type);
     return({diffPct,changeTotalPct,changeTotal,displayPct} )
 }
