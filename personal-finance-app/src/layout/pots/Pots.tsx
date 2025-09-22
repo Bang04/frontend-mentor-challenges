@@ -57,7 +57,7 @@ const Pots = () => {
                 <button onClick={()=>handleEditOpen("add")} className="text-sm text-white  bg-black font-semibold py-4 px-4 rounded-lg cursor-pointer">+Add New Pot</button>
             </div>    
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {
                     data && data.length > 0 ? (
                         data?.map((value: any, index) => {
@@ -65,42 +65,42 @@ const Pots = () => {
                              const total = value.total? value.total : 0;
 
                             return(
-                                      <div key={index} className="flex w-full md:w-100">
-                                <input type="hidden" name="id" value={value.id} />
-                                <Card link="">
-                                    <div className="flex justify-between mb-6">
-                                        <div className="flex flex-row values-center">
-                                            <div className={`w-3 h-3 rounded-full `} style={{ backgroundColor: value.theme }}></div>
-                                            <span className="font-semibold pl-3">{value.name}</span>
-                                        </div>
+                                <div key={index} className="flex w-full">
+                                    <input type="hidden" name="id" value={value.id} />
+                                    <Card link="">
+                                        <div className="flex justify-between mb-6">
+                                            <div className="flex flex-row values-center">
+                                                <div className={`w-3 h-3 rounded-full `} style={{ backgroundColor: value.theme }}></div>
+                                                <span className="font-semibold pl-3">{value.name}</span>
+                                            </div>
 
-                                        <div className="w-10 cursor-pointer" onClick={(e) => handlerToast(e, value, handleEditOpen)} ><img src={dots} alt="" /></div>
-                                    </div>
-                                    <div>
-                                        <div className="flex justify-between mb-4">
-                                            <span className="text-gray-500">Total Saved</span> 
-                                            <span className="text-3xl font-semibold">${total}</span> 
+                                            <div className="w-10 cursor-pointer" onClick={(e) => handlerToast(e, value, handleEditOpen)} ><img src={dots} alt="" /></div>
                                         </div>
-                                        <div className="mb-4">
-                                            <div className="w-full h-3 bg-gray-100 overflow-hidden">
-                                                <div className={`h-3`} style={{
-                                                    width: `${(total / target) * 100}%`,
-                                                    backgroundColor: value.theme
-                                                }}>
+                                        <div>
+                                            <div className="flex justify-between mb-4">
+                                                <span className="text-gray-500">Total Saved</span> 
+                                                <span className="text-3xl font-semibold">${total}</span> 
+                                            </div>
+                                            <div className="mb-4">
+                                                <div className="w-full h-3 bg-gray-100 overflow-hidden">
+                                                    <div className={`h-3`} style={{
+                                                        width: `${(total / target) * 100}%`,
+                                                        backgroundColor: value.theme
+                                                    }}>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div className="flex justify-between mb-6">
+                                                <span className="text-gray-500">{((total / target) * 100).toFixed(2)}%</span>
+                                                <span className="text-gray-500">Target of ${target}</span>
+                                            </div>
+                                            <div className="flex gap-[10px] justify-between  mb-3">
+                                                <button onClick={() => handleEditOpen("deposit", value)} className="p-3 text-sm bg-[#F8F4F0] font-semibold flex-1 rounded-lg cursor-pointer ">+Add Money</button>
+                                                <button onClick={() => handleEditOpen("withdraw",value)} className="p-3 text-sm bg-[#F8F4F0] font-semibold flex-1 rounded-l cursor-pointer">Withdraw</button>
+                                            </div>
                                         </div>
-                                        <div className="flex justify-between mb-6">
-                                            <span className="text-gray-500">{((total / target) * 100).toFixed(2)}%</span>
-                                            <span className="text-gray-500">Target of ${target}</span>
-                                        </div>
-                                        <div className="flex gap-[10px] justify-between  mb-3">
-                                            <button onClick={() => handleEditOpen("deposit", value)} className="p-3 text-sm bg-[#F8F4F0] font-semibold flex-1 rounded-lg cursor-pointer ">+Add Money</button>
-                                            <button onClick={() => handleEditOpen("withdraw",value)} className="p-3 text-sm bg-[#F8F4F0] font-semibold flex-1 rounded-l cursor-pointer">Withdraw</button>
-                                        </div>
-                                    </div>
-                                </Card>
-                            </div>
+                                    </Card>
+                                </div>
  
                             )
                         })
