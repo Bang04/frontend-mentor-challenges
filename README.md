@@ -1,39 +1,56 @@
-# 🌟 Frontend Mentor 프로젝트 모음
+# 🌟 React 전환 실전 프로젝트 모음 (UI / 상태 / 성능 중심)
 
-이 레포지토리는 프론트엔드 멘토 챌린지에서 구현한 여러 프로젝트를 모아놓은 공간입니다.  
-각 프로젝트는 HTML, CSS, JS를 기반으로 구현되었으며, 간단한 설명과 스크린샷을 포함합니다.
+본 레포지토리는 React 중심으로 상태 관리, UI 반응형 설계, 실시간 데이터 반영 등  
+프론트엔드 핵심 역량을 검증하기 위해 구현된 프로젝트 모음입니다.
 
-## 📂 프로젝트
+- HTML / CSS / JavaScript 기반 UI 설계
+- React · Redux를 통한 상태 관리
+- Intersection Observer / Custom Hooks / Infinite Scroll 적용
+- 팀 프로젝트 구성
 
-<div style="display: flex; flex-direction: column; gap: 20px;">
+---
 
-  <!-- 프로젝트 카드 -->
-  <div style="display: flex; align-items: center; gap: 15px;">
-  <img width="300" alt="PersonalFinance-web" src="https://github.com/user-attachments/assets/6ffd8889-ab0c-4b1e-a345-3ed4f82e8f0e" />
-     <div>
-      <h3 style="margin: 0;"><strong>PersonalFinance App</strong></h3>
-      <p style="margin: 0;">HTML / CSS / JS</p>
-      <p style="margin: 0;">개요,거래 내역,예산,팟,정기 청구서로 구성된 개인 금융 관리 앱</p>
-    </div>
-</div>
+## 📂 Projects Overview
 
- <div style="display: flex; align-items: center; gap: 15px;">
- <img width="300" alt="Enterainment-web" src="https://github.com/user-attachments/assets/9ce8d4bb-4c15-4ee5-8aaa-cf95f6870b2f" />
-   <div>
-      <h3 style="margin: 0;"><strong>Entertainment Web App</strong></h3>
-      <p style="margin: 0;">HTML / CSS / JS</p>
-      <p style="margin: 0;">영화, TV 시리즈 탐색 및 북마크 기능을 제공하는 엔터테인먼트 웹 앱</p>
-    </div>
-</div>
+| Project | Stack | Type | Preview |
+|---|---|---|---|
+| PersonalFinance App | React · Redux · Tailwind | 👭 Team | 📸 |
+| Entertainment Web App | React · Redux | 👭 Team | 📸 |
+| Crowdfunding Product Page | React · Redux · Bulma | 👭 Team | 📸 |
 
- <div style="display: flex; align-items: center; gap: 15px;">
-  <img width="300" alt="Crowdfunding-web" src="https://github.com/user-attachments/assets/81155851-6cbc-4013-a1b4-7bac94fbf561" />
-  <div>
-      <h3 style="margin: 0;"><strong>Crowdfunding Product Page</strong></h3>
-      <p style="margin: 0;">HTML / CSS / JS</p>
-      <p style="margin: 0;">크라우드 펀딩 제품 페이지로 진행 상황을 실시간으로 확인할 수 있는 웹 앱</p>
-    </div>
-</div>
+---
 
+## 🛠 기술 스택 (공통)
 
-</div>
+### Front-End
+<img src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=white"/> 
+<img src="https://img.shields.io/badge/Redux-764ABC?logo=redux&logoColor=white"/> 
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black"/> 
+<img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white"/>
+
+### UI / Styling
+<img src="https://img.shields.io/badge/TailwindCSS-38B2AC?logo=tailwindcss&logoColor=white"/>
+<img src="https://img.shields.io/badge/Bulma-00D1B2?logo=bulma&logoColor=white"/>
+
+### Tools
+<img src="https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=white"/>
+<img src="https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white"/>
+
+---
+
+## 📌 주요 구현 포인트 요약
+
+- Redux 기반 장바구니/예산/북마크 상태 관리
+- Intersection Observer 활용 무한 스크롤
+- Custom Hooks 기반 Toast·검색·정렬 모듈화
+- 반응형 UI (Mobile · Tablet · Desktop)
+
+---
+
+## 📎 프로젝트 폴더 바로가기
+
+- [PersonalFinance App](./personal-finance)
+- [Entertainment Web App](./entertainment)
+- [Crowdfunding Product Page](./crowdfunding)
+
+---
