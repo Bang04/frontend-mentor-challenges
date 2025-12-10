@@ -1,50 +1,42 @@
-# React + TypeScript + Vite
+# 🎬 Entertainment Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+📅 2025.01.23 ~ 2025.02.10  
+👥 Team Project  
+🔍 영화 & TV 시리즈 탐색 및 북마크 기능 웹 앱
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 주요 기능
+- 콘텐츠 북마크 추가/제거
+- Home / Movies / TV 시리즈 페이지 반응형 UI
+- 슬라이드 UI 구현(State + Ref 활용)
+- 검색 및 필터 UI 구성
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🔍 기술 포인트
+- 라이브러리 없이 `State + Ref` 기반 슬라이드 컨트롤
+- Redux로 북마크 상태 관리 및 dispatch 액션 구성
+- 반응형 UI 설계 (Mobile · Desktop)
+- 데이터 리스트 조건별 렌더링 최적화
 
-- Configure the top-level `parserOptions` property like this:
+---
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## 🛠 기술 스택
+<img src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=white"/>
+<img src="https://img.shields.io/badge/Redux-764ABC?logo=redux&logoColor=white"/>
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black"/>
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+---
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## 📸 UI Preview
+| Desktop | Mobile |
+|---|---|
+| ![pc](./assets/pc.png) | ![mobile](./assets/mobile.png) |
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+---
+
+## 📝 회고
+- 초기 상태/렌더 구조 설계가 중요함을 명확히 이해
+- 북마크 상태 구조화 후 중복 렌더링이 크게 줄어들었음
+- UI 리스트 수정 시 Redux 상태 관리의 장점 체감
