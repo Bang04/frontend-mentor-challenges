@@ -30,9 +30,9 @@
 ---
 
 ## 📸 UI Preview
-| Desktop | Mobile |
-|---|---|
-| ![Design preview for the Crowdfunding product page coding challenge](./public/assets/desktop-preview.jpg) | ![mobile](./assets/mobile.png) |
+| Web | Mobile |
+|-----|--------|
+| ![web](./public/assets/screen-web.png)  | ![mobile](./public/assets/screen-app.png) |
 
 ---
 
