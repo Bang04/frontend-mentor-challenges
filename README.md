@@ -5,7 +5,7 @@
 
 - HTML / CSS / JavaScript 기반 UI 설계
 - React · Redux를 통한 상태 관리
-- Intersection Observer / Custom Hooks / Infinite Scroll 적용
+- Intersection Observer / Custom Hooks 적용
 - 팀 프로젝트 구성
 
 ---
@@ -37,7 +37,7 @@
 
 - Redux 기반 장바구니/예산/북마크 상태 관리
 - Intersection Observer 활용 무한 스크롤
-- Custom Hooks 기반 Toast·검색·정렬 모듈화
+- Custom Hooks 기반 Toast 모듈화
 - 반응형 UI (Mobile · Tablet · Desktop)
 
 ---
