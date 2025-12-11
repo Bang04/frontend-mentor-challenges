@@ -36,11 +36,11 @@
 
 | Web | Tablet | Mobile |
 |-----|--------|--------|
-| ![web](./public/images/web.png) | ![tablet](./public/images/tablet.png) | ![mobile](./public/images/mobile.png) |
+| ![web](./public/images/web.png) | ![tablet](./public/images/tablet.png) | ![mobile](./public/images/app.png) |
 
 ---
 
 ## 📝 회고
 - 상태 관리 로직과 UI 제어가 분리될 때 유지 보수가 훨씬 쉬워짐을 체감
-- Infinite Scroll 최적화 과정에서 Intersection Observer의 필요성을 명확히 이해
+- Intersection Observer를 사용하여 스크롤 이벤트 대비 부하를 줄이는 방식으로 무한 스크롤 기능 구현
 - 팀 공통 모듈 구축 경험 → 프로젝트 확장 및 유지 측면에서 큰 도움
