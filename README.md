@@ -15,7 +15,7 @@
 | Project | Stack | Type | Preview |
 |---|---|---|---|
 | PersonalFinance App | React · Redux · Tailwind | 👭 Team | 📸 |
-| Entertainment Web App | React · Redux | 👭 Team | 📸 |
+| Entertainment Web App | React · Redux · Bulma | 👭 Team | 📸 |
 | Crowdfunding Product Page | React · Redux · Bulma | 👭 Team | 📸 |
 
 ---
@@ -42,10 +42,3 @@
 
 ---
 
-## 📎 프로젝트 폴더 바로가기
-
-- [PersonalFinance App](./personal-finance)
-- [Entertainment Web App](./entertainment)
-- [Crowdfunding Product Page](./crowdfunding)
-
----
