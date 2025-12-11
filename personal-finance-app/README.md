@@ -1,54 +1,45 @@
-# React + TypeScript + Vite
+# 💰 PersonalFinance App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+📅 2025.01.23 ~ 2025.02.10  
+👥 Team Project  
+🔍 개인 금융 관리(예산·거래 내역·정기 청구서) 웹 앱
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 주요 기능
+- 예산(Pot) 생성 · 수정 · 삭제 CRUD
+- 정기 청구서 리스트 무한 스크롤(Infinite Scroll)
+- 정기 청구서 검색 · 정렬 기능
+- Firebase 연동 기반 공통 모듈 통합
+- 반응형 UI 구현 (Mobile · Tablet · Desktop)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🔍 기술 포인트
+- `Intersection Observer` 기반 무한 스크롤 구현
+- `Custom Hook` 기반 Toast 알림 모듈화
+- Redux 상태 기반 CRUD 구조화
+- Firebase 연동 후 팀 공통 모듈로 통합 설계
+- 예산/거래 데이터 UI 갱신 성능 최적화
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠 기술 스택
+<img src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=white"/>
+<img src="https://img.shields.io/badge/Redux-764ABC?logo=redux&logoColor=white"/>
+<img src="https://img.shields.io/badge/TailwindCSS-38B2AC?logo=tailwindcss&logoColor=white"/>
+<img src="https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=black"/>
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 📸 UI Preview
+| Desktop | Mobile |
+|---|---|
+| ![pc](./assets/pc.png) | ![mobile](./assets/mobile.png) |
+
+---
+
+## 📝 회고
+- 상태 관리 로직과 UI 제어가 분리될 때 유지 보수가 훨씬 쉬워짐을 체감
+- Infinite Scroll 최적화 과정에서 Intersection Observer의 필요성을 명확히 이해
+- 팀 공통 모듈 구축 경험 → 프로젝트 확장 및 유지 측면에서 큰 도움

@@ -1,22 +1,42 @@
-# Frontend Mentor - Crowdfunding product page
+# 🤝 Crowdfunding Product Page
 
-![Design preview for the Crowdfunding product page coding challenge](./public/assets/desktop-preview.jpg)
+📅 2025.02.10 ~ 2025.02.19  
+🧑‍💻 Personal Project  
+🔍 후원 선택 및 진행률 실시간 반영 Crowdfunding UI
 
-## Welcome! 👋
+---
 
-## 크라우드펀딩 제품 페이지
-이 프로젝트는 크라우드펀딩 제품 페이지를 구현한 것입니다. 사용자는 약정을 선택하고, 후원 금액을 입력하여 목표 달성 진행률을 확인할 수 있습니다. 또한, 북마크 기능과 후원자 수 증가 등의 상호작용을 제공합니다.
+## 🚀 주요 기능
+- 후원 옵션 선택 및 진행률 UI 실시간 갱신
+- 후원 금액/총 후원자/진행률 업데이트
+- 북마크 토글 기능
+- 모바일 햄버거 메뉴 열림/닫힘 UI
 
-## 사용 방법
-1. 원하는 약정을 선택합니다.
-2. 후원 금액을 입력합니다.
-3. "Pledge" 버튼을 클릭하여 후원합니다.
-4. 후원자가 한 명 증가하며, 진행률 바가 업데이트됩니다.
-5. 북마크 버튼을 클릭하여 제품을 북마크 할 수 있습니다.
+---
 
-## Tech Stack
-- HTML
-- CSS
-- JavaScript
-- React
-- Vite
+## 🔍 기술 포인트
+- Redux 상태 기반 후원 진행률·모금 수치 동기화
+- Dispatch 액션 기반 북마크 토글
+- Bulma UI로 빠른 컴포넌트/레이아웃 설계
+- 반응형 레이아웃 최적화 (특히 모바일 기준)
+
+---
+
+## 🛠 기술 스택
+<img src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=white"/>
+<img src="https://img.shields.io/badge/Redux-764ABC?logo=redux&logoColor=white"/>
+<img src="https://img.shields.io/badge/Bulma-00D1B2?logo=bulma&logoColor=white"/>
+
+---
+
+## 📸 UI Preview
+| Desktop | Mobile |
+|---|---|
+| ![Design preview for the Crowdfunding product page coding challenge](./public/assets/desktop-preview.jpg) | ![mobile](./assets/mobile.png) |
+
+---
+
+## 📝 회고
+- Redux store 설계의 중요성 체감 (UI vs 데이터 상태 분리)
+- 단일 이벤트에 여러 UI 요소가 반응하는 구조 설계 경험 축적
+- Bulma로 UI 구조 속도 향상 → 이후 Tailwind 비교 경험도 확보
