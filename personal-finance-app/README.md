@@ -36,7 +36,7 @@
 
 | Web | Tablet | Mobile |
 |-----|--------|--------|
-| ![web](./public/images/web.png) | ![tablet](./public/images/tablet.png) | ![mobile](./public/images/mobile.png) |
+| ![web](./public/images/web.png) | ![tablet](./public/images/tablet.png) | ![mobile](./public/images/app.png) |
 
 ---
 
