@@ -30,9 +30,10 @@
 ---
 
 ## 📸 UI Preview
-| Desktop | Mobile |
-|---|---|
-| ![pc](./assets/pc.png) | ![mobile](./assets/mobile.png) |
+
+| Web | Mobile |
+|-----|--------|
+| ![web](./public/assets/web.png)  | ![mobile](./public/assets/app.png) |
 
 ---
 
