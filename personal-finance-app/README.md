@@ -32,10 +32,11 @@
 
 ---
 
-## 📸 UI Preview
-| Desktop | Mobile |
-|---|---|
-| ![pc](./assets/pc.png) | ![mobile](./assets/mobile.png) |
+## 📱 Responsive Preview (Web / Tablet / Mobile)
+
+| Web | Tablet | Mobile |
+|-----|--------|--------|
+| ![web](./public/images/web.png) | ![tablet](./public/images/tablet.png) | ![mobile](./public/images/mobile.png) |
 
 ---
 
