@@ -5,7 +5,7 @@
 
 - HTML / CSS / JavaScript 기반 UI 설계
 - React · Redux를 통한 상태 관리
-- Intersection Observer / Custom Hooks / Infinite Scroll 적용
+- Intersection Observer / Custom Hooks 적용
 - 팀 프로젝트 구성
 
 ---
@@ -23,18 +23,13 @@
 ## 🛠 기술 스택 (공통)
 
 ### Front-End
-<img src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=white"/> 
-<img src="https://img.shields.io/badge/Redux-764ABC?logo=redux&logoColor=white"/> 
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black"/> 
-<img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white"/>
+<img src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=white"/> <img src="https://img.shields.io/badge/Redux-764ABC?logo=redux&logoColor=white"/> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black"/> <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white"/>
 
 ### UI / Styling
-<img src="https://img.shields.io/badge/TailwindCSS-38B2AC?logo=tailwindcss&logoColor=white"/>
-<img src="https://img.shields.io/badge/Bulma-00D1B2?logo=bulma&logoColor=white"/>
+<img src="https://img.shields.io/badge/TailwindCSS-38B2AC?logo=tailwindcss&logoColor=white"/> <img src="https://img.shields.io/badge/Bulma-00D1B2?logo=bulma&logoColor=white"/>
 
 ### Tools
-<img src="https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=white"/>
-<img src="https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white"/>
+<img src="https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=white"/> <img src="https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white"/>
 
 ---
 
@@ -42,7 +37,7 @@
 
 - Redux 기반 장바구니/예산/북마크 상태 관리
 - Intersection Observer 활용 무한 스크롤
-- Custom Hooks 기반 Toast·검색·정렬 모듈화
+- Custom Hooks 기반 Toast 모듈화
 - 반응형 UI (Mobile · Tablet · Desktop)
 
 ---
