@@ -14,9 +14,9 @@
 
 | Project | Stack | Type | Preview |
 |---|---|---|---|
-| PersonalFinance App | React · Redux · Tailwind | 👭 Team | 📸 |
-| Entertainment Web App | React · Redux · Bulma | 👭 Team | 📸 |
-| Crowdfunding Product Page | React · Redux · Bulma | 👭 Team | 📸 |
+| PersonalFinance App | React · Redux · Tailwind | 👭 Team | [🔗](https://toy-personal-finance.web.app/) |
+| Entertainment Web App | React · Redux · Bulma | 👭 Team |  |
+| Crowdfunding Product Page | React · Redux · Bulma | 👭 Team |  |
 
 ---
 
